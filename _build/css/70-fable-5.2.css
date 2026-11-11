@@ -1,6 +1,6 @@
 /* ==== Fable 5.2 (11/2026): αναγνωσιμότητα και άγγιγμα. ==== */
 /* Διαδρομή (breadcrumb): περιοχή αγγίγματος 45px χωρίς να αλλάζει η διάταξη */
-nav[aria-label="Breadcrumb"] a{display:inline-block;padding-block:12px;margin-block:-12px}
+nav[aria-label="Διαδρομή"] a{display:inline-block;padding-block:12px;margin-block:-12px}
 /* Σήμα δοκιμαστικής έκδοσης: στο τέλος της σελίδας, όχι καρφωμένο πάνω από το περιεχόμενο */
 .preview-status{position:static;display:block;width:max-content;max-width:calc(100% - 32px);margin:14px auto;font-size:12px;box-shadow:none}
 @media (max-width:1023px){

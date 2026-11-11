@@ -149,12 +149,14 @@ def walk(nodes, ctx=''):
 
 # ---------------------------------------------------------------- live matching
 def js_classes():
-    names = set(['js', 'in', 'hidden', 'flex', 'open'])
+    """Κλάσεις που ΠΡΟΣΘΕΤΕΙ ή αφαιρεί η JavaScript (classList.add/toggle/remove, className=). Όσες απλώς αναζητούνται δεν μετρούν."""
+    names = set(['js'])                                  # μπαίνει από το inline script του <head>
     for f in glob.glob(os.path.join(cdp.ROOT, 'assets', '*.js')):
-        for s in re.findall(r'''['"]([^'"\n]{1,80})['"]''', open(f, encoding='utf-8').read()):
-            for tok in re.split(r'[\s.,>+~#\[\]():]+', s):
-                if re.fullmatch(r'-?[A-Za-z_][\w-]*', tok):
-                    names.add(tok)
+        src = open(f, encoding='utf-8').read()
+        for args in re.findall(r'classList\.(?:add|toggle|remove)\(([^)]*)\)', src):
+            names.update(re.findall(r'''['"]([\w-]+)['"]''', args))
+        for val in re.findall(r'''className\s*=\s*['"]([^'"]+)['"]''', src):
+            names.update(val.split())
     return names
 
 

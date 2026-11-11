@@ -13,6 +13,10 @@
                Οι λέξεις έμφασης των τίτλων στο πράσινο/μπλε/πορτοκαλί του λογοτύπου αναφέρονται χωριστά ως εξαίρεση brand.
   άγγιγμα      στο κινητό, κουμπιά και σύνδεσμοι τουλάχιστον 44x44 (όριο προτύπου 24x24)
   βάρος        όρια μεγέθους πρώτης οθόνης και ολόκληρης σελίδας, καμία εικόνα πολύ μεγαλύτερη από όσο φαίνεται
+Και, όταν τρέχει για όλες τις σελίδες, τα σενάρια που δεν φαίνονται σε απλή φόρτωση:
+  μενού κινητού με ανοιχτές τις «Θεραπείες» σε οθόνη 390x664 και 360x640 (φτάνεις σε κάθε σύνδεσμο;) · χωρίς JavaScript ·
+  με «μείωση κίνησης» · εστίαση πληκτρολογίου πίσω από κεφαλίδα/κάτω μπάρα · σελίδα 404 κάτω από το πρόθεμα του site ·
+  βάρος πρώτης οθόνης σε κινητό πυκνότητας 3
 Το βάρος μετριέται όπως θα το σερβίρει ο server (κείμενο συμπιεσμένο gzip).
 Έξοδος: γραμμή ανά εύρημα και τελικό ΟΚ ή ΑΠΟΤΥΧΙΑ (κωδικός εξόδου 1).
 """
@@ -24,6 +28,7 @@ import cdp
 BUDGET = {  # KB, όπως φτάνουν στον επισκέπτη
     'mobile': {'first': 400, 'full': 800, 'requests': 18},
     'desktop': {'first': 650, 'full': 1300, 'requests': 18},
+    'mobile3x': {'first': 360},
 }
 MODES = {'mobile': (390, 844, 2), 'desktop': (1440, 900, 1)}
 OVERFLOW_WIDTHS = (360, 768, 1024, 1920)
@@ -90,6 +95,85 @@ def weigh(urls, base, cache={}):
             cache[rel] = len(gzip.compress(data, 6)) if rel.endswith(('.html', '.css', '.js', '.xml', '.svg', '.json')) else len(data)
         total += cache.get(rel, 0)
     return total / 1024
+
+
+MENU = r"""(async()=>{const m=document.getElementById('mobileMenu'),bar=document.querySelector('.callbar'),hdr=document.querySelector('.site-header').getBoundingClientRect().bottom;
+ document.getElementById('navToggle').click(); document.getElementById('mTherapiesBtn').click(); await new Promise(r=>setTimeout(r,250));
+ const cb=bar&&getComputedStyle(bar).display!=='none'&&bar.getBoundingClientRect().top<innerHeight?bar.getBoundingClientRect().top:innerHeight, bad=[];
+ for(const a of m.querySelectorAll('a,button')){ a.scrollIntoView({block:'center'}); const r=a.getBoundingClientRect(); if(r.height<1) continue;
+   if(r.bottom>cb+1||r.top<hdr-1) bad.push((a.textContent||'').trim().slice(0,24)) }
+ return bad})()"""
+FOCUS = r"""(()=>{const bar=document.querySelector('.callbar'),hb=document.querySelector('.site-header').getBoundingClientRect().bottom, bad=[];
+ const els=[...document.querySelectorAll('main a[href],main button,main summary,footer a[href]')].filter(e=>e.offsetWidth>0&&!e.closest('[inert]'));
+ for(const e of els){ e.focus({preventScroll:true}); e.scrollIntoView({block:'nearest',behavior:'instant'});   // όπως κυλά ο browser στο Tab, χωρίς την ομαλή κίνηση
+   const r=e.getBoundingClientRect(); const cb=bar&&getComputedStyle(bar).transform==='none'&&bar.offsetHeight?bar.getBoundingClientRect().top:innerHeight;
+   if(document.activeElement===e&&(r.bottom>cb+1||r.top<hb-1)) bad.push((e.textContent||'').trim().slice(0,24)) }
+ return {n:els.length,bad}})()"""
+HIDDEN_TEXT = r"""(()=>{const bad=[];const w=document.createTreeWalker(document.querySelector('main'),NodeFilter.SHOW_TEXT);
+ while(w.nextNode()){const el=w.currentNode.parentElement; if(w.currentNode.nodeValue.trim().length<3||el.closest('[aria-hidden="true"],details:not([open]),.sr-only')) continue;
+   let op=1,e=el; while(e&&e.nodeType===1){op*=parseFloat(getComputedStyle(e).opacity); e=e.parentElement} if(op<0.95) bad.push(w.currentNode.nodeValue.trim().slice(0,28)) }
+ return {bad:[...new Set(bad)].slice(0,5),pinned:document.documentElement.classList.contains('stars-on'),running:document.getAnimations().filter(a=>a.playState==='running').length}})()"""
+
+
+def scenarios(ws, base, problems, report):
+    """Όσα δεν φαίνονται σε μια απλή φόρτωση: ανοιχτό μενού σε μικρή οθόνη, χωρίς JavaScript, μειωμένη κίνηση, πληκτρολόγιο, 404, πυκνότητα 3."""
+    # 1. μενού κινητού με ανοιχτές τις «Θεραπείες», σε μικρό ορατό ύψος (iPhone με τις μπάρες του Safari, μικρό Android)
+    for w, h in ((390, 664), (360, 640)):
+        ws.viewport(w, h, 2)
+        for p in ('index', 'treatment-speech'):
+            ws.open(base + p + '.html', settle=0.8)
+            if p == 'treatment-speech':
+                ws.js('window.scrollTo(0,400);1'); time.sleep(0.3)
+            bad = ws.js(MENU)
+            if bad:
+                problems.append('μενού %dx%d %-18s δεν φτάνεις με κύλιση σε: %s' % (w, h, p, ', '.join(bad[:4])))
+    # 2. χωρίς JavaScript: η πλοήγηση και όλο το κείμενο πρέπει να είναι διαθέσιμα
+    ws.viewport(390, 844, 2)
+    for p in ('index', 'treatment-speech', 'contact-us'):
+        ws.send('Emulation.setScriptExecutionDisabled', {'value': True})
+        ws.send('Page.navigate', {'url': base + p + '.html'}); time.sleep(1.5)
+        ws.send('Emulation.setScriptExecutionDisabled', {'value': False})
+        r = ws.js("""({menu:document.getElementById('mobileMenu').offsetHeight,links:[...document.querySelectorAll('#mobileMenu a[href$=".html"]')].filter(a=>a.offsetHeight>0).length,
+                      hidden:[...document.querySelectorAll('main .reveal')].filter(e=>getComputedStyle(e).opacity<0.99).length,pinned:document.documentElement.classList.contains('stars-on')})""")
+        if r['menu'] < 50 or r['links'] < 10:
+            problems.append('χωρίς JS  %-18s το μενού κινητού δεν είναι διαθέσιμο (%d σύνδεσμοι)' % (p, r['links']))
+        if r['hidden'] or r['pinned']:
+            problems.append('χωρίς JS  %-18s %d ενότητες μένουν κρυμμένες' % (p, r['hidden']))
+    # 3. μειωμένη κίνηση: τίποτα κρυμμένο, τίποτα καρφωμένο, καμία κίνηση σε εξέλιξη
+    ws.send('Emulation.setEmulatedMedia', {'features': [{'name': 'prefers-reduced-motion', 'value': 'reduce'}]})
+    for w in (390, 1440):
+        ws.viewport(w)
+        for p in ('index', 'treatment-speech', 'rating', 'about-us'):
+            ws.open(base + p + '.html', settle=0.8)
+            r = ws.js(HIDDEN_TEXT)
+            if r['bad'] or r['pinned'] or r['running']:
+                problems.append('μείωση κίνησης %d %-14s κρυμμένο κείμενο %s · καρφωμένη σκηνή %s · κινήσεις %d' % (w, p, r['bad'], r['pinned'], r['running']))
+    ws.send('Emulation.setEmulatedMedia', {'features': []})
+    # 4. πληκτρολόγιο στο κινητό: κανένα στοιχείο με εστίαση κάτω από την κεφαλίδα ή την κάτω μπάρα
+    ws.viewport(390, 844, 2)
+    for p in ('index', 'contact-us', 'treatment-speech'):
+        ws.open(base + p + '.html', settle=0.8)
+        ws.js('window.scrollTo(0,900);1'); time.sleep(0.4)
+        r = ws.js(FOCUS)
+        if r['bad']:
+            problems.append('εστίαση   %-18s %d από %d στοιχεία κρύβονται πίσω από κεφαλίδα ή κάτω μπάρα: %s' % (p, len(r['bad']), r['n'], ', '.join(r['bad'][:4])))
+    # 5. σελίδα 404 όπως τη σερβίρει το GitHub Pages: άγνωστη διεύθυνση κάτω από το πρόθεμα του site
+    ws.open(base.rstrip('/') + cdp.site_prefix() + 'kati/pou-den-yparxei', settle=1.0)
+    r = ws.js("""(()=>{const sk=document.querySelector('a[href="#main"]'); const before=location.pathname; sk&&sk.click();
+        return {title:document.title,styled:document.querySelector('.site-header').offsetHeight>40,logo:[...document.images].every(i=>i.complete&&i.naturalWidth>0),
+                stay:location.pathname===before,focus:document.activeElement&&document.activeElement.id}})()""")
+    errs = [e for e in ws.events if e['method'] == 'Network.loadingFailed' and not e['params'].get('canceled')]
+    if not (r['styled'] and r['logo'] and r['stay'] and r['focus'] == 'main') or errs:
+        problems.append('404       %s · αποτυχίες αιτημάτων %d' % (r, len(errs)))
+    # 6. κινητό υψηλής πυκνότητας (3x): το βάρος της πρώτης οθόνης, εκεί που είναι τα περισσότερα κινητά
+    ws.viewport(390, 844, 3); kbs = []
+    for p in [x for x in cdp.PAGES if x != '404']:
+        ws.open(base + p + '.html', settle=2.0)
+        kb = weigh(ws.js('[location.href].concat(performance.getEntriesByType("resource").map(r=>r.name))'), base)
+        kbs.append(kb); report['mobile3x/%s' % p] = {'first_kb': round(kb)}
+        if kb > BUDGET['mobile3x']['first']:
+            problems.append('κινητό 3x %-18s πρώτη οθόνη %.0f KB (όριο %d)' % (p, kb, BUDGET['mobile3x']['first']))
+    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · μείωση κίνησης · πληκτρολόγιο · 404 · κινητό 3x διάμεσος %d KB, μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs)), flush=True)
 
 
 def main():
@@ -161,6 +245,8 @@ def main():
                 report['%s/%s' % (mode, p)] = {'first_kb': round(kb_first), 'full_kb': round(kb_full), 'requests': nreq, 'cls': r['cls'], 'lcp': r['lcp'],
                                                'texts': r['texts'], 'on_photo': r['onPhoto'], 'taps': r['taps'], 'taps_lt44': len(r['tapsSmall']), 'images': r['images']}
                 print('%s πρώτη %4.0f KB · όλη %4.0f KB · %2d αιτήματα · CLS %.3f · κείμενα %3d · LCP %s' % (tag, kb_first, kb_full, nreq, r['cls'], r['texts'], r['lcp']), flush=True)
+        if not args:
+            scenarios(ws, base, problems, report)
         for w in OVERFLOW_WIDTHS:                               # οριζόντια κύλιση στα ενδιάμεσα πλάτη
             ws.viewport(w)
             for p in pages:

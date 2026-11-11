@@ -24,7 +24,8 @@
 .hx-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center;min-height:600px;padding-left:max(var(--gutter),calc((100% - var(--wrap)) / 2 + var(--gutter)))}
 .hx-hero-copy{padding-block:88px}
 .hx-hero h1{font-size:var(--t-display);line-height:1.06;letter-spacing:-.04em;color:#fff}
-.hx-line{display:block;overflow:hidden;padding:.16em 0 .1em .16em;margin:-.16em 0 -.1em -.16em}   /* χώρος για τόνους και ουρές γραμμάτων μέσα στη μάσκα της κίνησης */
+.hx-line{display:block;overflow:hidden;padding:.16em 0 .1em .16em;margin:-.16em 0 -.1em -.16em}
+/* χώρος για τόνους και ουρές γραμμάτων μέσα στη μάσκα της κίνησης */
 .hx-line>span{display:block}
 .hx-places{margin:24px 0 0;font-size:16px;color:rgba(255,255,255,.82)}
 .hx-hero-actions{margin-top:36px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px}
@@ -73,7 +74,7 @@
 .hx-value{display:flex;gap:20px;align-items:flex-start;padding:28px 0;border-top:1px solid var(--rule)}
 .hx .hx-value .vicon{flex:0 0 64px;width:64px;height:64px;margin:0}
 .hx-value h3{font:600 20px/1.3 Comfortaa,system-ui,sans-serif;letter-spacing:-.015em;margin:6px 0 8px}
-.hx-value p{font-size:15.5px;line-height:1.6;color:var(--ink-soft);margin:0}
+.hx-value p{line-height:1.6;color:var(--ink-soft);margin:0}
 .js .hx-value.reveal:nth-child(even){transition-delay:.07s}
 @media (max-width:900px){
   .hx-values{padding-top:calc(72px + 56px)}
@@ -82,7 +83,7 @@
   .hx-values-list{grid-template-columns:1fr}
   .hx-value{gap:16px;padding:20px 0}
   .hx .hx-value .vicon{flex-basis:48px;width:48px;height:48px}
-  .hx-value h3{font-size:17px;margin-top:2px}
+  .hx-value h3{margin-top:2px}
   .hx-value p{font-size:14.5px}
 }
 /* ---- 3. σας προβληματίζει κάτι ---- */
@@ -111,6 +112,10 @@
 .hx-preview figure{display:none;margin:0}
 .hx-preview img{display:block;width:100%;aspect-ratio:4/4.4;object-fit:cover;border-radius:var(--r-photo);background:#e9e7e1}
 .hx-preview figcaption{margin-top:18px;font-size:15.5px;line-height:1.6;color:var(--ink-soft)}
+@supports not selector(:has(*)){
+  .hx-preview figure:first-child{display:block}
+}
+/* παλιότεροι browsers: μένει η πρώτη φωτογραφία */
 /* ενεργή γραμμή: αυτή που έχει τον δείκτη ή την εστίαση· αλλιώς η πρώτη. Οι κρυμμένες φωτογραφίες δεν κατεβαίνουν πριν χρειαστούν. */
 .hx-th-grid:not(:has(.hx-index a:is(:hover,:focus-visible))) .hx-preview figure:first-child,
 .hx-th-grid:has(.hx-index li:nth-child(1) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(1),
@@ -137,7 +142,6 @@
   .hx-row::before{display:none}
   .hx-name{font-size:22px;letter-spacing:-.025em}
   .hx-name::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);margin-right:10px;vertical-align:.12em}
-  .hx-sub{font-size:14px}
   .hx-desc{display:block;font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin-top:6px}
   .hx-index .hx-arrow{width:20px;height:20px;margin-top:6px}
 }
@@ -226,7 +230,6 @@ main.hx .preview-centres-section{background:var(--paper)}
 main.hx .preview-centres-section h2{font-size:var(--t-h2)}
 main.hx .preview-centres-section .preview-section-title p:not(.kicker){margin-top:18px}
 main.hx .location-photo img{border-radius:var(--r-1)}
-
 /* ---- διορθώσεις μετά την ανεξάρτητη αξιολόγηση (2ος γύρος) ---- */
 /* «Σας προβληματίζει κάτι» σε υπολογιστή: τίτλος αριστερά, φράσεις και κουμπί δεξιά (το δεξί μισό δεν μένει άδειο) */
 @media (min-width:1000px){

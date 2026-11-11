@@ -19,10 +19,6 @@ body>header{background:rgba(255,255,255,.96)}
 /* privacy lists get their bullets back */
 /* the logo dots pass behind the content of the section above the logo band, not over it */
 .stars-on .home-refined>section:not(#logo-reveal):not(.svc-pin)>*{position:relative;z-index:41}
-.stars-on .home-refined .svc-stage{z-index:41}
-@media (max-width:1023px){
-  .stars-on .home-refined .svc-stage{position:relative}
-}
 /* soft blobs are gone everywhere; the section colours underneath stay */
 .blur-2xl{display:none}
 /* ---- 2. One container: every page lines up with the header and the footer (content from x=160 at 1440px) ---- */
@@ -37,14 +33,14 @@ body>header{background:rgba(255,255,255,.96)}
   .about-section,.therapies-section,.home-refined .preview-section,.home-refined #preview-first-steps,.home-refined .preview-centres-section{padding-block:64px}
 }
 /* ---- 4. One photo hero for every inner page ---- */
-nav[aria-label="Breadcrumb"]{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:13px;line-height:1.6;margin:0 0 22px;color:rgba(255,255,255,.88)}
-nav[aria-label="Breadcrumb"] [aria-current]{color:#fff;font-weight:600}
-nav[aria-label="Breadcrumb"] a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav[aria-label="Διαδρομή"]{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:13px;line-height:1.6;margin:0 0 22px;color:rgba(255,255,255,.88)}
+nav[aria-label="Διαδρομή"] [aria-current]{color:#fff;font-weight:600}
+nav[aria-label="Διαδρομή"] a:hover{color:#fff;text-decoration:underline;text-underline-offset:3px}
 @media (max-width:700px){
   /* one short way back instead of a two-line trail */
-  nav[aria-label="Breadcrumb"]>[aria-current],nav[aria-label="Breadcrumb"]>span[aria-hidden]{display:none}
-  nav[aria-label="Breadcrumb"]>a:not(:nth-last-child(3)){display:none}
-  nav[aria-label="Breadcrumb"]>a:nth-last-child(3)::before{content:"← "}
+  nav[aria-label="Διαδρομή"]>[aria-current],nav[aria-label="Διαδρομή"]>span[aria-hidden]{display:none}
+  nav[aria-label="Διαδρομή"]>a:not(:nth-last-child(3)){display:none}
+  nav[aria-label="Διαδρομή"]>a:nth-last-child(3)::before{content:"← "}
 }
 /* the homepage hero on phones: darker at the bottom where the words sit, two buttons of the same width */
 /* ---- 5. One title scale ---- */
@@ -83,11 +79,6 @@ main .depth-clip,.about-photo .depth-clip,.about-team .about-photo .depth-clip{b
 /* a dark «how it works» section without a photo: title on top, the three steps side by side (no empty column) */
 /* the closing invitation is centred on every therapy page, like the speech page */
 /* four brand dots sign every closing invitation (the about page already has them); they draw in left to right */
-:is(.speech-close .speech-wrap,.specialty-close>.specialty-wrap,.assessment-close .assessment-wrap,.contact-next .contact-wrap,.adult-close>.reveal)::after{content:"";display:block;width:50px;height:8px;margin:40px auto 0;background:radial-gradient(circle,#8DC63F 3.6px,transparent 4.2px) 0 0/12.5px 8px no-repeat,radial-gradient(circle,#ED1C24 3.6px,transparent 4.2px) 12.5px 0/12.5px 8px no-repeat,radial-gradient(circle,#00AEEF 3.6px,transparent 4.2px) 25px 0/12.5px 8px no-repeat,radial-gradient(circle,#F7941D 3.6px,transparent 4.2px) 37.5px 0/12.5px 8px no-repeat}
-@media (prefers-reduced-motion:no-preference){
-  .js :is(.speech-close .speech-wrap,.specialty-close>.specialty-wrap,.assessment-close .assessment-wrap,.contact-next .contact-wrap,.adult-close>.reveal)::after{clip-path:inset(0 100% 0 0);transition:clip-path .9s .3s var(--ease)}
-  .js :is(.speech-close .speech-wrap,.specialty-close>.specialty-wrap,.assessment-close .assessment-wrap,.contact-next .contact-wrap,.adult-close>.reveal).in::after{clip-path:inset(0 0 0 0)}
-}
 /* ---- 10. Value icons: quiet at rest, alive when seen (user choice, 23/09).
    Grey line icon with one brand-coloured accent, on two soft overlapping circles like the balls of the logo.
    When a card scrolls in (.reveal.in) the circles swell, the lines draw themselves, the accent pops.
@@ -166,9 +157,6 @@ main .depth-clip,.about-photo .depth-clip,.about-team .about-photo .depth-clip{b
   .therapies-guide a{white-space:nowrap}
 }
 /* the pinned therapies rail on desktop: cards fade out at the screen edges instead of being cut */
-@media (min-width:1024px) and (prefers-reduced-motion:no-preference){
-  .js .home-refined .svc-stage{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 56px,#000 calc(100% - 56px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 56px,#000 calc(100% - 56px),transparent 100%)}
-}
 /* ---- 13. About page ---- */
 @media (min-width:701px){
   .about-manifesto-layout>div:first-child{position:sticky;top:120px;align-self:start}

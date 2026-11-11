@@ -1,5 +1,7 @@
 /* ==== 80 · Fable 5.2: θεμέλια του σύγχρονου ύφους (11/2026) ====
    Μεταβλητές, κλίμακα γραμμάτων, δύο ανοιχτά φόντα και ένα σκούρο, κεφαλίδα μίας γραμμής, μεταβάσεις σελίδων, μικροκινήσεις.
+   Σημεία αλλαγής διάταξης (σύμβαση για νέο κώδικα): 700px κινητό, 900px η Αρχική γίνεται μία στήλη, 1024px κεφαλίδα υπολογιστή και κάτω μπάρα κινητού.
+   Τα παλιότερα στρώματα 20 έως 60 έχουν και άλλα σημεία (600, 640, 768, 1000)· νέος κανόνας δεν προσθέτει καινούργιο.
    Όλα τα χρώματα βγαίνουν από το λογότυπο. Για να γυρίσει το σκούρο στο γκρι του λογοτύπου αρκεί --deep:#58595B. */
 :root{--paper:#fff;--paper-warm:#F6F5F1;--deep:#2E2F31;--ink:#26282A;--ink-soft:#4A4B4D;--ink-mute:#636466;--rule:rgba(38,40,42,.12);--green:#8DC63F;--blue:#00AEEF;--orange:#F7941D;--red:#ED1C24;--r-1:12px;--r-2:20px;--r-photo:8px 56px 8px 8px;--e1:0 1px 2px rgba(38,40,42,.06),0 8px 24px -12px rgba(38,40,42,.18);--e2:0 2px 4px rgba(38,40,42,.06),0 24px 48px -20px rgba(38,40,42,.28);--t-display:clamp(2.375rem,5vw,4.25rem);/* τίτλος Αρχικής */
   --t-h1:clamp(2.25rem,5.2vw,4.75rem);/* τίτλος εσωτερικής σελίδας */
@@ -16,12 +18,10 @@ main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-he
 .site-footer{background-color:var(--deep)}
 ::selection{background:rgba(141,198,63,.35)}
 :where(main,footer) [id]{scroll-margin-top:calc(var(--hdr,80px) + 24px)}
-/* ---- κεφαλίδα μίας γραμμής: τα τηλέφωνα δίπλα στο «Επικοινωνία», μαζεύει λίγο στην κύλιση ---- */
+/* ---- κεφαλίδα μίας γραμμής: τα τηλέφωνα δίπλα στο «Επικοινωνία». Σταθερό ύψος (καμία αλλαγή διάταξης στην κύλιση). ---- */
 .site-header{background:rgba(255,255,255,.88)}
-.site-header>div>div{transition:height .2s var(--ease)}
 @media (min-width:1024px){
   .site-header>div>div{height:80px}
-  .site-header.is-scrolled>div>div{height:64px}
 }
 .site-header>div nav{margin-left:28px}
 .site-header nav>ul{gap:clamp(14px,1.6vw,24px)}
@@ -60,22 +60,37 @@ main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-he
    γι' αυτό εκεί γίνονται στη σκούρα απόχρωσή του (5:1): μένουν πράσινες λέξεις και διαβάζονται. */
 main :is(h1,h2) :is(.text-green,.hx-accent){color:var(--green-text)}
 main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-help,.speech-practice,.specialty-dark,.assessment-process,.speech-concerns,.specialty-signs,.on-deep) :is(h1,h2) :is(.text-green,.hx-accent){color:var(--green)}
-
 /* ---- μενού κινητού: πλήρες ύψος, λευκό, με τα τέσσερα τηλέφωνα στο τέλος ---- */
 .menu-phones{display:none}
 @media (max-width:1023px){
-  #mobileMenu:not(.hidden){position:absolute;left:0;right:0;top:100%;height:calc(100vh - var(--hdr,69px));height:calc(100dvh - var(--hdr,69px));overflow-y:auto;overscroll-behavior:contain;background:#fff;padding-bottom:32px}
+  #mobileMenu:not(.hidden){position:absolute;left:0;right:0;top:100%;height:calc(100vh - var(--hdr,69px));height:calc(100dvh - var(--hdr,69px));overflow-y:auto;overscroll-behavior:contain;background:#fff;padding-bottom:104px}
   html.menu-open{overflow:hidden}
   .menu-phones{display:grid;grid-template-columns:1fr 1fr;gap:10px;list-style:none;margin:8px 0 0;padding:16px 16px 0}
   .menu-phones a{display:grid;gap:2px;min-height:60px;align-content:center;padding:8px 14px;border:1px solid var(--rule);border-radius:var(--r-1);color:var(--ink);text-decoration:none}
   .menu-phones b{font-size:14px;font-weight:600;color:var(--ink-soft)}
   .menu-phones span{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
 }
-@media (min-width:640px) and (max-width:1023px){.menu-phones{padding-inline:24px;grid-template-columns:repeat(4,1fr)}}
+@media (min-width:640px) and (max-width:1023px){
+  .menu-phones{padding-inline:24px;grid-template-columns:repeat(4,1fr)}
+}
 /* ---- υποσέλιδο ---- */
 .footer-links{display:grid;gap:12px;list-style:none;margin:0;padding:0}
 @media (max-width:700px){
   .footer-links{gap:0}
   .footer-links a,.site-footer p>a{display:inline-block;padding-block:12px}
-  .site-footer div:has(>.footer-centres){display:none}      /* τα τηλέφωνα υπάρχουν ήδη στο κλείσιμο της σελίδας και στην κάτω μπάρα */
+  .site-footer div:has(>.footer-centres){display:none}
+  /* τα τηλέφωνα υπάρχουν ήδη στο κλείσιμο της σελίδας και στην κάτω μπάρα */
 }
+/* ---- άγκυρες και εστίαση πληκτρολογίου: ποτέ κάτω από την κολλημένη κεφαλίδα ή την κάτω μπάρα του κινητού ---- */
+html{scroll-padding-top:calc(var(--hdr,80px) + 16px)}
+@media (max-width:1023px){
+  html{scroll-padding-bottom:88px}
+}
+/* ---- χωρίς JavaScript το μενού κινητού είναι ανοιχτό μέσα στη σελίδα (η πλοήγηση δουλεύει πάντα) ---- */
+@media (max-width:1023px){
+  html:not(.js) #navToggle{display:none}
+  html:not(.js) #mobileMenu{display:block}
+  html:not(.js) #mTherapiesSub{display:flex}
+}
+html:not(.js) #copy-contact-email{display:none}
+/* το κουμπί αντιγραφής χρειάζεται JavaScript */

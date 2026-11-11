@@ -112,9 +112,36 @@ class WS:
         open(path, 'wb').write(base64.b64decode(r['data']))
 
 
+def site_prefix(docs=None):
+    """Το πρόθεμα διαδρομής του site (π.χ. /synoida-site-fable-5.2/), όπως το γράφει το <base> του 404.html."""
+    import re
+    try:
+        m = re.search(r'<base href="([^"]+)"', open(os.path.join(docs or DOCS, '404.html'), encoding='utf-8').read())
+        return m.group(1) if m else '/'
+    except OSError:
+        return '/'
+
+
 class _Quiet(http.server.SimpleHTTPRequestHandler):
+    """Σερβίρει το docs/ και στη ρίζα και κάτω από το πρόθεμα του site, και δίνει το 404.html για ό,τι δεν υπάρχει (όπως το GitHub Pages)."""
+    prefix = '/'
+
     def log_message(self, *a):
         pass
+
+    def translate_path(self, path):
+        if self.prefix != '/' and path.startswith(self.prefix):
+            path = '/' + path[len(self.prefix):]
+        return super().translate_path(path)
+
+    def send_error(self, code, message=None, explain=None):
+        page = os.path.join(self.directory, '404.html')
+        if code == 404 and os.path.exists(page):
+            data = open(page, 'rb').read()
+            self.send_response(404); self.send_header('Content-Type', 'text/html; charset=utf-8')
+            self.send_header('Content-Length', str(len(data))); self.end_headers(); self.wfile.write(data)
+            return
+        super().send_error(code, message, explain)
 
 
 @contextlib.contextmanager
@@ -123,6 +150,7 @@ def session(docs=DOCS):
     chrome = next((c for c in CHROME_PATHS if os.path.exists(c)), None)
     if not chrome:
         raise SystemExit('Δεν βρέθηκε Google Chrome.')
+    _Quiet.prefix = site_prefix(docs)
     srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(_Quiet, directory=docs))
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     with socket.socket() as s:

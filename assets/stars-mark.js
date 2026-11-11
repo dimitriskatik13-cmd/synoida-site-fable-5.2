@@ -146,5 +146,10 @@
   if(window.ResizeObserver){var observer=new ResizeObserver(invalidate);observer.observe(document.body);observer.observe(band);observer.observe(stage);observer.observe(mark);}
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(invalidate);
   if(motion.addEventListener) motion.addEventListener('change',motionChanged);else if(motion.addListener) motion.addListener(motionChanged);
-  img.loading='eager';if(img.complete&&img.naturalWidth) start();else img.addEventListener('load',start,{once:true});
+  /* Το λογότυπο είναι lazy: ζητείται όταν η ενότητα πλησιάσει (δύο οθόνες πριν), όχι στην πρώτη οθόνη της σελίδας. */
+  function arm(){img.loading='eager';if(img.complete&&img.naturalWidth) start();else img.addEventListener('load',start,{once:true});}
+  if('IntersectionObserver' in window){
+    var near=new IntersectionObserver(function(en){if(en[0].isIntersecting){near.disconnect();arm();}},{rootMargin:'200% 0px'});
+    near.observe(band);
+  }else arm();
 })();

@@ -7,7 +7,7 @@
 στόχο του «Μετάβαση στο περιεχόμενο», μοναδικά id, εσωτερικούς συνδέσμους και άγκυρες, εικόνες (alt, διαστάσεις, αρχεία που
 υπάρχουν), τίτλο και περιγραφή (μήκος, μοναδικότητα), canonical, Open Graph, δομημένα δεδομένα (JSON-LD), πολιτική
 ασφαλείας, ετικέτες σε κουμπιά, καθώς και κανόνες κειμένου του ιδιοκτήτη (χωρίς μεγάλη παύλα, χωρίς τη λέξη «ερώτημα»).
-Ελέγχει ακόμη sitemap, robots και ότι τίποτα εσωτερικό (_build, README) δεν βρίσκεται στον φάκελο δημοσίευσης.
+Ελέγχει ακόμη ότι κανένας χαρακτήρας δεν φέρνει επιπλέον αρχείο γραμματοσειράς, το sitemap, το robots και ότι τίποτα εσωτερικό (_build, README) δεν βρίσκεται στον φάκελο δημοσίευσης.
 Κωδικός εξόδου 1 αν υπάρχει πρόβλημα.
 """
 import collections, json, os, re, sys, urllib.parse
@@ -277,6 +277,28 @@ def main():
                 bad('κείμενο: ' + label)
         if re.search(r'\[[^\]]{0,40}(?:Χ|ΣΥΜΠΛΗΡ|;)[^\]]{0,40}\]', visible):
             bad('κείμενο: αγκύλη προς συμπλήρωση')
+    # γραμματοσειρές: κάθε χαρακτήρας των σελίδων να καλύπτεται από τα 4 βασικά αρχεία (αλλιώς κατεβαίνει επιπλέον αρχείο 20 έως 85 KB)
+    fonts_css = os.path.join(HERE, 'css', '10-fonts.css')
+    if os.path.exists(fonts_css):
+        def cps(rng):
+            out = set()
+            for part in rng.split(','):
+                part = part.strip().replace('U+', '')
+                if part:
+                    lo, _, hi = part.partition('-'); out.update(range(int(lo, 16), int(hi or lo, 16) + 1))
+            return out
+        base_cov, extra = {}, {}
+        for fam, fname, rng in re.findall(r"font-family:'([^']+)'[^}]*?url\(fonts/([\w.-]+)\)[^}]*?unicode-range:([^;}]+)", open(fonts_css, encoding='utf-8').read()):
+            target = extra if re.search(r'-(full|ext)\.woff2$', fname) else base_cov
+            target.setdefault(fam, {}).setdefault(fname, set()).update(cps(rng))
+        for name, x in P.items():
+            chars = set(ord(c) for c in ' '.join(x.text) + x.title if ord(c) > 0x20)
+            for fam in base_cov:
+                covered = set().union(*base_cov[fam].values())
+                for fname, rng in extra.get(fam, {}).items():
+                    hit = sorted(chars & rng - covered)
+                    if hit:
+                        problems.append('%-28s οι χαρακτήρες «%s» κατεβάζουν επιπλέον γραμματοσειρά (%s): πρόσθεσέ τους στο CORE του make_fonts.py' % (name, ''.join(chr(c) for c in hit[:8]), fname))
     for t, n in titles.items():
         if n > 1:
             problems.append('ίδιος τίτλος σε %d σελίδες: «%s»' % (n, t))

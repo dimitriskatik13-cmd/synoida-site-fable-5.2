@@ -1,6 +1,6 @@
 /* ΣΥΝΟΙΔΑ: κοινή συμπεριφορά όλων των σελίδων.
    1. ενεργό στοιχείο μενού   2. μενού κινητού   3. μενού «Θεραπείες» (υπολογιστής)   4. λίστες τηλεφώνων
-   4β. κεφαλίδα και κάτω μπάρα   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. βάθος και κίνηση (hero, λωρίδα θεραπειών, πρόοδος λιστών)   7. μετρητής
+   4β. κεφαλίδα και κάτω μπάρα   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. πρόοδος κύλισης (--hdr, data-progress)   7. μετρητής
    Χωρίς JavaScript η σελίδα είναι πλήρης. Με ρύθμιση «μείωση κίνησης» τίποτα δεν κινείται. */
 (function () {
   'use strict';
@@ -72,26 +72,29 @@
     }
   });
 
-  /* ---------- 4β. κεφαλίδα που μαζεύει λίγο μετά την αρχή, και κάτω μπάρα κινητού που περιμένει το κουμπί του hero ---------- */
-  var siteHeader = document.querySelector('.site-header');
+  /* ---------- 4β. Αρχική στο κινητό: η κάτω μπάρα εμφανίζεται όταν το κουμπί του hero βγει από την οθόνη ---------- */
   var callbar = document.querySelector('.callbar');
-  var heroCta = document.querySelector('[data-callbar-after]');      // μόνο στην Αρχική
-  if ('IntersectionObserver' in window) {
-    var topMark = document.createElement('div');                     // αόρατο σημάδι 80px κάτω από την κορυφή
-    topMark.style.cssText = 'position:absolute;top:80px;left:0;width:1px;height:1px;pointer-events:none';
-    document.body.appendChild(topMark);
+  var heroCta = document.querySelector('[data-callbar-after]');      // υπάρχει μόνο στην Αρχική
+  if (heroCta && callbar && 'IntersectionObserver' in window) {
     new IntersectionObserver(function (entries) {
-      if (siteHeader) siteHeader.classList.toggle('is-scrolled', !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0);
-    }).observe(topMark);
-    if (heroCta && callbar) {
-      new IntersectionObserver(function (entries) {
-        var show = !entries[0].isIntersecting;
-        document.body.classList.toggle('callbar-on', show);
-        callbar.inert = !show && window.matchMedia('(max-width:1023px)').matches;
-      }).observe(heroCta);
-    }
+      var show = !entries[0].isIntersecting;
+      document.body.classList.toggle('callbar-on', show);
+      callbar.inert = !show && window.matchMedia('(max-width:1023px)').matches;
+    }).observe(heroCta);
   } else {
     document.body.classList.add('callbar-on');
+  }
+
+  /* ---------- 4β2. «Μετάβαση στο περιεχόμενο»: δίνει εστίαση στο <main> (δουλεύει και στο 404, όπου οι σύνδεσμοι έχουν <base>) ---------- */
+  var skipLink = document.querySelector('a[href="#main"]');
+  var mainEl = document.getElementById('main');
+  if (skipLink && mainEl) {
+    skipLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      mainEl.setAttribute('tabindex', '-1');
+      mainEl.focus();
+      mainEl.scrollIntoView();
+    });
   }
 
   /* ---------- 4γ. μετάβαση σελίδας: η φωτογραφία της θεραπείας που πατήθηκε «ταξιδεύει» στο κάδρο της σελίδας της ---------- */
@@ -125,76 +128,26 @@
     });
   }
 
-  /* ---------- 6. βάθος και κίνηση. Κάθε κομμάτι δουλεύει μόνο αν υπάρχει το στοιχείο του στη σελίδα. ---------- */
-  var hero = document.querySelector('.hero-depth');
-  var heroPlane = hero && hero.querySelector('.hero-plane');      // η φωτογραφία
-  var heroPlanes = hero && hero.querySelector('.hero-planes');    // φωτογραφία + προσκήνιο (μόνο στην Αρχική)
-  var heroFg = hero && hero.querySelector('.hero-fg');            // το προσκήνιο
-  var pin = document.querySelector('.svc-pin');                   // η ενότητα θεραπειών που «καρφώνεται»
-  var pinStage = pin && pin.querySelector('.svc-stage');
-  var rail = pin && pin.querySelector('.svc-rail');               // η λωρίδα με τις κάρτες
-  var cta = document.querySelector('.cta-mark');
+  /* ---------- 6. πρόοδος κύλισης. Το ύψος της κεφαλίδας γράφεται στο --hdr (το χρησιμοποιεί το CSS για κολλημένα στοιχεία και άγκυρες). ---------- */
   var header = document.querySelector('header');
   var progressEls = Array.prototype.slice.call(document.querySelectorAll('[data-progress]'));
-  var desktop = window.matchMedia('(min-width:1024px)');
-  var railOverflow = 0, pinStart = 0, ticking = false;
+  var ticking = false;
 
-  function railActive() { return !!(pin && rail && desktop.matches && !reduceMotion); }
-
-  /* Μετρά το ύψος της κεφαλίδας και πόσο πρέπει να κυλήσει οριζόντια η λωρίδα για να φανούν όλες οι κάρτες. */
-  function measure() {
-    var headerHeight = header ? header.offsetHeight : 72;
-    document.documentElement.style.setProperty('--hdr', headerHeight + 'px');
-    if (!pin || !rail) return;
-    if (railActive()) {
-      rail.style.transform = 'none';
-      pin.style.height = '';
-      var r = rail.getBoundingClientRect();
-      railOverflow = Math.max(0, Math.round(r.left + rail.scrollWidth - window.innerWidth + 40));
-      pin.style.height = (pinStage.offsetHeight + railOverflow) + 'px';
-      pinStart = pin.getBoundingClientRect().top + window.scrollY - headerHeight;
-    } else {
-      pin.style.height = '';
-      rail.style.transform = '';
-      railOverflow = 0;
-    }
+  function measureHeader() {
+    document.documentElement.style.setProperty('--hdr', (header ? header.offsetHeight : 72) + 'px');
   }
 
-  /* Ένα καρέ κύλισης: γράφει μόνο transform και μεταβλητές CSS (χωρίς αλλαγή διάταξης). */
+  /* data-progress="αρχή τέλος": πρόοδος 0 έως 1 καθώς το στοιχείο περνά από την οθόνη (--p). Προεπιλογή 0.85 και 0.6.
+     Γράφει μόνο μεταβλητές CSS, δεν αλλάζει διάταξη. */
   function frame() {
     ticking = false;
-    var y = window.scrollY, vh = window.innerHeight;
-
-    if (hero && !reduceMotion) {
-      var h = hero.offsetHeight || 1, p = clamp01(y / h);
-      if (heroPlanes) {
-        heroPlanes.style.transform = 'scale(' + (1 + p * 0.12).toFixed(4) + ')';
-        if (heroPlane) heroPlane.style.transform = 'translate3d(0,' + (p * h * 0.16).toFixed(1) + 'px,0)';
-        if (heroFg) heroFg.style.transform = 'translate3d(0,' + (-p * h * 0.06).toFixed(1) + 'px,0)';
-      } else if (heroPlane) {
-        heroPlane.style.transform = 'translate3d(0,' + (p * h * 0.24).toFixed(1) + 'px,0) scale(' + (1 + p * 0.12).toFixed(4) + ')';
-      }
-    }
-
-    if (railActive() && railOverflow > 0) {
-      var t = clamp01((y - pinStart) / railOverflow);
-      rail.style.transform = 'translate3d(' + (-t * railOverflow).toFixed(1) + 'px,0,0)';
-    }
-
-    if (cta && !reduceMotion) {
-      var ctaTop = cta.getBoundingClientRect().top;
-      cta.style.setProperty('--k', clamp01((ctaTop - vh * 0.45) / (vh * 0.5)).toFixed(3));
-    }
-
-    /* data-progress="αρχή τέλος": πρόοδος 0 έως 1 καθώς το στοιχείο περνά από την οθόνη (--p). Προεπιλογή 0.85 και 0.6. */
-    if (!reduceMotion) {
-      for (var i = 0; i < progressEls.length; i++) {
-        var el = progressEls[i], rect = el.getBoundingClientRect();
-        var parts = (el.getAttribute('data-progress') || '').split(/\s+/);
-        var start = parseFloat(parts[0]); if (isNaN(start)) start = 0.85;
-        var end = parseFloat(parts[1]); if (isNaN(end)) end = 0.6;
-        el.style.setProperty('--p', clamp01((vh * start - rect.top) / (vh * (start - end) + rect.height)).toFixed(3));
-      }
+    var vh = window.innerHeight;
+    for (var i = 0; i < progressEls.length; i++) {
+      var el = progressEls[i], rect = el.getBoundingClientRect();
+      var parts = (el.getAttribute('data-progress') || '').split(/\s+/);
+      var start = parseFloat(parts[0]); if (isNaN(start)) start = 0.85;
+      var end = parseFloat(parts[1]); if (isNaN(end)) end = 0.6;
+      el.style.setProperty('--p', clamp01((vh * start - rect.top) / (vh * (start - end) + rect.height)).toFixed(3));
     }
   }
 
@@ -214,15 +167,15 @@
     });
   }
 
-  if (hero || pin || cta || progressEls.length) {
-    measureItems();
-    window.addEventListener('resize', measureItems);
-    window.addEventListener('load', measureItems);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', function () { measure(); frame(); });
-    window.addEventListener('load', function () { measure(); frame(); });
-    measure();
+  measureHeader();
+  window.addEventListener('resize', measureHeader);
+  window.addEventListener('load', measureHeader);
+  if (progressEls.length) measureItems();
+  if (progressEls.length && !reduceMotion) {
     frame();
+    window.addEventListener('resize', function () { measureItems(); frame(); });
+    window.addEventListener('load', function () { measureItems(); frame(); });
+    window.addEventListener('scroll', onScroll, { passive: true });
   }
 
   /* ---------- 7. μετρητής (data-count): μετρά μέχρι τον αριθμό όταν φανεί. Το HTML έχει ήδη τον τελικό αριθμό. ---------- */

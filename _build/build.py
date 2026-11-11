@@ -106,7 +106,7 @@ def main():
 
         # og:image: JPG 1200x630 από την πρώτη φωτογραφία της σελίδας
         first = re.search(r'<img\b[^>]*\bsrc="assets/([A-Za-z0-9_-]+)\.(?:jpg|png|webp)"[^>]*>', main_html)
-        og_name = (first.group(1) if first else 'hero-room').replace('hero-room-bg', 'hero-room')
+        og_name = first.group(1) if first else 'hero-room'
         if not images.get(og_name, {}).get('og'):
             og_name = 'hero-room'
         og_alt = re.search(r'\balt="([^"]*)"', first.group(0)).group(1) if first and re.search(r'\balt="([^"]+)"', first.group(0)) else 'Χώρος θεραπείας στη ΣΥΝΟΙΔΑ'
@@ -178,22 +178,6 @@ def main():
                 tag = tag.replace('<img ', '<img width="%d" height="%d" ' % (info['w'], info['h']), 1)
             return tag
         page = re.sub(r'<img\b[^>]*\bsrc="assets/([A-Za-z0-9_-]+)\.(?:jpg|png|webp)"[^>]*>', img, page)
-
-        # mosaic: η φωτογραφία σε κομμάτια. Το fragment δηλώνει style="--img:url(assets/<όνομα>.jpg)" στο πλαίσιο·
-        # εδώ γίνεται inline φόντο σε κάθε κομμάτι (.tile), γιατί url μέσα σε μεταβλητή CSS δεν λύνεται ίδια σε όλους τους browsers.
-        def mosaic(m):
-            name = m.group(2)
-            ws = images.get(name, {}).get('widths', [])
-            if 800 not in ws or 1600 not in ws:
-                problems.append('%s: mosaic χωρίς εκδόσεις 800/1600 για %s' % (outfile, name)); return m.group(0)
-            # πρώτα απλό url (παλιότεροι browsers), μετά image-set για οθόνες υψηλής ανάλυσης
-            bg = "background-image:url('assets/%s-800.webp');background-image:image-set(url('assets/%s-800.webp') 1x,url('assets/%s-1600.webp') 2x);" % (name, name, name)
-            block = m.group(1) + m.group(3)
-            block, n = re.subn(r'(<span class="tile[^"]*" style=")', r'\1' + bg, block)
-            if not n:
-                problems.append('%s: mosaic χωρίς κομμάτια .tile' % outfile)
-            return block
-        page = re.sub(r'(<div class="mosaic[^"]*") style="--img:url\(assets/([A-Za-z0-9_-]+)\.jpg\)"([^>]*>.*?</div>)', mosaic, page, flags=re.S)
 
         left = sorted(set(re.findall(r'\{\{[A-Z_]+\}\}', page)))
         if left:

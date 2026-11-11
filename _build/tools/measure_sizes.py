@@ -19,11 +19,19 @@ BANDS = [(767, (360, 390, 430)), (1023, (768,)), (1279, (1024,)), (1439, (1280,)
 
 PROBE = r"""(()=>{const seen={},out=[];
  for(const i of document.images){const m=(i.getAttribute('src')||'').match(/assets\/([A-Za-z0-9_-]+?)-\d+\.webp$/); if(!m) continue;
-   const k=seen[m[1]]||0; seen[m[1]]=k+1; const r=i.getBoundingClientRect(), s=getComputedStyle(i);
-   const ar=(+i.getAttribute('width')||i.naturalWidth||3)/(+i.getAttribute('height')||i.naturalHeight||2);
-   let w=r.width; if(s.objectFit==='cover') w=Math.max(r.width, r.height*ar);      // το cover μπορεί να θέλει πλατύτερη εικόνα από το κουτί
-   out.push({key:m[1]+'#'+k, w:(s.display==='none'||r.width<1)?0:Math.ceil(w)})}
+   const k=seen[m[1]]||0; seen[m[1]]=k+1; const s=getComputedStyle(i);
+   // offsetWidth/Height: το μέγεθος στη διάταξη, χωρίς τις προσωρινές μεγεθύνσεις των εφέ (transform)
+   const bw=i.offsetWidth, bh=i.offsetHeight, ar=(+i.getAttribute('width')||i.naturalWidth||3)/(+i.getAttribute('height')||i.naturalHeight||2);
+   let w=bw; if(s.objectFit==='cover') w=Math.max(bw, bh*ar);            // το cover μπορεί να θέλει πλατύτερη εικόνα από το κουτί
+   out.push({key:m[1]+'#'+k, w:(s.display==='none'||bw<1)?0:Math.round(w)})}
  return out})()"""
+
+
+TOL = 0.985          # ανοχή 1,5%: μια εικόνα 1,5% μικρότερη δεν φαίνεται, ενώ η στρογγύλευση προς τα πάνω ανέβαζε ολόκληρο σκαλί
+
+
+def vw(w, v):
+    return max(1, int(w * 100 * TOL / v + 0.5))
 
 
 def sizes_for(samples):
@@ -33,14 +41,13 @@ def sizes_for(samples):
         vals = [(samples[v], v) for v in vws if samples.get(v)]
         if not vals:
             continue
-        if limit is None:
-            a, b = samples.get(1440, 0), samples.get(1920, 0)
-            if a and b and b > a * 1.15:          # μεγαλώνει με την οθόνη: ποσοστό
-                entry = '%dvw' % min(CAP, max(-(-w * 100 // v) for w, v in vals))
-            else:                                  # σταθερό σε μεγάλες οθόνες: pixels
-                entry = '%dpx' % max(w for w, _ in vals)
+        ws = [w for w, _ in vals]
+        if max(ws) - min(ws) <= 2 and (len(ws) > 1 or limit is None):       # ίδιο πλάτος σε όλα τα δείγματα: σταθερά pixels
+            entry = '%dpx' % int(max(ws) * TOL + 0.5)
+        elif limit is None and not (samples.get(1920, 0) > samples.get(1440, 0) * 1.15):
+            entry = '%dpx' % int(max(ws) * TOL + 0.5)                        # δεν μεγαλώνει με την οθόνη
         else:
-            entry = '%dvw' % min(CAP, max(-(-w * 100 // v) for w, v in vals))
+            entry = '%dvw' % min(CAP, max(vw(w, v) for w, v in vals))
         parts.append((limit, entry))
     if not parts:
         return None

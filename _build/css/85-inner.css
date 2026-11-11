@@ -28,7 +28,7 @@
 .pg :is(h1,h2) br+.pg-em{display:inline-block}
 /* η δεύτερη φράση ισορροπεί τις γραμμές της μόνη της */
 /* ---- 3. Σύνδεσμοι κειμένου και κουμπιά ---- */
-.pg-link{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:9px 0 7px;font-size:15px;font-weight:600;line-height:1.45;color:var(--ink);border-bottom:2px solid color-mix(in srgb,currentColor 28%,transparent);transition:border-color .15s}
+.pg-link{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:9px 0 7px;font-size:15px;font-weight:600;line-height:1.45;color:var(--ink);border-bottom:2px solid rgba(38,40,42,.25);border-bottom-color:color-mix(in srgb,currentColor 28%,transparent);transition:border-color .15s}
 .pg-link>span{font-size:18px;line-height:1;transition:transform .25s var(--ease)}
 .pg .on-deep .pg-link{color:#fff}
 .pg-link:active{border-bottom-color:var(--green)}
@@ -49,9 +49,9 @@
 .pg-hero-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap);align-items:center}
 .pg-hero-copy{grid-column:1/8;min-width:0}
 .pg-hero-photo{grid-column:8/13}
-.pg-hero nav[aria-label="Breadcrumb"]{color:var(--ink-mute);font-size:13px;margin:0 0 clamp(20px,2.6vw,36px)}
-.pg-hero nav[aria-label="Breadcrumb"] [aria-current]{color:var(--ink);font-weight:600}
-.pg-hero nav[aria-label="Breadcrumb"] a:hover{color:var(--ink)}
+.pg-hero nav[aria-label="Διαδρομή"]{color:var(--ink-mute);font-size:13px;margin:0 0 clamp(20px,2.6vw,36px)}
+.pg-hero nav[aria-label="Διαδρομή"] [aria-current]{color:var(--ink);font-weight:600}
+.pg-hero nav[aria-label="Διαδρομή"] a:hover{color:var(--ink)}
 /* ο τίτλος σταματά στα 70px: έτσι και η μεγαλύτερη λέξη («Παιγνιοθεραπεία») χωρά στη στήλη της χωρίς να κοπεί */
 .pg-hero h1{font-size:clamp(2.125rem,5.2vw,4.375rem);line-height:1.06;letter-spacing:-.04em;font-weight:600;margin:0;text-wrap:balance}
 .pg-hero.is-phrase h1{font-size:clamp(2.125rem,3.8vw,3.375rem);line-height:1.08}
@@ -356,7 +356,6 @@
 @media (prefers-reduced-motion:reduce){
   .pg *,.pg *::before,.pg *::after{transition:none!important;animation:none!important}
 }
-
 /* ---- 2ος γύρος: ένα δικό της στοιχείο ανά θεραπεία, μέσα στο ίδιο σύστημα ---- */
 /* φωτογραφία της αίθουσας σε όλο το πλάτος της στήλης (Λογοθεραπεία, Εργοθεραπεία) */
 .pg-band{background:var(--paper);padding:0 var(--gutter) clamp(56px,7vw,104px)}

@@ -26,7 +26,8 @@ GREEK_EXT = 'U+1F00-1FFF'
 LATIN_FULL = 'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD'
 LATIN_EXT = 'U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF'
 # βασικά λατινικά + στίξη που χρησιμοποιεί ελληνικό κείμενο
-CORE = list(range(0x20, 0x7F)) + [0xA0, 0xAB, 0xBB, 0xB7, 0xB0, 0xA9, 0xAE, 0xB4, 0x2013, 0x2014, 0x2018, 0x2019, 0x201C, 0x201D, 0x2022, 0x2026, 0x2032, 0x2033, 0x20AC, 0x2122, 0x2212]
+CORE = list(range(0x20, 0x7F)) + [0xA0, 0xAB, 0xBB, 0xB7, 0xB0, 0xA9, 0xAE, 0xB4, 0x2013, 0x2014, 0x2018, 0x2019, 0x201C, 0x201D, 0x2022, 0x2026, 0x2032, 0x2033, 0x20AC, 0x2122, 0x2212,
+                                 0x2191, 0x2193, 0xDC, 0xFC, 0xC9, 0xE9]      # βελάκια ↑↓ και ü/é (ονόματα εργαλείων όπως «Düss»)
 
 
 def ranges(cps):
@@ -45,7 +46,8 @@ def process(src, dst, wght=None, keep=None):
         buf = io.BytesIO(); f.flavor = None; f.save(buf); buf.seek(0); f = TTFont(buf)   # καθαρό ξαναδιάβασμα πριν το υποσύνολο
     covered = None
     if keep:
-        o = Options(); o.layout_features = ['*']; o.notdef_outline = True; o.name_IDs = ['*']; o.hinting = False
+        o = Options(); o.notdef_outline = True; o.name_IDs = ['*']; o.hinting = False
+        o.layout_features = ['kern', 'liga', 'calt', 'ccmp', 'locl', 'mark', 'mkmk', 'tnum']      # όσα χρησιμοποιεί το site (tabular-nums στα τηλέφωνα)
         s = Subsetter(o); s.populate(unicodes=keep); s.subset(f)
         covered = sorted(set(f.getBestCmap()) & set(keep))
     f.flavor = 'woff2'; f.save(os.path.join(FONTS, dst))
