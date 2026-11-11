@@ -24,7 +24,7 @@
 .hx-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center;min-height:600px;padding-left:max(var(--gutter),calc((100% - var(--wrap)) / 2 + var(--gutter)))}
 .hx-hero-copy{padding-block:88px}
 .hx-hero h1{font-size:var(--t-display);line-height:1.06;letter-spacing:-.04em;color:#fff}
-.hx-line{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+.hx-line{display:block;overflow:hidden;padding:.16em 0 .1em .16em;margin:-.16em 0 -.1em -.16em}   /* χώρος για τόνους και ουρές γραμμάτων μέσα στη μάσκα της κίνησης */
 .hx-line>span{display:block}
 .hx-places{margin:24px 0 0;font-size:16px;color:rgba(255,255,255,.82)}
 .hx-hero-actions{margin-top:36px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px}
@@ -226,3 +226,23 @@ main.hx .preview-centres-section{background:var(--paper)}
 main.hx .preview-centres-section h2{font-size:var(--t-h2)}
 main.hx .preview-centres-section .preview-section-title p:not(.kicker){margin-top:18px}
 main.hx .location-photo img{border-radius:var(--r-1)}
+
+/* ---- διορθώσεις μετά την ανεξάρτητη αξιολόγηση (2ος γύρος) ---- */
+/* «Σας προβληματίζει κάτι» σε υπολογιστή: τίτλος αριστερά, φράσεις και κουμπί δεξιά (το δεξί μισό δεν μένει άδειο) */
+@media (min-width:1000px){
+  .hx-question .hx-wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);column-gap:clamp(48px,7vw,112px);align-items:start}
+  .hx-question h2{grid-row:1 / span 2;max-width:none;font-size:clamp(2rem,3.3vw,3rem);overflow-wrap:normal;position:sticky;top:calc(var(--hdr,80px) + 40px)}
+  .hx-question .hx-light{grid-column:2;margin-top:8px}
+  .hx-question .hx-question-end{grid-column:2}
+}
+/* «Πώς δουλεύουμε»: πιο γεμάτη ενότητα, κύριο κείμενο 16px και πάνω */
+.hx-value h3{font-size:22px}
+.hx-value p{font-size:16.5px}
+.hx-eyebrow{font-size:13px}
+.hx-rest,.hx-desc{font-size:16px}
+main.hx .preview-centre-link{font-size:14px}
+@media (max-width:900px){
+  .hx-value h3{font-size:18px}
+  .hx-value p,.hx-desc{font-size:16px}
+  .hx-sub{font-size:14.5px}
+}

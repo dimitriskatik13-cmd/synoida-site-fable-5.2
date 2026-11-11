@@ -63,8 +63,8 @@
     }
     layoutPending=false;
   }
-  /* Η κύλιση ξεκινά να μετρά μισή οθόνη πριν καρφωθεί η σκηνή (οι κουκκίδες φαίνονται καθώς πλησιάζει) και τελειώνει στο FORMED. */
-  function target(){var lead=vh*0.5,travel=Math.max(bandH-vh+lead,1);return clamp((window.scrollY-(bandTop-lead))/travel/FORMED);}
+  /* Η κύλιση ξεκινά να μετρά σχεδόν μία οθόνη πριν καρφωθεί η σκηνή (οι κουκκίδες φαίνονται καθώς πλησιάζει) και τελειώνει στο FORMED. */
+  function target(){var lead=vh*0.85,travel=Math.max(bandH-vh+lead,1);return clamp((window.scrollY-(bandTop-lead))/travel/FORMED);}
   function visible(){var top=bandTop-window.scrollY;return top<vh&&top+bandH>0;}
   function wake(){
     if(!ready||motion.matches||document.hidden) return;

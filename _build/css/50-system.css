@@ -156,7 +156,6 @@ main .depth-clip,.about-photo .depth-clip,.about-team .about-photo .depth-clip{b
   /* therapies page: compact entries, one-line index */
   .therapy-photo{aspect-ratio:16/9;max-height:190px}
   .therapies-refined .therapy-topics{display:none}
-  .therapy-copy p[id]{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .therapy-entry-link{gap:18px;padding-block:24px}
   /* the long button on the homepage steps stays on one line */
 }

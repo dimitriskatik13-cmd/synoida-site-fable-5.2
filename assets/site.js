@@ -23,6 +23,7 @@
     iconOpen.classList.toggle('hidden', open);
     iconClose.classList.toggle('hidden', !open);
     navToggle.setAttribute('aria-expanded', String(open));
+    document.documentElement.classList.toggle('menu-open', open);      // η σελίδα από πίσω δεν κυλά
   }
   navToggle.addEventListener('click', function () { setMobileMenu(mobileMenu.classList.contains('hidden')); });
   mobileMenu.querySelectorAll('a').forEach(function (a) {
