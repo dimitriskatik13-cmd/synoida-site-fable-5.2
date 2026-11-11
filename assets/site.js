@@ -1,6 +1,6 @@
 /* ΣΥΝΟΙΔΑ: κοινή συμπεριφορά όλων των σελίδων.
    1. ενεργό στοιχείο μενού   2. μενού κινητού   3. μενού «Θεραπείες» (υπολογιστής)   4. λίστες τηλεφώνων
-   5. εμφάνιση ενοτήτων στην κύλιση   6. βάθος και κίνηση (hero, λωρίδα θεραπειών, πρόοδος λιστών)   7. μετρητής
+   4β. κεφαλίδα και κάτω μπάρα   5. εμφάνιση ενοτήτων στην κύλιση   6. βάθος και κίνηση (hero, λωρίδα θεραπειών, πρόοδος λιστών)   7. μετρητής
    Χωρίς JavaScript η σελίδα είναι πλήρης. Με ρύθμιση «μείωση κίνησης» τίποτα δεν κινείται. */
 (function () {
   'use strict';
@@ -70,6 +70,28 @@
       dropdownTrigger.setAttribute('aria-expanded', 'false');
     }
   });
+
+  /* ---------- 4β. κεφαλίδα που μαζεύει λίγο μετά την αρχή, και κάτω μπάρα κινητού που περιμένει το κουμπί του hero ---------- */
+  var siteHeader = document.querySelector('.site-header');
+  var callbar = document.querySelector('.callbar');
+  var heroCta = document.querySelector('[data-callbar-after]');      // μόνο στην Αρχική
+  if ('IntersectionObserver' in window) {
+    var topMark = document.createElement('div');                     // αόρατο σημάδι 80px κάτω από την κορυφή
+    topMark.style.cssText = 'position:absolute;top:80px;left:0;width:1px;height:1px;pointer-events:none';
+    document.body.appendChild(topMark);
+    new IntersectionObserver(function (entries) {
+      if (siteHeader) siteHeader.classList.toggle('is-scrolled', !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0);
+    }).observe(topMark);
+    if (heroCta && callbar) {
+      new IntersectionObserver(function (entries) {
+        var show = !entries[0].isIntersecting;
+        document.body.classList.toggle('callbar-on', show);
+        callbar.inert = !show && window.matchMedia('(max-width:1023px)').matches;
+      }).observe(heroCta);
+    }
+  } else {
+    document.body.classList.add('callbar-on');
+  }
 
   /* ---------- 5. εμφάνιση ενοτήτων (.reveal) όταν μπαίνουν στην οθόνη ---------- */
   var reveals = document.querySelectorAll('.reveal');

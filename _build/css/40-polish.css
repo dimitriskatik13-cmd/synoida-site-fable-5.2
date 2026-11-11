@@ -1,7 +1,7 @@
 /* Polish layer for the local 9/10 pass. Loads after preview.css; touches only what the visual review marked below 9.
    Brand: green #8DC63F, red #ED1C24, blue #00AEEF, orange #F7941D, grey #58595B. */
 /* ---- 1. Top bar: one quiet line. Four centres named once, phones on demand. ---- */
-.topbar{background:#f5f5f5;border-bottom:1px solid rgba(88,89,91,.1);color:#58595B;font-size:13px}
+.topbar{background:var(--paper-warm);border-bottom:1px solid rgba(88,89,91,.1);color:#58595B;font-size:13px}
 .topbar-in{margin:0 auto;padding:6px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:40px}
 .topbar .ico{width:14px;height:14px;flex:0 0 auto;color:#8DC63F}
 .topbar-centres{display:inline-flex;align-items:center;gap:8px;color:#58595B;text-decoration:none;min-width:0}
@@ -105,7 +105,7 @@ details.phones>summary:focus-visible,.callbar-contact:focus-visible,.topbar-cent
   header .flex.items-center.justify-between{gap:1rem}
 }
 /* ---- 12. «Πότε να απευθυνθείτε» restored on Εργοθεραπεία, Ειδική Αγωγή, Ψυχοθεραπεία (same family as the speech page) ---- */
-.specialty-signs{background:#f3f7ed}
+.specialty-signs{background:var(--paper-warm)}
 .specialty-signs-layout{display:grid;grid-template-columns:.85fr 1.15fr;align-items:start}
 .specialty-signs-intro{position:sticky;top:120px}
 .specialty-signs-intro p{margin:0 0 14px}

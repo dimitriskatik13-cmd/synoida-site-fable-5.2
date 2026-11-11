@@ -15,7 +15,7 @@ from html.parser import HTMLParser
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-DOCS = os.path.join(ROOT, 'docs')
+DOCS = os.environ.get('SYNOIDA_DOCS') or os.path.join(ROOT, 'docs')   # άλλος φάκελος εξόδου για δοκιμές: SYNOIDA_DOCS=/διαδρομή
 VOID = {'meta', 'link', 'img', 'br', 'hr', 'input', 'source', 'area', 'base', 'col', 'embed', 'track', 'wbr'}
 SVG = {'svg', 'path', 'circle', 'rect', 'g', 'line', 'polyline', 'polygon', 'ellipse', 'defs', 'use'}
 SCHEMA_SPECIALTY = {'SpeechPathology', 'Pediatric', 'Psychiatric', 'Physiotherapy', 'PrimaryCare', 'Neurologic', 'Nursing', 'CommunityHealth'}

@@ -53,7 +53,7 @@ main .list-draw>li{transform:none}
 :is(.about-hero,.therapies-hero,.speech-hero,.specialty-hero,.assessment-hero,.contact-hero,.adult-hero)>div{min-height:520px;align-items:flex-end}
 :is(.about-hero,.therapies-hero,.speech-hero,.specialty-hero,.assessment-hero,.contact-hero,.adult-hero)>div>.reveal{padding-top:96px;padding-bottom:64px}
 :is(.about-hero,.therapies-hero,.speech-hero,.specialty-hero,.assessment-hero,.contact-hero,.adult-hero) .hero-scrim-b{background:linear-gradient(90deg,rgba(35,36,34,.78) 0%,rgba(35,36,34,.5) 45%,rgba(35,36,34,.14) 85%),linear-gradient(0deg,rgba(35,36,34,.4) 0%,rgba(35,36,34,0) 55%)}
-:is(.about-hero,.therapies-hero,.speech-hero,.specialty-hero,.assessment-hero,.contact-hero,.adult-hero) h1,.layout-group .specialty-hero h1{font-size:clamp(38px,4.4vw,56px);line-height:1.1;font-weight:700;letter-spacing:-.035em;margin:0 0 18px;max-width:900px}
+:is(.about-hero,.therapies-hero,.speech-hero,.specialty-hero,.assessment-hero,.contact-hero,.adult-hero) h1,.layout-group .specialty-hero h1{font-size:var(--t-h1);line-height:1.06;font-weight:600;letter-spacing:-.04em;margin:0 0 18px;max-width:900px;text-wrap:balance}
 :is(.about-hero-copy,.therapies-hero-copy,.speech-hero-copy,.assessment-hero-copy,.contact-hero-copy),.specialty-hero-copy>p,.adult-hero .reveal>p.mt-4{font-size:17px;line-height:1.75;max-width:640px;color:#fff;margin-top:0}
 nav[aria-label="Breadcrumb"]{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:13px;line-height:1.6;margin:0 0 22px;color:rgba(255,255,255,.88)}
 nav[aria-label="Breadcrumb"] [aria-current]{color:#fff;font-weight:600}
@@ -62,7 +62,7 @@ nav[aria-label="Breadcrumb"] a:hover{color:#fff;text-decoration:underline;text-u
   :is(.about-hero,.therapies-hero,.speech-hero,.specialty-hero,.assessment-hero,.contact-hero,.adult-hero)>div{min-height:460px}
   :is(.about-hero,.therapies-hero,.speech-hero,.specialty-hero,.assessment-hero,.contact-hero,.adult-hero)>div>.reveal{padding-top:72px;padding-bottom:44px}
   :is(.about-hero,.therapies-hero,.speech-hero,.specialty-hero,.assessment-hero,.contact-hero,.adult-hero) .hero-scrim-b{background:linear-gradient(0deg,rgba(35,36,34,.86) 0%,rgba(35,36,34,.58) 50%,rgba(35,36,34,.28) 100%)}
-  :is(.about-hero,.therapies-hero,.speech-hero,.specialty-hero,.assessment-hero,.contact-hero,.adult-hero) h1,.layout-group .specialty-hero h1{font-size:36px;line-height:1.12}
+  :is(.about-hero,.therapies-hero,.speech-hero,.specialty-hero,.assessment-hero,.contact-hero,.adult-hero) h1,.layout-group .specialty-hero h1{line-height:1.08}
   :is(.about-hero-copy,.therapies-hero-copy,.speech-hero-copy,.assessment-hero-copy,.contact-hero-copy),.specialty-hero-copy>p,.adult-hero .reveal>p.mt-4{font-size:15px}
   /* one short way back instead of a two-line trail */
   nav[aria-label="Breadcrumb"]>[aria-current],nav[aria-label="Breadcrumb"]>span[aria-hidden]{display:none}
@@ -75,7 +75,7 @@ nav[aria-label="Breadcrumb"] a:hover{color:#fff;text-decoration:underline;text-u
   .home-refined .home-hero .mt-8>a{flex:1 1 100%;justify-content:center}
 }
 /* ---- 5. One title scale ---- */
-:is(.about-refined,.assessment-refined,.therapies-refined,.speech-refined,.specialty-refined,.contact-refined,.adult-refined) h2,.preview-section h2,.home-question h2,.home-about h2,.home-refined .logo-story-copy h2,.home-refined .svc-intro h2{font-size:clamp(28px,2.9vw,40px);line-height:1.2;font-weight:700;letter-spacing:-.03em}
+:is(.about-refined,.assessment-refined,.therapies-refined,.speech-refined,.specialty-refined,.contact-refined,.adult-refined) h2,.preview-section h2,.home-question h2,.home-about h2,.home-refined .logo-story-copy h2,.home-refined .svc-intro h2{font-size:var(--t-h2);line-height:1.12;font-weight:600;letter-spacing:-.03em;text-wrap:balance}
 .about-close h2{font-size:clamp(34px,4vw,52px)}
 .therapies-guide h2{font-size:28px}
 .kicker,.about-refined .about-eyebrow,.therapies-refined .therapies-eyebrow{font-size:12px;letter-spacing:.16em;font-weight:700}
@@ -371,7 +371,7 @@ main .about-team-intro p .about-accent{color:#8DC63F}
 /* home «Σας προβληματίζει κάτι…»: key phrases in the light green used on dark sections */
 main .home-question .home-accent{font-style:normal;color:#8DC63F}
 /* ---- Αξιολόγηση «Η διαδικασία, βήμα βήμα», 29/09/2026: dark grey like the other dark sections, steps light up one by one ---- */
-main.assessment-refined .assessment-process{background:#58595B;color:#fff}
+main.assessment-refined .assessment-process{background:var(--deep);color:#fff}
 main.assessment-refined .assessment-process h2,main.assessment-refined .assessment-process h3,main.assessment-refined .assessment-process p{color:#fff}
 main.assessment-refined .assessment-process .assessment-section-heading p{color:rgba(255,255,255,.85)}
 main.assessment-refined .assessment-steps li{border-top-color:rgba(255,255,255,.22);position:relative}
@@ -386,7 +386,7 @@ main.assessment-refined.as-on .assessment-steps li:not(.is-on,.is-past) p{color:
 main.assessment-refined .assessment-steps li:is(.is-on,.is-past) .assessment-step-number{color:#8DC63F;font-weight:700}
 main.assessment-refined .assessment-steps li.is-on::before{transform:scaleX(1)}
 /* ---- Λογοθεραπεία «Πότε να απευθυνθείτε», 30/09/2026: dark grey like the process steps on Αξιολόγηση ---- */
-main.speech-refined .speech-concerns{background:#58595B;color:#fff;position:relative}
+main.speech-refined .speech-concerns{background:var(--deep);color:#fff;position:relative}
 main.speech-refined .speech-concerns h2,main.speech-refined .speech-concerns h3,main.speech-refined .speech-concerns p{color:#fff}
 main.speech-refined .speech-concerns .speech-concerns-intro>p:not(.speech-context-note){color:rgba(255,255,255,.88)}
 main.speech-refined .speech-concerns .speech-context-note{color:rgba(255,255,255,.8);border-left-color:#8DC63F}
@@ -401,10 +401,8 @@ main.speech-refined .speech-concerns .tm-bar{background:rgba(255,255,255,.22)}
 main.speech-refined .speech-concerns .speech-observations li:is(.is-on,.is-past)>span{color:#8DC63F}
 /* the same quiet ring as the grey block on the homepage; overflow:clip keeps the sticky intro working */
 main.speech-refined .speech-concerns{overflow:clip}
-main.speech-refined .speech-concerns::before{content:"";position:absolute;width:220px;height:220px;border:1px solid rgba(255,255,255,.13);border-radius:50%;left:-145px;top:-110px;box-shadow:0 0 0 48px rgba(255,255,255,.025),0 0 0 96px rgba(255,255,255,.02);pointer-events:none}
 /* ---- Εργοθεραπεία, Ειδική Αγωγή, Ψυχοθεραπεία «Πότε να απευθυνθείτε», 30/09/2026: same dark grey as Λογοθεραπεία ---- */
-main.specialty-refined .specialty-signs{background:#58595B;color:#fff;position:relative;overflow:clip}
-main.specialty-refined .specialty-signs::before{content:"";position:absolute;width:220px;height:220px;border:1px solid rgba(255,255,255,.13);border-radius:50%;left:-145px;top:-110px;box-shadow:0 0 0 48px rgba(255,255,255,.025),0 0 0 96px rgba(255,255,255,.02);pointer-events:none}
+main.specialty-refined .specialty-signs{background:var(--deep);color:#fff;position:relative;overflow:clip}
 main.specialty-refined .specialty-signs h2,main.specialty-refined .specialty-signs h3,main.specialty-refined .specialty-signs p{color:#fff}
 main.specialty-refined .specialty-signs .specialty-signs-intro>p:not(.specialty-context-note){color:rgba(255,255,255,.88)}
 main.specialty-refined .specialty-signs .specialty-context-note{color:rgba(255,255,255,.8);border-left-color:#8DC63F}

@@ -1,0 +1,66 @@
+/* ==== 80 · Fable 5.2: θεμέλια του σύγχρονου ύφους (11/2026) ====
+   Μεταβλητές, κλίμακα γραμμάτων, δύο ανοιχτά φόντα και ένα σκούρο, κεφαλίδα μίας γραμμής, μεταβάσεις σελίδων, μικροκινήσεις.
+   Όλα τα χρώματα βγαίνουν από το λογότυπο. Για να γυρίσει το σκούρο στο γκρι του λογοτύπου αρκεί --deep:#58595B. */
+:root{
+  --paper:#fff; --paper-warm:#F6F5F1; --deep:#2E2F31;
+  --ink:#26282A; --ink-soft:#4A4B4D; --ink-mute:#636466; --rule:rgba(38,40,42,.12);
+  --green:#8DC63F; --blue:#00AEEF; --orange:#F7941D; --red:#ED1C24;
+  --r-1:12px; --r-2:20px; --r-photo:8px 56px 8px 8px;
+  --e1:0 1px 2px rgba(38,40,42,.06),0 8px 24px -12px rgba(38,40,42,.18);
+  --e2:0 2px 4px rgba(38,40,42,.06),0 24px 48px -20px rgba(38,40,42,.28);
+  --t-display:clamp(2.375rem,5vw,4.25rem);     /* τίτλος Αρχικής */
+  --t-h1:clamp(2.25rem,5.2vw,4.75rem);         /* τίτλος εσωτερικής σελίδας */
+  --t-h2:clamp(1.75rem,3.4vw,3.25rem);         /* τίτλος ενότητας */
+  --t-h3:clamp(1.25rem,1.6vw,1.375rem);
+  --t-lead:clamp(1.1875rem,1.5vw,1.3125rem);   /* εισαγωγική παράγραφος */
+  --t-body:clamp(1rem,1.1vw,1.0625rem);
+  --r-leaf:var(--r-photo); --r-leaf-sm:6px 32px 6px 6px;
+}
+@media (max-width:700px){:root{--r-photo:6px 40px 6px 6px}}
+
+/* ---- χρώμα κειμένου: σκούρο μελάνι στους τίτλους, λευκό μέσα στις σκούρες ενότητες ---- */
+main :is(h1,h2,h3){color:var(--ink);overflow-wrap:break-word}
+main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-help,.speech-practice,.specialty-dark,.assessment-process,.speech-concerns,.specialty-signs,.on-deep) :is(h1,h2,h3){color:#fff}
+.bg-mist,.bg-alt{background-color:var(--paper-warm)}
+.site-footer{background-color:var(--deep)}
+::selection{background:rgba(141,198,63,.35)}
+:where(main,footer) [id]{scroll-margin-top:calc(var(--hdr,80px) + 24px)}
+
+/* ---- κεφαλίδα μίας γραμμής: τα τηλέφωνα δίπλα στο «Επικοινωνία», μαζεύει λίγο στην κύλιση ---- */
+.site-header{background:rgba(255,255,255,.88)}
+.site-header>div>div{transition:height .2s var(--ease)}
+.site-header img{transition:transform .2s var(--ease);transform-origin:left center}
+@media (min-width:1024px){
+  .site-header>div>div{height:80px}
+  .site-header.is-scrolled>div>div{height:64px}
+  .site-header.is-scrolled img{transform:scale(.88)}
+}
+.nav-phones details.phones>summary{min-height:44px;padding:0 16px;font-size:15px;background:#fff;color:var(--ink)}
+.nav-phones .phones-list{right:auto;left:50%;translate:-50% 0}
+
+/* ---- κινητό, Αρχική: η κάτω μπάρα εμφανίζεται όταν το κουμπί του hero βγει από την οθόνη (μία ενέργεια στην πρώτη οθόνη) ---- */
+@media (max-width:1023px){
+  .js body[data-page="home"] .callbar{transform:translateY(110%);transition:transform .24s var(--ease)}
+  .js body[data-page="home"].callbar-on .callbar{transform:none}
+}
+
+/* ---- μεταβάσεις μεταξύ σελίδων (όπου τις υποστηρίζει ο browser): η κεφαλίδα μένει, το περιεχόμενο διαδέχεται ήρεμα ---- */
+@media (prefers-reduced-motion:no-preference){
+  @view-transition{navigation:auto}
+  .site-header{view-transition-name:site-header}
+  .callbar{view-transition-name:callbar}
+  ::view-transition-old(root){animation:vt-out .18s var(--ease) both}
+  ::view-transition-new(root){animation:vt-in .26s var(--ease) both}
+  ::view-transition-group(tx-photo){animation-duration:.42s;animation-timing-function:var(--ease)}
+}
+@keyframes vt-out{to{opacity:0}}
+@keyframes vt-in{from{opacity:0;transform:translateY(8px)}}
+
+/* ---- μικροκινήσεις: κουμπιά, σύνδεσμοι, εστίαση ---- */
+:is(a.bg-green,.preview-button,.btn-secondary,.about-button,.speech-button,.specialty-button,.callbar-contact){transition:transform .16s var(--ease),box-shadow .16s var(--ease),background-color .16s}
+:is(a.bg-green,.preview-button,.btn-secondary,.about-button,.speech-button,.specialty-button,.callbar-contact):active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){
+  :is(a.bg-green,.preview-button,.about-button,.speech-button,.specialty-button):hover{transform:translateY(-1px);box-shadow:var(--e2)}
+}
+:is(a,button,summary,[tabindex]):focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+:is(.home-question,.contact-email-section,.assessment-prepare,.therapies-help,.speech-practice,.specialty-dark,.assessment-process,.speech-concerns,.specialty-signs,.on-deep,.site-footer) :is(a,button,summary):focus-visible{outline-color:var(--green)}

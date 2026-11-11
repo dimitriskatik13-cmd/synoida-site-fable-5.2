@@ -7,7 +7,7 @@ import base64, contextlib, functools, http.server, json, os, socket, struct, sub
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
-DOCS = os.path.join(ROOT, 'docs')
+DOCS = os.environ.get('SYNOIDA_DOCS') or os.path.join(ROOT, 'docs')   # άλλος φάκελος εξόδου για δοκιμές: SYNOIDA_DOCS=/διαδρομή
 CHROME_PATHS = ('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
                 '/Applications/Chromium.app/Contents/MacOS/Chromium', '/usr/bin/google-chrome', '/usr/bin/chromium')
 PAGES = [p[:-5] for p in json.load(open(os.path.join(ROOT, '_build', 'pages.json'), encoding='utf-8'))]
