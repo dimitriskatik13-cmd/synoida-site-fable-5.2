@@ -1,11 +1,8 @@
 .DS_Store
-previews/
-preview-*.png
-before-after.png
+__pycache__/
+.venv/
+*.pyc
 
-# scraped πηγές — μόνο τοπικά
-reference-pages/
+# προσωρινά εργαλείων
 _gen_tmp.html
-
-# icon candidates from other tools: local comparison only, never published
-assets/icons-candidates/
+previews/

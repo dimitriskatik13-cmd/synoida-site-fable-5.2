@@ -1,0 +1,17 @@
+/* ==== Fable 5.2 (11/2026): αναγνωσιμότητα και άγγιγμα. Κανένα φόντο ή χρώμα ενότητας δεν αλλάζει. ==== */
+/* Αρχική «Σας προβληματίζει κάτι»: οι πράσινες φράσεις κρατούν το πράσινο του λογοτύπου (απόφαση 29/09).
+   Για να διαβάζονται στο σκούρο γκρι γίνονται έντονες και η παράγραφος 19px: έτσι μετρούν ως «μεγάλο κείμενο» (όριο 3:1, έχουν 3,4:1). */
+main .home-question p{font-size:19px;line-height:1.7}
+main .home-question .home-accent{font-weight:700}
+/* Διαδρομή (breadcrumb): περιοχή αγγίγματος 45px χωρίς να αλλάζει η διάταξη */
+nav[aria-label="Breadcrumb"] a{display:inline-block;padding-block:12px;margin-block:-12px}
+/* Σήμα δοκιμαστικής έκδοσης: στο τέλος της σελίδας, όχι καρφωμένο πάνω από το περιεχόμενο */
+.preview-status{position:static;display:block;width:max-content;max-width:calc(100% - 32px);margin:14px auto;font-size:12px;box-shadow:none}
+@media (max-width:1023px){
+  .preview-status{margin-bottom:calc(78px + env(safe-area-inset-bottom))}
+}
+/* Κινητό: ονόματα κέντρων και email με περιοχή αγγίγματος 44px, χωρίς αλλαγή στη διάταξη */
+@media (max-width:1023px){
+  .preview-centre h3 a,#preview-centres h3 a{display:inline-block;padding-block:7px;margin-block:-7px}
+  #contact-email-address{display:inline-block;padding-block:2px;margin-block:-2px}
+}
