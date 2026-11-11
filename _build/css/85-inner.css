@@ -2,7 +2,6 @@
    Ένα κοινό σύστημα για τις 12 εσωτερικές σελίδες: «σελίδα τίτλου», ενότητες, λίστες, συχνές ερωτήσεις, κλείσιμο με τα τηλέφωνα.
    Χρησιμοποιεί τις μεταβλητές του 80-foundation. Κλάσεις με πρόθεμα pg-. Ό,τι παλιό εμποδίζει υπερισχύεται στο τέλος του αρχείου.
    Κίνηση μόνο με transform, opacity και clip-path. Με «μείωση κίνησης» όλα είναι στατικά. Χωρίς JavaScript όλα φαίνονται. */
-
 /* ---- 1. Βάση: χρώματα, πλάτος, ενότητες ---- */
 .pg{background:var(--paper);color:var(--ink-soft);--accent:var(--specialty-color,var(--green));--col-gap:32px;--sec-bg:var(--paper)}
 .pg-wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
@@ -10,10 +9,8 @@
 .pg-sec.is-warm{--sec-bg:var(--paper-warm)}
 .pg-sec.on-deep{--sec-bg:var(--deep);color:rgba(255,255,255,.78);--rule:rgba(255,255,255,.2)}
 /* δύο λευκές ενότητες στη σειρά χωρίζονται με γραμμή 1px στο πλάτος του κειμένου */
-.pg-sec.has-rule::before{content:"";position:absolute;top:0;height:1px;background:var(--rule);
-  left:max(var(--gutter),calc(50% - var(--wrap)/2 + var(--gutter)));right:max(var(--gutter),calc(50% - var(--wrap)/2 + var(--gutter)))}
+.pg-sec.has-rule::before{content:"";position:absolute;top:0;height:1px;background:var(--rule);left:max(var(--gutter),calc(50% - var(--wrap)/2 + var(--gutter)));right:max(var(--gutter),calc(50% - var(--wrap)/2 + var(--gutter)))}
 .pg-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap);row-gap:40px;align-items:start}
-
 /* ---- 2. Γράμματα: τίτλοι, σώμα, εισαγωγή, ετικέτα ---- */
 .pg :where(h2){font-size:var(--t-h2);line-height:1.12;letter-spacing:-.03em;font-weight:600;max-width:18ch;margin:0 0 .5em;text-wrap:balance}
 .pg :where(h3){font-size:var(--t-h3);line-height:1.3;letter-spacing:-.02em;font-weight:600;margin:0 0 .45em;text-wrap:balance}
@@ -28,11 +25,10 @@
 /* έμφαση μέσα σε τίτλο: πράσινο του λογοτύπου σε σκούρο φόντο, σκούρο πράσινο σε ανοιχτό (αντίθεση 5:1) */
 .pg :is(h1,h2) .pg-em{color:var(--green-text)}
 .pg .on-deep :is(h1,h2) .pg-em{color:var(--green)}
-.pg :is(h1,h2) br+.pg-em{display:inline-block}   /* η δεύτερη φράση ισορροπεί τις γραμμές της μόνη της */
-
+.pg :is(h1,h2) br+.pg-em{display:inline-block}
+/* η δεύτερη φράση ισορροπεί τις γραμμές της μόνη της */
 /* ---- 3. Σύνδεσμοι κειμένου και κουμπιά ---- */
-.pg-link{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:9px 0 7px;font-size:15px;font-weight:600;line-height:1.45;color:var(--ink);
-  border-bottom:2px solid color-mix(in srgb,currentColor 28%,transparent);transition:border-color .15s}
+.pg-link{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:9px 0 7px;font-size:15px;font-weight:600;line-height:1.45;color:var(--ink);border-bottom:2px solid color-mix(in srgb,currentColor 28%,transparent);transition:border-color .15s}
 .pg-link>span{font-size:18px;line-height:1;transition:transform .25s var(--ease)}
 .pg .on-deep .pg-link{color:#fff}
 .pg-link:active{border-bottom-color:var(--green)}
@@ -42,18 +38,12 @@
   .pg-link[href^="#"]:hover>span{transform:translateY(3px)}
 }
 .pg-links{display:flex;flex-wrap:wrap;gap:8px 36px;margin-top:28px}
-.pg :is(.assessment-button,.therapies-button){transition:transform .16s var(--ease),box-shadow .16s var(--ease),background-color .16s}
-.pg :is(.assessment-button,.therapies-button):active{transform:scale(.97)}
-@media (hover:hover) and (pointer:fine){.pg :is(.assessment-button,.therapies-button):hover{transform:translateY(-1px);box-shadow:var(--e2)}}
 /* εστίαση: σκούρο μπλε σε ανοιχτό φόντο (το καθαρό γαλάζιο δεν φτάνει το 3:1), πράσινο σε σκούρο */
 .pg :is(a,button,summary):focus-visible{outline:3px solid var(--blue-text);outline-offset:3px;border-radius:6px}
 .pg .on-deep :is(a,button,summary):focus-visible{outline-color:var(--green)}
-
 /* ---- 4. Κάδρο φωτογραφίας: ένα σχήμα παντού, μεγάλη γωνία πάνω δεξιά, χωρίς σκιά ---- */
 .pg-photo{margin:0;min-width:0;border-radius:var(--r-photo);overflow:hidden;background:var(--paper-warm);aspect-ratio:5/4}
 .pg-photo>img{display:block;width:100%;height:100%;object-fit:cover}
-.pg-photo.is-43{aspect-ratio:4/3}
-
 /* ---- 5. Σελίδα τίτλου (hero): τίτλος αριστερά σε λευκό, φωτογραφία σε κάδρο δεξιά, κανένα κείμενο πάνω σε εικόνα ---- */
 .pg-hero{background:var(--paper);padding-block:clamp(28px,5vw,72px) clamp(56px,6.7vw,96px)}
 .pg-hero-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col-gap);align-items:center}
@@ -64,7 +54,8 @@
 .pg-hero nav[aria-label="Breadcrumb"] a:hover{color:var(--ink)}
 /* ο τίτλος σταματά στα 70px: έτσι και η μεγαλύτερη λέξη («Παιγνιοθεραπεία») χωρά στη στήλη της χωρίς να κοπεί */
 .pg-hero h1{font-size:clamp(2.125rem,5.2vw,4.375rem);line-height:1.06;letter-spacing:-.04em;font-weight:600;margin:0;text-wrap:balance}
-.pg-hero.is-phrase h1{font-size:clamp(2.125rem,3.8vw,3.375rem);line-height:1.08}   /* τίτλος-φράση: λίγο μικρότερος για να μένει σε 2 έως 3 γραμμές */
+.pg-hero.is-phrase h1{font-size:clamp(2.125rem,3.8vw,3.375rem);line-height:1.08}
+/* τίτλος-φράση: λίγο μικρότερος για να μένει σε 2 έως 3 γραμμές */
 .pg-hero-rule{display:block;width:48px;height:3px;border-radius:2px;background:var(--accent);margin:clamp(20px,2.2vw,28px) 0 0}
 .pg .pg-hero-lead{font-size:clamp(1.0625rem,1.45vw,1.25rem);line-height:1.55;max-width:44ch;margin:clamp(18px,2vw,24px) 0 0;color:var(--ink-soft)}
 .pg .pg-hero-topics{font-size:14px;font-weight:600;letter-spacing:.04em;line-height:1.5;color:var(--ink);margin:18px 0 0}
@@ -80,10 +71,10 @@
   .pg-hero-photo{aspect-ratio:4/3;margin-top:32px}
 }
 @media (prefers-reduced-motion:no-preference){
-  .pg-hero-photo>img{animation:pgSettle 1.2s var(--ease) both}     /* η φωτογραφία «κάθεται» μία φορά */
+  .pg-hero-photo>img{animation:pgSettle 1.2s var(--ease) both}
+  /* η φωτογραφία «κάθεται» μία φορά */
 }
 @keyframes pgSettle{from{transform:scale(1.04)}}
-
 /* ---- 6. «Τι είναι»: τίτλος πάνω, εισαγωγική πρόταση αριστερά, υπόλοιπο κείμενο δεξιά ---- */
 .pg-intro>.pg-grid>:first-child{grid-column:1/9;margin-bottom:0}
 .pg-intro-head>h2{margin-bottom:0}
@@ -94,10 +85,10 @@
 .pg-intro-body>.pg-link{margin-top:14px}
 .pg-intro-body>.preview-button,.pg-steps-body>.preview-button{margin-top:22px}
 .pg .on-deep .pg-intro-body>p{color:rgba(255,255,255,.82)}
-
 /* ---- 7. «Πότε να απευθυνθείτε»: η μία σκούρα ενότητα, με κολλημένο τίτλο, μετρητή και μπάρα στο χρώμα της ειδικότητας ---- */
 .pg-signs{overflow:clip}
-.pg[style*="#ED1C24"] .on-deep{--accent:#F5484E}   /* το κόκκινο της εργοθεραπείας λίγο φωτεινότερο πάνω στο σκούρο */
+.pg[style*="#ED1C24"] .on-deep{--accent:#F5484E}
+/* το κόκκινο της εργοθεραπείας λίγο φωτεινότερο πάνω στο σκούρο */
 .pg-signs-intro{grid-column:1/6;position:sticky;top:calc(var(--hdr,80px) + 40px)}
 .pg-signs-intro>p{color:rgba(255,255,255,.82)}
 .pg-signs-intro>.pg-note{font-size:15px;line-height:1.55;color:rgba(255,255,255,.72);border-left:2px solid var(--accent);padding-left:16px;margin-top:22px}
@@ -126,13 +117,11 @@
 @media (max-width:899px){
   .pg-signs-intro{position:static}
   /* κινητό: ο μετρητής μένει κολλημένος κάτω από την κεφαλίδα ως λεπτή μπάρα 44px όσο διαβάζονται τα σημεία */
-  .pg.tm-on .pg-countbar{display:flex;align-items:center;gap:14px;position:sticky;top:var(--pg-hdr,64px);z-index:5;height:44px;
-    margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter);background:var(--deep);border-bottom:1px solid var(--rule)}
+  .pg.tm-on .pg-countbar{display:flex;align-items:center;gap:14px;position:sticky;top:var(--pg-hdr,64px);z-index:5;height:44px;margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter);background:var(--deep);border-bottom:1px solid var(--rule)}
   .pg-countbar b{font-size:20px}
   .pg-countbar i{font-size:13px;margin-left:5px}
   .pg.tm-on .pg-signs-list>li:first-child{border-top:0}
 }
-
 /* ---- 8. «Τομείς»: πλέγμα ορισμών δύο στηλών, χωρίς αριθμούς ---- */
 .pg-defs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:64px}
 .pg-defs>li{border-top:1px solid var(--rule);padding:28px 0 clamp(32px,3.6vw,44px)}
@@ -141,7 +130,6 @@
 .pg-defs p{font-size:16px;line-height:1.65;max-width:54ch;margin:0}
 .pg .on-deep .pg-defs h3{color:#fff}
 .pg .on-deep .pg-head>p{color:rgba(255,255,255,.82)}
-
 /* ---- 9. «Πώς οργανώνεται»: φωτογραφία σε κάδρο αριστερά, βήματα δεξιά πάνω σε μία γραμμή που σχεδιάζεται ---- */
 .pg-steps-photo{grid-column:1/6}
 .pg-steps-body{grid-column:7/13;min-width:0}
@@ -150,7 +138,8 @@
 .pg-steps::before{content:"";position:absolute;left:5px;top:10px;bottom:0;width:2px;background:var(--accent);transform-origin:top}
 .pg-steps>li{position:relative}
 .pg-steps>li::before{content:"";position:absolute;left:-40px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px var(--sec-bg)}
-.pg-steps>li:last-child::after{content:"";position:absolute;left:-40px;top:24px;bottom:0;width:12px;background:var(--sec-bg)}   /* η γραμμή σταματά στον τελευταίο κόμβο */
+.pg-steps>li:last-child::after{content:"";position:absolute;left:-40px;top:24px;bottom:0;width:12px;background:var(--sec-bg)}
+/* η γραμμή σταματά στον τελευταίο κόμβο */
 .pg-steps h3{font-size:20px}
 .pg-steps p{font-size:16px;line-height:1.65;max-width:56ch;margin:0}
 @media (prefers-reduced-motion:no-preference){
@@ -159,17 +148,16 @@
   .js .pg-steps.reveal>li{opacity:0;transform:translateY(8px);transition:opacity .4s var(--ease),transform .4s var(--ease);transition-delay:calc(.1s + var(--k,0) * .25s)}
   .js .pg-steps.reveal.in::before{transform:none}
   .js .pg-steps.reveal.in>li{opacity:1;transform:none}
-  .pg-steps>li:nth-child(2){--k:1}.pg-steps>li:nth-child(3){--k:2}.pg-steps>li:nth-child(4){--k:3}.pg-steps>li:nth-child(5){--k:4}.pg-steps>li:nth-child(6){--k:5}
+  .pg-steps>li:nth-child(2){--k:1}
+  .pg-steps>li:nth-child(3){--k:2}
 }
-
 /* ---- 10. Συχνές ερωτήσεις: γραμμή 64px, το «+» γυρίζει 45° ---- */
 .pg-faq-grid>:first-child{grid-column:1/6}
 .pg-faq-grid>:first-child>p{margin-top:4px}
 .pg-faq{grid-column:7/13;min-width:0}
 .pg-faq details{border-bottom:1px solid var(--rule)}
 .pg-faq details:first-child{border-top:1px solid var(--rule)}
-.pg-faq summary{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:64px;padding:16px 0;list-style:none;cursor:pointer;
-  font-size:18px;font-weight:600;line-height:1.4;color:var(--ink)}
+.pg-faq summary{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:64px;padding:16px 0;list-style:none;cursor:pointer;font-size:18px;font-weight:600;line-height:1.4;color:var(--ink)}
 .pg-faq summary::-webkit-details-marker{display:none}
 .pg-faq summary::after{content:"+";flex:none;width:28px;font-size:28px;font-weight:400;line-height:1;text-align:center;color:var(--ink-mute);transition:transform .2s var(--ease)}
 .pg-faq details[open]>summary::after{transform:rotate(45deg);color:var(--ink)}
@@ -179,12 +167,13 @@
 .pg-faq details>ul>li{position:relative;padding-left:20px}
 .pg-faq details>ul>li::before{content:"";position:absolute;left:2px;top:.68em;width:6px;height:6px;border-radius:50%;background:var(--ink-mute)}
 .pg-faq details>ul b{font-weight:600;color:var(--ink)}
-@media (hover:hover) and (pointer:fine){.pg-faq summary:hover::after{color:var(--ink)}}
+@media (hover:hover) and (pointer:fine){
+  .pg-faq summary:hover::after{color:var(--ink)}
+}
 @media (prefers-reduced-motion:no-preference){
   .pg-faq details::details-content{block-size:0;overflow:hidden;transition:block-size .35s var(--ease),content-visibility .35s allow-discrete}
   .pg-faq details[open]::details-content{block-size:auto}
 }
-
 /* ---- 11. Κλείσιμο: ο τίτλος αριστερά, τα τέσσερα τηλέφωνα δεξιά, έτοιμα για πάτημα ---- */
 .pg-close>.pg-grid{row-gap:0}
 .pg-close-copy{grid-column:1/7}
@@ -197,14 +186,18 @@
 .pg-phones b{flex:1;font-size:18px;font-weight:600}
 .pg-phones span{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em;white-space:nowrap;transition:transform .25s var(--ease)}
 .pg-phones a:active span{transform:scale(.97)}
-@media (hover:hover) and (pointer:fine){.pg-phones a:hover span{transform:translateX(-4px)}.pg-phones a:hover b{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.22em;text-decoration-color:var(--green)}}
+@media (hover:hover) and (pointer:fine){
+  .pg-phones a:hover span{transform:translateX(-4px)}
+  .pg-phones a:hover b{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.22em;text-decoration-color:var(--green)}
+}
 @media (prefers-reduced-motion:no-preference){
   /* οι τέσσερις κουκκίδες του τέλους εμφανίζονται μία μία, μία φορά */
   .js .pg-phones.reveal i{opacity:0;transform:scale(.6);transition:opacity .24s var(--ease),transform .24s var(--ease);transition-delay:calc(.25s + var(--k,0) * .06s)}
   .js .pg-phones.reveal.in i{opacity:1;transform:none}
-  .pg-phones li:nth-child(2){--k:1}.pg-phones li:nth-child(3){--k:2}.pg-phones li:nth-child(4){--k:3}
+  .pg-phones li:nth-child(2){--k:1}
+  .pg-phones li:nth-child(3){--k:2}
+  .pg-phones li:nth-child(4){--k:3}
 }
-
 /* ---- 12. Αξιολόγηση και Διάγνωση ενηλίκων: σημείωση, λίστα «τι να έχετε μαζί», πλαϊνή στήλη, γραμμή τεσσάρων βημάτων ---- */
 .pg-grid>h2.pg-wide{grid-column:1/11;max-width:none;margin-bottom:0}
 .pg-steps-body>.pg-lead{max-width:40ch;margin-bottom:22px}
@@ -241,7 +234,9 @@
   .js .pg-track.reveal>li{opacity:0;transform:translateY(8px);transition:opacity .4s var(--ease),transform .4s var(--ease);transition-delay:calc(var(--k,0) * .25s)}
   .js .pg-track.reveal.in::before{transform:none}
   .js .pg-track.reveal.in>li{opacity:1;transform:none}
-  .pg-track>li:nth-child(2){--k:1}.pg-track>li:nth-child(3){--k:2}.pg-track>li:nth-child(4){--k:3}
+  .pg-track>li:nth-child(2){--k:1}
+  .pg-track>li:nth-child(3){--k:2}
+  .pg-track>li:nth-child(4){--k:3}
 }
 @media (max-width:899px){
   .pg-side{position:static}
@@ -257,7 +252,6 @@
 @media (max-width:899px) and (prefers-reduced-motion:no-preference){
   .js .pg-track.reveal::before{transform:scaleY(0)}
 }
-
 /* ---- 13. Στενές οθόνες: μία στήλη ---- */
 @media (max-width:899px){
   .pg-grid{display:block}
@@ -274,8 +268,9 @@
   .pg-phones b{font-size:14px}
   .pg-phones span{grid-column:1/-1;font-size:17px}
 }
-@media (max-width:359px){.pg-phones{grid-template-columns:1fr}}
-
+@media (max-width:359px){
+  .pg-phones{grid-template-columns:1fr}
+}
 /* ---- 14. Σελίδες που κρατούν τη δομή τους («Σχετικά», «Θεραπείες», «Επικοινωνία»): ίδια γράμματα, φόντα και σχήματα ---- */
 .pg:where(.about-refined,.therapies-refined,.contact-refined){color:var(--ink-soft)}
 .pg:where(.about-refined,.therapies-refined,.contact-refined) p{font-size:var(--t-body);line-height:1.65;margin:0 0 1em}
@@ -319,7 +314,8 @@
 .pg .therapy-topics{font-size:13.5px;font-weight:600;letter-spacing:.04em;color:var(--ink)}
 .pg .therapy-read{font-size:14.5px;color:var(--ink)}
 .pg .therapy-photo{border-radius:var(--r-leaf-sm);aspect-ratio:4/3}
-.pg .therapy-number{display:none}   /* η αρίθμηση 01 έως 07 δεν είναι πληροφορία */
+.pg .therapy-number{display:none}
+/* η αρίθμηση 01 έως 07 δεν είναι πληροφορία */
 .pg .therapy-entry-link{grid-template-columns:240px minmax(0,1fr);gap:36px;align-items:center}
 @media (max-width:639px){
   .pg .therapy-photo{aspect-ratio:16/9;max-height:none}
@@ -356,7 +352,6 @@
   .pg .contact-centre:hover{background:var(--paper-warm);box-shadow:-16px 0 0 var(--paper-warm),16px 0 0 var(--paper-warm)}
   .pg .contact-centre:hover .location-photo img{transform:scale(1.03)}
 }
-
 /* ---- 15. Μείωση κίνησης: τίποτα δεν κινείται στις εσωτερικές σελίδες ---- */
 @media (prefers-reduced-motion:reduce){
   .pg *,.pg *::before,.pg *::after{transition:none!important;animation:none!important}

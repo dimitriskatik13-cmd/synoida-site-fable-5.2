@@ -19,7 +19,6 @@
   a:hover>.hx-arrow{transform:translateX(4px)}
   .hx-link:hover{text-decoration-color:var(--green)}
 }
-
 /* ---- 1. hero ---- */
 .hx-hero{background:var(--deep);color:#fff}
 .hx-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center;min-height:600px;padding-left:max(var(--gutter),calc((100% - var(--wrap)) / 2 + var(--gutter)))}
@@ -66,7 +65,6 @@
   .hx-frame-small{left:auto;right:-8px;bottom:-20px;width:120px}
   @keyframes hx-open{from{clip-path:inset(6% round 32px)}to{clip-path:inset(0 round 6px 40px 6px 6px)}}
 }
-
 /* ---- 2. πώς δουλεύουμε ---- */
 .hx-values{background:var(--paper);padding-block:calc(96px + var(--hx-pad)) var(--hx-pad)}
 .hx-split{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(32px,6vw,96px);align-items:start}
@@ -87,7 +85,6 @@
   .hx-value h3{font-size:17px;margin-top:2px}
   .hx-value p{font-size:14.5px}
 }
-
 /* ---- 3. σας προβληματίζει κάτι ---- */
 .hx-question{background:var(--deep);color:#fff;padding-block:var(--hx-pad)}
 .hx-question h2{font-size:clamp(2rem,4.4vw,3.75rem);max-width:17ch;color:#fff}
@@ -96,7 +93,6 @@
 .hx-question-end{margin-top:48px;display:grid;gap:26px;max-width:54ch;justify-items:start}
 .hx-question-end p{font-size:var(--t-lead);line-height:1.55;color:rgba(255,255,255,.86);margin:0}
 .hx-question-end strong{color:#fff;font-weight:600}
-
 /* ---- 4. ευρετήριο θεραπειών ---- */
 .hx-therapies{background:var(--paper);padding-block:var(--hx-pad)}
 .hx-th-head{margin-bottom:clamp(36px,5vw,64px)}
@@ -124,7 +120,9 @@
 .hx-th-grid:has(.hx-index li:nth-child(5) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(5),
 .hx-th-grid:has(.hx-index li:nth-child(6) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(6),
 .hx-th-grid:has(.hx-index li:nth-child(7) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(7){display:block}
-@media (prefers-reduced-motion:no-preference){.hx-preview figure{animation:hx-fade .32s var(--ease)}}
+@media (prefers-reduced-motion:no-preference){
+  .hx-preview figure{animation:hx-fade .32s var(--ease)}
+}
 @media (hover:hover) and (pointer:fine){
   .hx-index:has(a:hover) a:not(:hover){opacity:.5}
   .hx-index a:hover .hx-arrow{transform:translateX(6px);color:var(--ink)}
@@ -143,7 +141,6 @@
   .hx-desc{display:block;font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin-top:6px}
   .hx-index .hx-arrow{width:20px;height:20px;margin-top:6px}
 }
-
 /* ---- 5. τα χρόνια και το «συν» του ονόματος ---- */
 .hx-about{background:var(--paper-warm);padding-block:var(--hx-pad)}
 .hx-about-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,7vw,112px);align-items:center}
@@ -173,7 +170,6 @@
   .hx-syn li{grid-template-columns:1fr;row-gap:4px;font-size:26px}
   .hx-rest{font-size:15px}
 }
-
 /* ---- 6. πώς ξεκινάμε: η πιο ήσυχη ενότητα, μία γραμμή που σχεδιάζεται ---- */
 .hx-steps{background:var(--paper);padding-block:var(--hx-pad)}
 .hx-steps-list{list-style:none;margin:64px 0 44px;padding:34px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;position:relative}
@@ -197,7 +193,6 @@
   .hx-num{font-size:34px;margin-bottom:10px}
   .js .hx-steps-list::before{transform:scaleY(0)}
 }
-
 /* ---- 7. κορύφωση: οι κουκκίδες γίνονται το λογότυπο (assets/stars-mark.js) ----
    Χωρίς JavaScript, με «μείωση κίνησης» ή εξοικονόμηση δεδομένων: απλή ενότητα με το λογότυπο και το κείμενο. */
 .hx-peak{background:var(--paper-warm);position:relative}
@@ -221,8 +216,9 @@
   .stars-on .hx-peak{height:160vh;height:160svh}
   .stars-on .hx-stage{padding-bottom:92px}
 }
-@media (max-height:620px){.stars-on .hx-mark{width:min(40vw,300px)}}
-
+@media (max-height:620px){
+  .stars-on .hx-mark{width:min(40vw,300px)}
+}
 /* ---- 8. κέντρα: το τηλέφωνο πρωταγωνιστής ---- */
 main.hx .preview-centre h3 a{font-size:clamp(24px,2.4vw,32px)}
 main.hx .preview-centre .preview-phone{font-size:clamp(19px,2vw,26px);font-weight:600;font-variant-numeric:tabular-nums}
