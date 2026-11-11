@@ -1,0 +1,232 @@
+/* ==== 82 · Fable 5.2: η Αρχική (κλάσεις hx-) ====
+   Κάθε ενότητα κάνει κάτι διαφορετικό και μόνο μία κορυφώνεται (7: οι κουκκίδες που γίνονται λογότυπο).
+   1 hero με κάδρο · 2 αρχές χωρίς κουτιά · 3 φράσεις που ανάβουν · 4 ευρετήριο θεραπειών · 5 το «συν» · 6 γραμμή βημάτων · 7 κορύφωση · 8 κέντρα */
+.hx{--hx-pad:clamp(72px,9vw,128px)}
+.hx-wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
+.hx :is(h1,h2){font-family:Comfortaa,system-ui,sans-serif;font-weight:600;letter-spacing:-.035em;line-height:1.1;text-wrap:balance;margin:0}
+.hx h2{font-size:var(--t-h2)}
+.hx-eyebrow{font:700 12.5px/1.2 Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--green-text);margin:0 0 18px}
+.on-deep .hx-eyebrow{color:rgba(255,255,255,.72)}
+.hx-accent{color:var(--green);font-style:normal}
+.hx-lead{font-size:var(--t-lead);line-height:1.55;color:var(--ink-soft);max-width:46ch;margin:0}
+.hx-btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;background:var(--green);color:var(--ink);font-weight:700;font-size:16px;text-decoration:none;transition:transform .16s var(--ease),box-shadow .16s var(--ease),background-color .16s}
+.hx-btn:active{transform:scale(.97)}
+.hx-arrow{width:18px;height:18px;flex:none;transition:transform .16s var(--ease)}
+.hx-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:#fff;font-weight:600;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.32em;text-decoration-color:rgba(255,255,255,.4);transition:text-decoration-color .15s}
+.hx-link-dark{color:var(--ink);text-decoration-color:rgba(38,40,42,.25)}
+@media (hover:hover) and (pointer:fine){
+  .hx-btn:hover{background:#9BD24B;transform:translateY(-1px);box-shadow:var(--e2)}
+  a:hover>.hx-arrow{transform:translateX(4px)}
+  .hx-link:hover{text-decoration-color:var(--green)}
+}
+
+/* ---- 1. hero ---- */
+.hx-hero{background:var(--deep);color:#fff}
+.hx-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:center;min-height:600px;padding-left:max(var(--gutter),calc((100% - var(--wrap)) / 2 + var(--gutter)))}
+.hx-hero-copy{padding-block:88px}
+.hx-hero h1{font-size:var(--t-display);line-height:1.06;letter-spacing:-.04em;color:#fff}
+.hx-line{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+.hx-line>span{display:block}
+.hx-places{margin:24px 0 0;font-size:16px;color:rgba(255,255,255,.82)}
+.hx-hero-actions{margin-top:36px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px}
+.hx-hero-art{position:relative;align-self:stretch;min-height:648px;margin-bottom:-96px}
+.hx-frame{position:relative;overflow:hidden;border-radius:var(--r-photo);background:#e9e7e1}
+.hx-frame img{display:block;width:100%;height:100%;object-fit:cover}
+.hx-hero-art .hx-frame{position:absolute;inset:48px 0 0 0;border-radius:72px 0 0 8px}
+.hx-frame-small{position:absolute;left:-40px;bottom:-28px;width:220px;aspect-ratio:22/17;border-radius:var(--r-1);overflow:hidden;box-shadow:var(--e2);background:#e9e7e1}
+.hx-frame-small img{display:block;width:100%;height:100%;object-fit:cover}
+@keyframes hx-rise{from{transform:translateY(105%)}}
+@keyframes hx-open{from{clip-path:inset(8% 0 8% 8% round 48px)}to{clip-path:inset(0 round 72px 0 0 8px)}}
+@keyframes hx-pop{from{opacity:0;transform:translateY(16px) scale(.96)}}
+@keyframes hx-zoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+@keyframes hx-lift{to{translate:0 -24px}}
+@keyframes hx-lift-more{to{translate:0 -56px}}
+@keyframes hx-fade{from{opacity:0;transform:translateY(8px)}}
+@media (prefers-reduced-motion:no-preference){
+  .hx-line>span{animation:hx-rise .7s var(--ease) both}
+  .hx-line:nth-child(2)>span{animation-delay:.08s}
+  .hx-hero-art .hx-frame{animation:hx-open .9s var(--ease) both}
+  .hx-frame-small{animation:hx-pop .6s var(--ease) .35s both}
+  /* βάθος στην κύλιση, όπου ο browser υποστηρίζει κίνηση δεμένη στην κύλιση: τρία επίπεδα με διαφορετικό ρυθμό */
+  @supports (animation-timeline:scroll()){
+    .hx-hero-art .hx-frame{animation:hx-open .9s var(--ease) both,hx-lift linear both;animation-timeline:auto,scroll(root);animation-range:normal,0 700px}
+    .hx-hero-art .hx-frame img{animation:hx-zoom linear both;animation-timeline:scroll(root);animation-range:0 700px}
+    .hx-frame-small{animation:hx-pop .6s var(--ease) .35s both,hx-lift-more linear both;animation-timeline:auto,scroll(root);animation-range:normal,0 700px}
+  }
+}
+@media (max-width:900px){
+  .hx-hero-grid{grid-template-columns:1fr;gap:0;min-height:0;padding-inline:var(--gutter)}
+  .hx-hero-copy{padding-block:48px 36px}
+  .hx-hero h1{font-size:clamp(2.25rem,9.6vw,3.25rem)}
+  .hx-places{font-size:15px;margin-top:18px}
+  .hx-hero-actions{margin-top:28px}
+  .hx-hero-actions .hx-btn{flex:1 1 100%;justify-content:center}
+  .hx-hero-art{min-height:0;margin-bottom:-72px}
+  .hx-hero-art .hx-frame{position:relative;inset:auto;aspect-ratio:4/3.2;border-radius:var(--r-photo)}
+  .hx-frame-small{left:auto;right:-8px;bottom:-20px;width:120px}
+  @keyframes hx-open{from{clip-path:inset(6% round 32px)}to{clip-path:inset(0 round 6px 40px 6px 6px)}}
+}
+
+/* ---- 2. πώς δουλεύουμε ---- */
+.hx-values{background:var(--paper);padding-block:calc(96px + var(--hx-pad)) var(--hx-pad)}
+.hx-split{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(32px,6vw,96px);align-items:start}
+.hx-split>h2{position:sticky;top:calc(var(--hdr,80px) + 40px)}
+.hx-values-list{display:grid;grid-template-columns:1fr 1fr;column-gap:48px}
+.hx-value{display:flex;gap:20px;align-items:flex-start;padding:28px 0;border-top:1px solid var(--rule)}
+.hx .hx-value .vicon{flex:0 0 64px;width:64px;height:64px;margin:0}
+.hx-value h3{font:600 20px/1.3 Comfortaa,system-ui,sans-serif;letter-spacing:-.015em;margin:6px 0 8px}
+.hx-value p{font-size:15.5px;line-height:1.6;color:var(--ink-soft);margin:0}
+.js .hx-value.reveal:nth-child(even){transition-delay:.07s}
+@media (max-width:900px){
+  .hx-values{padding-top:calc(72px + 56px)}
+  .hx-split{grid-template-columns:1fr;gap:28px}
+  .hx-split>h2{position:static}
+  .hx-values-list{grid-template-columns:1fr}
+  .hx-value{gap:16px;padding:20px 0}
+  .hx .hx-value .vicon{flex-basis:48px;width:48px;height:48px}
+  .hx-value h3{font-size:17px;margin-top:2px}
+  .hx-value p{font-size:14.5px}
+}
+
+/* ---- 3. σας προβληματίζει κάτι ---- */
+.hx-question{background:var(--deep);color:#fff;padding-block:var(--hx-pad)}
+.hx-question h2{font-size:clamp(2rem,4.4vw,3.75rem);max-width:17ch;color:#fff}
+.hx-light{font:500 clamp(1.375rem,2.6vw,2.125rem)/1.4 Inter,system-ui,sans-serif;letter-spacing:-.012em;max-width:30ch;margin:44px 0 0;color:rgb(255 255 255 / calc(.62 + .38 * var(--p,1)))}
+.hx-light em{font-style:normal;color:var(--green);--k:clamp(0,(var(--p,1) - var(--i) * .17 - .06) * 6,1);color:color-mix(in srgb,var(--green) calc(var(--k) * 100%),rgb(255 255 255 / .62))}
+.hx-question-end{margin-top:48px;display:grid;gap:26px;max-width:54ch;justify-items:start}
+.hx-question-end p{font-size:var(--t-lead);line-height:1.55;color:rgba(255,255,255,.86);margin:0}
+.hx-question-end strong{color:#fff;font-weight:600}
+
+/* ---- 4. ευρετήριο θεραπειών ---- */
+.hx-therapies{background:var(--paper);padding-block:var(--hx-pad)}
+.hx-th-head{margin-bottom:clamp(36px,5vw,64px)}
+.hx-th-head h2{max-width:20ch}
+.hx-th-head .hx-lead{margin-top:18px}
+.hx-th-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,6vw,96px);align-items:start}
+.hx-index{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--rule)}
+.hx-index a{display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;padding:22px 0;border-top:1px solid var(--rule);color:var(--ink);text-decoration:none;transition:opacity .18s}
+.hx-thumb,.hx-desc{display:none}
+.hx-row{display:grid;gap:6px;padding-left:28px;position:relative}
+.hx-row::before{content:"";position:absolute;left:0;top:clamp(.85rem,1.4vw,1.25rem);width:10px;height:10px;border-radius:50%;background:var(--c)}
+.hx-name{font:600 clamp(1.5rem,3vw,2.75rem)/1.1 Comfortaa,system-ui,sans-serif;letter-spacing:-.035em}
+.hx-sub{font-size:15px;line-height:1.4;color:var(--ink-mute)}
+.hx-index .hx-arrow{width:24px;height:24px;color:var(--ink-mute);transition:transform .16s var(--ease),color .16s}
+.hx-preview{position:sticky;top:calc(var(--hdr,80px) + 32px)}
+.hx-preview figure{display:none;margin:0}
+.hx-preview img{display:block;width:100%;aspect-ratio:4/4.4;object-fit:cover;border-radius:var(--r-photo);background:#e9e7e1}
+.hx-preview figcaption{margin-top:18px;font-size:15.5px;line-height:1.6;color:var(--ink-soft)}
+/* ενεργή γραμμή: αυτή που έχει τον δείκτη ή την εστίαση· αλλιώς η πρώτη. Οι κρυμμένες φωτογραφίες δεν κατεβαίνουν πριν χρειαστούν. */
+.hx-th-grid:not(:has(.hx-index a:is(:hover,:focus-visible))) .hx-preview figure:first-child,
+.hx-th-grid:has(.hx-index li:nth-child(1) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(1),
+.hx-th-grid:has(.hx-index li:nth-child(2) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(2),
+.hx-th-grid:has(.hx-index li:nth-child(3) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(3),
+.hx-th-grid:has(.hx-index li:nth-child(4) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(4),
+.hx-th-grid:has(.hx-index li:nth-child(5) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(5),
+.hx-th-grid:has(.hx-index li:nth-child(6) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(6),
+.hx-th-grid:has(.hx-index li:nth-child(7) a:is(:hover,:focus-visible)) .hx-preview figure:nth-child(7){display:block}
+@media (prefers-reduced-motion:no-preference){.hx-preview figure{animation:hx-fade .32s var(--ease)}}
+@media (hover:hover) and (pointer:fine){
+  .hx-index:has(a:hover) a:not(:hover){opacity:.5}
+  .hx-index a:hover .hx-arrow{transform:translateX(6px);color:var(--ink)}
+}
+@media (max-width:900px){
+  .hx-th-grid{display:block}
+  .hx-preview{display:none}
+  .hx-index a{grid-template-columns:64px 1fr 20px;align-items:start;gap:16px;padding:18px 0;min-height:84px}
+  .hx-thumb{display:block;width:64px;height:64px;border-radius:var(--r-1);overflow:hidden;background:#e9e7e1}
+  .hx-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+  .hx-row{padding-left:0;gap:4px}
+  .hx-row::before{display:none}
+  .hx-name{font-size:22px;letter-spacing:-.025em}
+  .hx-name::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);margin-right:10px;vertical-align:.12em}
+  .hx-sub{font-size:14px}
+  .hx-desc{display:block;font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin-top:6px}
+  .hx-index .hx-arrow{width:20px;height:20px;margin-top:6px}
+}
+
+/* ---- 5. τα χρόνια και το «συν» του ονόματος ---- */
+.hx-about{background:var(--paper-warm);padding-block:var(--hx-pad)}
+.hx-about-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,7vw,112px);align-items:center}
+.hx-about-art{position:relative;padding-bottom:64px}
+.hx-about-art .hx-frame{aspect-ratio:4/5}
+.hx-polaroid{position:absolute;right:-28px;bottom:0;width:48%;margin:0;padding:8px 8px 0;background:#fff;border-radius:var(--r-1);box-shadow:var(--e2);rotate:2deg}
+.hx-polaroid img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:8px}
+.hx-polaroid figcaption{font:500 13px/1.4 Inter,system-ui,sans-serif;color:var(--ink-soft);padding:10px 6px 12px;text-align:center}
+.hx-years{display:block;font-size:clamp(3.5rem,8vw,6.5rem);font-weight:500;line-height:.95;letter-spacing:-.055em;margin-bottom:.14em;font-variant-numeric:tabular-nums}
+.hx-about-copy .hx-lead{margin-top:24px}
+.hx-syn-title{font:600 18px/1.3 Comfortaa,system-ui,sans-serif;color:var(--ink);margin:40px 0 8px}
+.hx-syn{list-style:none;margin:0 0 36px;padding:0}
+.hx-syn li{display:grid;grid-template-columns:11.5em 1fr;column-gap:16px;align-items:baseline;padding:14px 0;border-top:1px solid var(--rule);font-size:clamp(1.375rem,2.3vw,1.875rem)}
+.hx-verb{font:600 1em/1.2 Comfortaa,system-ui,sans-serif;letter-spacing:-.03em;color:var(--ink)}
+.hx-verb b{font-weight:700;color:var(--green-text)}
+.hx-rest{font:400 16px/1.5 Inter,system-ui,sans-serif;color:var(--ink-soft)}
+@media (prefers-reduced-motion:no-preference){
+  .js .hx-syn.reveal{opacity:1;transform:none}
+  .js .hx-syn li{opacity:0;translate:0 12px;transition:opacity .45s var(--ease),translate .45s var(--ease);transition-delay:calc(var(--i) * 60ms)}
+  .js .hx-syn.in li{opacity:1;translate:none}
+}
+@media (max-width:900px){
+  .hx-about-grid{grid-template-columns:1fr;gap:56px}
+  .hx-about-art{max-width:480px;padding-bottom:48px}
+  .hx-about-art .hx-frame{aspect-ratio:4/3.6}
+  .hx-polaroid{right:-6px;width:52%}
+  .hx-syn li{grid-template-columns:1fr;row-gap:4px;font-size:26px}
+  .hx-rest{font-size:15px}
+}
+
+/* ---- 6. πώς ξεκινάμε: η πιο ήσυχη ενότητα, μία γραμμή που σχεδιάζεται ---- */
+.hx-steps{background:var(--paper);padding-block:var(--hx-pad)}
+.hx-steps-list{list-style:none;margin:64px 0 44px;padding:34px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;position:relative}
+.hx-steps-list::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--green);transform-origin:left}
+.hx-steps-list li{position:relative}
+.hx-steps-list li::before{content:"";position:absolute;left:0;top:-39px;width:12px;height:12px;border-radius:50%;background:var(--green);box-shadow:0 0 0 6px var(--paper)}
+.hx-num{display:block;font:500 40px/1 Comfortaa,system-ui,sans-serif;letter-spacing:-.04em;color:var(--green-text);margin-bottom:16px}
+.hx-steps-list h3{font:600 22px/1.3 Comfortaa,system-ui,sans-serif;letter-spacing:-.02em;margin:0 0 10px}
+.hx-steps-list p{font-size:16px;line-height:1.6;color:var(--ink-soft);margin:0;max-width:34ch}
+@media (prefers-reduced-motion:no-preference){
+  .js .hx-steps-list.reveal{opacity:1;transform:none}
+  .js .hx-steps-list::before{transform:scaleX(0);transition:transform .9s var(--ease)}
+  .js .hx-steps-list.in::before{transform:none}
+  .js .hx-steps-list li{opacity:0;translate:0 12px;transition:opacity .45s var(--ease),translate .45s var(--ease);transition-delay:calc(var(--i) * .25s + .1s)}
+  .js .hx-steps-list.in li{opacity:1;translate:none}
+}
+@media (max-width:900px){
+  .hx-steps-list{grid-template-columns:1fr;gap:36px;margin:44px 0 36px;padding:0 0 0 34px}
+  .hx-steps-list::before{left:5px;right:auto;top:6px;bottom:6px;width:2px;height:auto;transform-origin:top}
+  .hx-steps-list li::before{left:-34px;top:12px}
+  .hx-num{font-size:34px;margin-bottom:10px}
+  .js .hx-steps-list::before{transform:scaleY(0)}
+}
+
+/* ---- 7. κορύφωση: οι κουκκίδες γίνονται το λογότυπο (assets/stars-mark.js) ----
+   Χωρίς JavaScript, με «μείωση κίνησης» ή εξοικονόμηση δεδομένων: απλή ενότητα με το λογότυπο και το κείμενο. */
+.hx-peak{background:var(--paper-warm);position:relative}
+.hx-stage{position:relative;overflow:hidden;display:grid;justify-items:center;align-content:center;gap:clamp(20px,3.5vh,36px);text-align:center;padding:var(--hx-pad) var(--gutter)}
+.hx-mark{width:min(62vw,480px)}
+.hx-mark img{display:block;width:100%;height:auto}
+.hx-peak-copy{position:relative;z-index:2;max-width:680px}
+.hx-peak-copy h2{font-size:clamp(2rem,4.4vw,3.5rem)}
+.hx-peak-copy p{font-size:18px;line-height:1.6;color:var(--ink-soft);margin:18px auto 28px;max-width:46ch}
+.hx-stars{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.stars-on .hx-peak{height:210vh}
+.stars-on .hx-stage{position:sticky;top:0;height:100vh;height:100svh;padding-block:calc(var(--hdr,80px) + 12px) 28px}
+.stars-on .hx-mark img{opacity:0}
+.stars-on .hx-peak-copy>*{opacity:0;translate:0 16px;transition:opacity .5s var(--ease),translate .5s var(--ease)}
+.stars-on .hx-stage:is(.is-formed,:focus-within) .hx-peak-copy>*{opacity:1;translate:none}
+.stars-on .hx-stage.is-formed .hx-peak-copy>:nth-child(2){transition-delay:.07s}
+.stars-on .hx-stage.is-formed .hx-peak-copy>:nth-child(3){transition-delay:.14s}
+@media (max-width:900px){
+  .hx-mark{width:min(64vw,240px)}
+  .hx-peak-copy p{font-size:16px;margin:14px auto 22px}
+  .stars-on .hx-peak{height:160vh;height:160svh}
+  .stars-on .hx-stage{padding-bottom:92px}
+}
+@media (max-height:620px){.stars-on .hx-mark{width:min(40vw,300px)}}
+
+/* ---- 8. κέντρα: το τηλέφωνο πρωταγωνιστής ---- */
+main.hx .preview-centre h3 a{font-size:clamp(24px,2.4vw,32px)}
+main.hx .preview-centre .preview-phone{font-size:clamp(19px,2vw,26px);font-weight:600;font-variant-numeric:tabular-nums}
+main.hx .preview-centres-section{background:var(--paper)}
+main.hx .preview-centres-section h2{font-size:var(--t-h2)}
+main.hx .preview-centres-section .preview-section-title p:not(.kicker){margin-top:18px}
+main.hx .location-photo img{border-radius:var(--r-1)}

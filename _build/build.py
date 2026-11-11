@@ -26,7 +26,7 @@ DEFAULT_BASE = 'https://dimitriskatik13-cmd.github.io/synoida-site-fable-5.2/'
 MARKER = ('<!-- ΠΑΡΑΓΕΤΑΙ ΑΥΤΟΜΑΤΑ από _build/build.py. Μην επεξεργάζεσαι αυτό το αρχείο: '
           'άλλαξε το _build/fragments/<σελίδα>.html ή το _build/template.html και τρέξε python3 _build/build.py -->')
 # ποιο script φορτώνει πού (το site.js φορτώνει παντού)
-PAGE_JS = (('index.html', 'stars-mark.js'), ('treatment-', 'therapy-motion.js'), ('rating.html', 'assessment-motion.js'), ('contact-us.html', 'contact.js'))
+PAGE_JS = (('index.html', 'stars-mark.js'), ('treatment-', 'therapy-motion.js'), ('contact-us.html', 'contact.js'))
 DEFAULT_SIZES = '(max-width: 1023px) 100vw, 50vw'
 
 

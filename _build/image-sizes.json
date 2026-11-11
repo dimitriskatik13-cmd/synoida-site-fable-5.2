@@ -1,110 +1,79 @@
 {
- "404.html": {
-  "logo-horizontal#0": "(max-width: 767px) 21vw, (max-width: 1023px) 10vw, (max-width: 1279px) 8vw, (max-width: 1439px) 6vw, 75px",
-  "logo-stacked-light#0": "(max-width: 767px) 117vw, (max-width: 1023px) 55vw, (max-width: 1279px) 42vw, (max-width: 1439px) 33vw, 420px"
- },
  "about-us.html": {
-  "about-history#0": "(max-width: 767px) 125vw, (max-width: 1023px) 73vw, (max-width: 1279px) 71vw, (max-width: 1439px) 68vw, 862px",
-  "about-storefront#0": "(max-width: 767px) 150vw, (max-width: 1023px) 123vw, 101vw",
-  "about-team#0": "(max-width: 767px) 125vw, (max-width: 1023px) 61vw, (max-width: 1279px) 59vw, (max-width: 1439px) 57vw, 718px",
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px"
+  "about-history#0": "(max-width: 767px) 120vw, (max-width: 1023px) 58vw, (max-width: 1279px) 56vw, (max-width: 1439px) 54vw, 690px",
+  "about-storefront#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px",
+  "about-team#0": "(max-width: 767px) 120vw, (max-width: 1023px) 58vw, (max-width: 1279px) 56vw, (max-width: 1439px) 54vw, 690px"
  },
  "adult-diagnosis.html": {
-  "consulting-detail#0": "(max-width: 1023px) 150vw, (max-width: 1279px) 96vw, (max-width: 1439px) 91vw, 1155px",
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "psychotherapy-detail#0": "(max-width: 767px) 150vw, (max-width: 1023px) 102vw, 101vw"
+  "consulting-detail#0": "(max-width: 767px) 109vw, (max-width: 1023px) 112vw, (max-width: 1279px) 44vw, (max-width: 1439px) 43vw, 538px",
+  "psychotherapy-detail#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px"
  },
  "contact-us.html": {
-  "about-history#0": "(max-width: 767px) 39vw, (max-width: 1023px) 24vw, (max-width: 1279px) 22vw, (max-width: 1439px) 18vw, 220px",
-  "about-storefront#0": "(max-width: 767px) 39vw, (max-width: 1023px) 24vw, (max-width: 1279px) 22vw, (max-width: 1439px) 18vw, 220px",
-  "contact-hero#0": "(max-width: 767px) 150vw, 141vw",
-  "contact-hero#1": "(max-width: 767px) 39vw, (max-width: 1023px) 24vw, (max-width: 1279px) 22vw, (max-width: 1439px) 18vw, 220px",
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "spata-exterior#0": "(max-width: 767px) 39vw, (max-width: 1023px) 24vw, (max-width: 1279px) 22vw, (max-width: 1439px) 18vw, 220px"
+  "about-history#0": "(max-width: 767px) 39vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 270px",
+  "about-storefront#0": "(max-width: 767px) 39vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 270px",
+  "contact-hero#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px",
+  "contact-hero#1": "(max-width: 767px) 39vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 270px",
+  "spata-exterior#0": "(max-width: 767px) 39vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 270px"
  },
  "index.html": {
   "about-history#0": "(max-width: 767px) 39vw, (max-width: 1023px) 24vw, (max-width: 1279px) 22vw, (max-width: 1439px) 18vw, 220px",
-  "about-storefront#0": "(max-width: 767px) 103vw, (max-width: 1023px) 77vw, (max-width: 1279px) 75vw, (max-width: 1439px) 72vw, 915px",
+  "about-storefront#0": "(max-width: 767px) 123vw, (max-width: 1023px) 85vw, (max-width: 1279px) 67vw, (max-width: 1439px) 63vw, 797px",
   "about-storefront#1": "(max-width: 767px) 39vw, (max-width: 1023px) 24vw, (max-width: 1279px) 22vw, (max-width: 1439px) 18vw, 220px",
-  "about-welcome#0": "(max-width: 767px) 54vw, (max-width: 1023px) 29vw, (max-width: 1279px) 28vw, (max-width: 1439px) 27vw, 341px",
-  "consulting-detail#0": "(max-width: 767px) 77vw, (max-width: 1023px) 46vw, (max-width: 1279px) 35vw, (max-width: 1439px) 28vw, 352px",
+  "about-welcome#0": "(max-width: 767px) 52vw, (max-width: 1023px) 36vw, (max-width: 1279px) 19vw, (max-width: 1439px) 18vw, 221px",
+  "consulting-detail#0": "(max-width: 767px) 27vw, 13vw",
   "contact-hero#0": "(max-width: 767px) 39vw, (max-width: 1023px) 24vw, (max-width: 1279px) 22vw, (max-width: 1439px) 18vw, 220px",
-  "hero-room-bg#0": "(max-width: 1023px) 150vw, (max-width: 1279px) 129vw, (max-width: 1439px) 104vw, 101vw",
-  "hero-room-fg#0": "(max-width: 1023px) 150vw, (max-width: 1279px) 129vw, (max-width: 1439px) 104vw, 101vw",
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 59vw, (max-width: 1023px) 33vw, (max-width: 1439px) 29vw, 360px",
-  "logo-stacked-light#1": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "occupational-detail#0": "(max-width: 767px) 77vw, (max-width: 1023px) 46vw, (max-width: 1279px) 35vw, (max-width: 1439px) 28vw, 352px",
-  "play-hero#0": "(max-width: 767px) 77vw, (max-width: 1023px) 46vw, (max-width: 1279px) 35vw, (max-width: 1439px) 28vw, 352px",
-  "psychotherapy-detail#0": "(max-width: 767px) 77vw, (max-width: 1023px) 46vw, (max-width: 1279px) 35vw, (max-width: 1439px) 28vw, 352px",
-  "social-detail#0": "(max-width: 767px) 77vw, (max-width: 1023px) 46vw, (max-width: 1279px) 35vw, (max-width: 1439px) 28vw, 352px",
+  "hero-room#0": "(max-width: 767px) 118vw, (max-width: 1023px) 121vw, (max-width: 1279px) 106vw, (max-width: 1439px) 93vw, 1221px",
+  "occupational-detail#0": "(max-width: 767px) 27vw, 13vw",
+  "play-hero#0": "(max-width: 767px) 27vw, 13vw",
+  "psychotherapy-detail#0": "(max-width: 767px) 27vw, 13vw",
+  "social-detail#0": "(max-width: 767px) 27vw, 13vw",
   "spata-exterior#0": "(max-width: 767px) 39vw, (max-width: 1023px) 24vw, (max-width: 1279px) 22vw, (max-width: 1439px) 18vw, 220px",
-  "special-detail#0": "(max-width: 767px) 77vw, (max-width: 1023px) 46vw, (max-width: 1279px) 35vw, (max-width: 1439px) 28vw, 352px",
-  "speech-detail#0": "(max-width: 767px) 77vw, (max-width: 1023px) 46vw, (max-width: 1279px) 35vw, (max-width: 1439px) 28vw, 352px"
+  "special-detail#0": "(max-width: 767px) 27vw, 13vw",
+  "speech-detail#0": "(max-width: 767px) 39vw, (max-width: 1023px) 19vw, (max-width: 1279px) 25vw, (max-width: 1439px) 20vw, 255px",
+  "speech-detail#1": "(max-width: 767px) 27vw, 13vw",
+  "speech-detail#2": "(max-width: 1279px) 60vw, (max-width: 1439px) 57vw, 711px"
  },
  "rating.html": {
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "rating-hero#0": "(max-width: 767px) 150vw, (max-width: 1023px) 102vw, 101vw",
-  "rating-materials#0": "(max-width: 767px) 103vw, (max-width: 1023px) 50vw, (max-width: 1279px) 48vw, (max-width: 1439px) 47vw, 590px",
-  "rating-process#0": "(max-width: 767px) 103vw, (max-width: 1023px) 46vw, (max-width: 1279px) 45vw, (max-width: 1439px) 43vw, 549px"
+  "rating-hero#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px",
+  "rating-materials#0": "(max-width: 767px) 103vw, (max-width: 1023px) 105vw, (max-width: 1279px) 44vw, (max-width: 1439px) 43vw, 538px",
+  "rating-process#0": "(max-width: 767px) 103vw, (max-width: 1023px) 105vw, (max-width: 1279px) 44vw, (max-width: 1439px) 43vw, 538px"
  },
  "treatment-consulting.html": {
-  "consulting-detail#0": "(max-width: 767px) 125vw, (max-width: 1023px) 53vw, (max-width: 1279px) 51vw, (max-width: 1439px) 50vw, 628px",
-  "consulting-hero#0": "(max-width: 767px) 150vw, (max-width: 1023px) 123vw, 101vw",
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px"
+  "consulting-detail#0": "(max-width: 767px) 103vw, (max-width: 1023px) 105vw, (max-width: 1279px) 44vw, (max-width: 1439px) 43vw, 538px",
+  "consulting-hero#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px"
  },
  "treatment-occupational.html": {
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "occupational-detail#0": "(max-width: 767px) 125vw, (max-width: 1023px) 62vw, (max-width: 1279px) 60vw, (max-width: 1439px) 58vw, 733px",
-  "occupational-fine#0": "(max-width: 767px) 126vw, (max-width: 1023px) 60vw, (max-width: 1279px) 61vw, (max-width: 1439px) 58vw, 741px",
-  "occupational-hero#0": "(max-width: 767px) 150vw, (max-width: 1023px) 123vw, 101vw"
+  "occupational-fine#0": "(max-width: 767px) 103vw, (max-width: 1023px) 105vw, (max-width: 1279px) 45vw, (max-width: 1439px) 43vw, 539px",
+  "occupational-hero#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px"
  },
  "treatment-play.html": {
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "play-hero#0": "(max-width: 767px) 150vw, (max-width: 1023px) 112vw, 101vw",
-  "play-room#0": "(max-width: 767px) 126vw, (max-width: 1023px) 93vw, (max-width: 1279px) 90vw, (max-width: 1439px) 87vw, 1102px"
+  "play-hero#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px",
+  "play-room#0": "(max-width: 767px) 103vw, (max-width: 1023px) 105vw, (max-width: 1279px) 45vw, (max-width: 1439px) 43vw, 539px"
  },
  "treatment-psychotherapy.html": {
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "psychotherapy-hero#0": "(max-width: 767px) 150vw, (max-width: 1023px) 123vw, 101vw"
+  "psychotherapy-detail#0": "(max-width: 767px) 103vw, (max-width: 1023px) 105vw, (max-width: 1279px) 44vw, (max-width: 1439px) 43vw, 538px",
+  "psychotherapy-hero#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px"
  },
  "treatment-social.html": {
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "social-detail#0": "(max-width: 767px) 125vw, (max-width: 1023px) 72vw, (max-width: 1279px) 73vw, (max-width: 1439px) 70vw, 887px",
-  "social-hero#0": "(max-width: 767px) 150vw, (max-width: 1023px) 123vw, 101vw"
+  "social-detail#0": "(max-width: 767px) 103vw, (max-width: 1023px) 105vw, (max-width: 1279px) 44vw, (max-width: 1439px) 43vw, 538px",
+  "social-hero#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px"
  },
  "treatment-special.html": {
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "special-detail#0": "(max-width: 767px) 125vw, (max-width: 1023px) 72vw, (max-width: 1279px) 73vw, (max-width: 1439px) 70vw, 887px",
-  "special-hero#0": "(max-width: 767px) 150vw, (max-width: 1023px) 123vw, 101vw"
+  "special-detail#0": "(max-width: 767px) 103vw, (max-width: 1023px) 105vw, (max-width: 1279px) 44vw, (max-width: 1439px) 43vw, 538px",
+  "special-hero#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px"
  },
  "treatment-speech.html": {
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "speech-detail#0": "(max-width: 767px) 134vw, (max-width: 1023px) 77vw, (max-width: 1279px) 75vw, (max-width: 1439px) 72vw, 919px",
-  "speech-hero#0": "(max-width: 767px) 150vw, (max-width: 1023px) 123vw, 101vw",
-  "speech-room#0": "(max-width: 767px) 134vw, (max-width: 1023px) 98vw, (max-width: 1279px) 96vw, (max-width: 1439px) 92vw, 1173px"
+  "speech-detail#0": "(max-width: 767px) 103vw, (max-width: 1023px) 105vw, (max-width: 1279px) 44vw, (max-width: 1439px) 43vw, 538px",
+  "speech-hero#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px"
  },
  "treatments.html": {
-  "consulting-detail#0": "(max-width: 767px) 89vw, (max-width: 1023px) 45vw, (max-width: 1279px) 31vw, (max-width: 1439px) 30vw, 375px",
-  "logo-horizontal#0": "(max-width: 767px) 45vw, (max-width: 1023px) 21vw, (max-width: 1279px) 19vw, (max-width: 1439px) 15vw, 190px",
-  "logo-stacked-light#0": "(max-width: 767px) 47vw, (max-width: 1023px) 23vw, (max-width: 1279px) 17vw, (max-width: 1439px) 14vw, 169px",
-  "occupational-detail#0": "(max-width: 767px) 89vw, (max-width: 1023px) 45vw, (max-width: 1279px) 31vw, (max-width: 1439px) 30vw, 375px",
-  "play-room#0": "(max-width: 767px) 89vw, (max-width: 1023px) 46vw, (max-width: 1279px) 31vw, (max-width: 1439px) 30vw, 376px",
-  "psychotherapy-detail#0": "(max-width: 767px) 89vw, (max-width: 1023px) 45vw, (max-width: 1279px) 31vw, (max-width: 1439px) 30vw, 375px",
-  "social-detail#0": "(max-width: 767px) 89vw, (max-width: 1023px) 45vw, (max-width: 1279px) 31vw, (max-width: 1439px) 30vw, 375px",
-  "special-detail#0": "(max-width: 767px) 89vw, (max-width: 1023px) 45vw, (max-width: 1279px) 31vw, (max-width: 1439px) 30vw, 375px",
-  "speech-detail#0": "(max-width: 767px) 89vw, (max-width: 1023px) 45vw, (max-width: 1279px) 31vw, (max-width: 1439px) 30vw, 375px",
-  "treatments-hero#0": "(max-width: 767px) 150vw, (max-width: 1023px) 123vw, 101vw"
+  "consulting-detail#0": "(max-width: 767px) 91vw, (max-width: 1023px) 36vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 270px",
+  "occupational-detail#0": "(max-width: 767px) 91vw, (max-width: 1023px) 36vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 270px",
+  "play-room#0": "(max-width: 767px) 91vw, (max-width: 1023px) 36vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 271px",
+  "psychotherapy-detail#0": "(max-width: 767px) 91vw, (max-width: 1023px) 36vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 270px",
+  "social-detail#0": "(max-width: 767px) 91vw, (max-width: 1023px) 36vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 270px",
+  "special-detail#0": "(max-width: 767px) 91vw, (max-width: 1023px) 36vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 270px",
+  "speech-detail#0": "(max-width: 767px) 91vw, (max-width: 1023px) 36vw, (max-width: 1279px) 27vw, (max-width: 1439px) 22vw, 270px",
+  "treatments-hero#0": "(max-width: 767px) 103vw, (max-width: 1279px) 44vw, (max-width: 1439px) 46vw, 673px"
  }
 }

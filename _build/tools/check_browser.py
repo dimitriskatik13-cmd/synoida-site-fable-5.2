@@ -67,7 +67,7 @@ FINAL = r"""(()=>{
  const taps=[...document.querySelectorAll('a[href],button,summary,[role=button]')].filter(vis).filter(e=>!e.closest('[data-preview-only]')).map(e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);
    return {t:(e.textContent||e.getAttribute('aria-label')||'').replace(/\s+/g,' ').trim().slice(0,32), w:Math.round(r.width), h:Math.round(r.height), inline:s.display==='inline'&&!!e.closest('p,li,dd,blockquote'),
      named:!!((e.textContent||'').trim()||e.getAttribute('aria-label')||e.querySelector('img[alt]:not([alt=""])'))}}).filter(t=>!t.inline);
- const imgs=[...document.images].filter(i=>i.currentSrc&&i.naturalWidth&&vis(i)).map(i=>{const r=i.getBoundingClientRect(),s=getComputedStyle(i);
+ const imgs=[...document.images].filter(i=>i.currentSrc&&i.naturalWidth&&vis(i)&&!/\.svg$/.test(i.currentSrc)).map(i=>{const r=i.getBoundingClientRect(),s=getComputedStyle(i);
    const need=(s.objectFit==='cover'?Math.max(r.width,r.height*i.naturalWidth/i.naturalHeight):r.width)*dpr; const m=i.currentSrc.match(/-(\d+)\.webp$/), nat=m?+m[1]:i.naturalWidth;   // με srcset το naturalWidth είναι διορθωμένο για την πυκνότητα: το πραγματικό πλάτος είναι στο όνομα
    return {src:i.currentSrc.split('/').pop(), nat, need:Math.round(need), ratio:+(nat/need).toFixed(2)}});
  return {contrast, brand, small, onPhoto:all.filter(x=>x.photo).length, texts:all.length, dimmed:all.filter(x=>x.dim&&!x.photo&&x.ratio<x.need).length,

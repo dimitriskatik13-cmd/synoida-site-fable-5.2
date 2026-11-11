@@ -1,6 +1,6 @@
 /* ΣΥΝΟΙΔΑ: κοινή συμπεριφορά όλων των σελίδων.
    1. ενεργό στοιχείο μενού   2. μενού κινητού   3. μενού «Θεραπείες» (υπολογιστής)   4. λίστες τηλεφώνων
-   4β. κεφαλίδα και κάτω μπάρα   5. εμφάνιση ενοτήτων στην κύλιση   6. βάθος και κίνηση (hero, λωρίδα θεραπειών, πρόοδος λιστών)   7. μετρητής
+   4β. κεφαλίδα και κάτω μπάρα   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. βάθος και κίνηση (hero, λωρίδα θεραπειών, πρόοδος λιστών)   7. μετρητής
    Χωρίς JavaScript η σελίδα είναι πλήρης. Με ρύθμιση «μείωση κίνησης» τίποτα δεν κινείται. */
 (function () {
   'use strict';
@@ -92,6 +92,21 @@
   } else {
     document.body.classList.add('callbar-on');
   }
+
+  /* ---------- 4γ. μετάβαση σελίδας: η φωτογραφία της θεραπείας που πατήθηκε «ταξιδεύει» στο κάδρο της σελίδας της ---------- */
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest && e.target.closest('a[href^="treatment-"]');
+    if (!link) return;
+    document.querySelectorAll('[data-tx]').forEach(function (el) { el.style.viewTransitionName = ''; el.removeAttribute('data-tx'); });
+    var photo = Array.prototype.filter.call(link.querySelectorAll('img'), function (im) { return im.offsetWidth > 0; })[0];
+    if (!photo && link.closest('.hx-index')) {            // Αρχική σε υπολογιστή: η φωτογραφία είναι στο κάδρο προεπισκόπησης
+      photo = Array.prototype.filter.call(document.querySelectorAll('.hx-preview img'), function (im) { return im.offsetWidth > 0; })[0];
+    }
+    if (photo) { photo.style.viewTransitionName = 'tx-photo'; photo.setAttribute('data-tx', ''); }
+  });
+  window.addEventListener('pageshow', function () {       // επιστροφή με «πίσω»: καθαρίζει το όνομα για να μη μείνει διπλό
+    document.querySelectorAll('[data-tx]').forEach(function (el) { el.style.viewTransitionName = ''; el.removeAttribute('data-tx'); });
+  });
 
   /* ---------- 5. εμφάνιση ενοτήτων (.reveal) όταν μπαίνουν στην οθόνη ---------- */
   var reveals = document.querySelectorAll('.reveal');

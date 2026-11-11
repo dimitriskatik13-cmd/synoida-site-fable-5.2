@@ -35,8 +35,18 @@ main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-he
   .site-header.is-scrolled>div>div{height:64px}
   .site-header.is-scrolled img{transform:scale(.88)}
 }
+.site-header nav{margin-left:28px}
+.site-header nav>ul{gap:clamp(14px,1.6vw,24px)}
+.site-header nav>ul>li>a,.site-header nav summary{white-space:nowrap}
 .nav-phones details.phones>summary{min-height:44px;padding:0 16px;font-size:15px;background:#fff;color:var(--ink)}
 .nav-phones .phones-list{right:auto;left:50%;translate:-50% 0}
+@media (min-width:1024px) and (max-width:1239px){
+  .site-header nav{font-size:14px}
+  .site-header nav>ul{gap:16px}
+  .nav-phones details.phones>summary{padding:0 12px}
+  .nav-phones details.phones>summary>span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}   /* μόνο το εικονίδιο· το όνομα μένει για αναγνώστες οθόνης */
+  .site-header nav a.bg-green{padding-inline:16px}
+}
 
 /* ---- κινητό, Αρχική: η κάτω μπάρα εμφανίζεται όταν το κουμπί του hero βγει από την οθόνη (μία ενέργεια στην πρώτη οθόνη) ---- */
 @media (max-width:1023px){
@@ -64,3 +74,11 @@ main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-he
 }
 :is(a,button,summary,[tabindex]):focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
 :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-help,.speech-practice,.specialty-dark,.assessment-process,.speech-concerns,.specialty-signs,.on-deep,.site-footer) :is(a,button,summary):focus-visible{outline-color:var(--green)}
+
+/* ---- λέξεις έμφασης στους τίτλους ----
+   Σε σκούρο φόντο μένουν στο πράσινο του λογοτύπου (αντίθεση 6,6:1). Σε ανοιχτό φόντο το ίδιο πράσινο ως γράμματα έχει μόλις 2:1,
+   γι' αυτό εκεί γίνονται στη σκούρα απόχρωσή του (5:1): μένουν πράσινες λέξεις και διαβάζονται. */
+main :is(h1,h2) :is(.text-green,.hx-accent){color:var(--green-text)}
+main :is(h1,h2) .text-blue{color:var(--blue-text)}
+main :is(h1,h2) .text-orange{color:#A65A00}
+main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-help,.speech-practice,.specialty-dark,.assessment-process,.speech-concerns,.specialty-signs,.on-deep) :is(h1,h2) :is(.text-green,.hx-accent){color:var(--green)}

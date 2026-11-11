@@ -1,15 +1,18 @@
-/* Brand-coloured dots gather into the real logo as its section scrolls in.
-   Geometry is measured only when layout changes. The animation catches up with
-   scrolling, and while free dots are on screen it keeps drifting gently even
-   with no scroll, so the swarm never looks frozen. It sleeps only when the
-   canvas is off screen, before the dots appear, or once the logo is complete.
-   Reduced motion keeps the real logo visible without creating a canvas. */
+/* ΣΥΝΟΙΔΑ, Αρχική: η κορύφωση. Κουκκίδες στα χρώματα του λογοτύπου μαζεύονται από όλη την οθόνη και γίνονται το αυθεντικό λογότυπο.
+   Η ενότητα #logo-reveal «κρατά» την οθόνη (sticky σκηνή .hx-stage) για περίπου δύο ύψη οθόνης και η κύλιση οδηγεί την κίνηση:
+     πρόοδος 0 έως 0,78   οι κουκκίδες εμφανίζονται, ταξιδεύουν και κλειδώνουν στο λογότυπο
+     από 0,78 και μετά     το λογότυπο είναι καθαρό, ο τίτλος και το κουμπί ανεβαίνουν (κλάση is-formed) και η οθόνη «κρατά»
+   Η γεωμετρία μετριέται μόνο όταν αλλάζει η διάταξη. Όσο υπάρχουν ελεύθερες κουκκίδες αιωρούνται ήρεμα ακόμη και χωρίς κύλιση.
+   Ο καμβάς κοιμάται εκτός οθόνης, πριν εμφανιστούν οι κουκκίδες και όταν ολοκληρωθεί το λογότυπο.
+   Με «μείωση κίνησης» ή εξοικονόμηση δεδομένων δεν δημιουργείται καμβάς: μένει το λογότυπο και το κείμενο, χωρίς καρφίτσωμα. */
 (function(){
-  var mark=document.querySelector('.cta-mark'), img=mark&&mark.querySelector('img'), band=mark&&mark.closest('section');
-  if(!mark||!img||!band||!window.requestAnimationFrame) return;
+  var band=document.getElementById('logo-reveal'), stage=band&&band.querySelector('.hx-stage'), mark=stage&&stage.querySelector('.hx-mark'), img=mark&&mark.querySelector('img');
+  if(!mark||!img||!window.requestAnimationFrame) return;
+  if(navigator.connection&&navigator.connection.saveData) return;
+  var FORMED=0.78;   /* το κλάσμα της κύλισης της ενότητας στο οποίο το λογότυπο έχει ολοκληρωθεί */
   var motion=window.matchMedia('(prefers-reduced-motion: reduce)');
   var cv=null,g=null,ready=false,raf=0,layoutPending=true;
-  var W=0,CH=0,dpr=1,P=[],vh=0,cvTop=0,markTop=0,L=0,T=0,MW=0,MH=0,end=0,span=1;
+  var W=0,CH=0,dpr=1,P=[],vh=0,bandTop=0,bandH=1,L=0,T=0,MW=0,MH=0,formed=false;
   var progress=-1,last=0,time=0,lastOpacity='',lastFilter='',canvasEmpty=true;
   var PAL=['#8DC63F','#ED1C24','#00AEEF','#F7941D','#58595B'];
   var RGB=[[141,198,63],[237,28,36],[0,174,239],[247,148,29],[88,89,91]];
@@ -48,33 +51,33 @@
   function measure(){
     /* Batch all layout reads before canvas/style writes. Scroll frames use only
        these document coordinates and scrollY, never getBoundingClientRect. */
-    var b=band.getBoundingClientRect(),r=mark.getBoundingClientRect(),scroll=window.scrollY;
-    var height=window.innerHeight,w=document.documentElement.clientWidth,docHeight=document.documentElement.scrollHeight;
-    var lead=Math.round(height*0.6),top=Math.round(b.top+scroll-lead),h=Math.max(1,Math.round(b.height+lead));
-    var density=Math.min(window.devicePixelRatio||1,w<768?1.25:1.5,Math.sqrt(2500000/(Math.max(w,1)*h)));
-    vh=height;cvTop=top;markTop=r.top+scroll;L=r.left;T=markTop-top;MW=r.width;MH=r.height;
-    end=Math.max(vh*0.50,markTop-(docHeight-vh)+24);span=Math.max(vh*1.0-end,vh*0.3);   /* starts as the mark enters the screen, fully formed when its top reaches mid-screen */
+    var b=band.getBoundingClientRect(),st=stage.getBoundingClientRect(),r=mark.getBoundingClientRect();
+    var w=Math.max(1,Math.round(st.width)),h=Math.max(1,Math.round(st.height));
+    var density=Math.min(window.devicePixelRatio||1,w<768?1.25:1.5,Math.sqrt(2500000/(w*h)));
+    vh=window.innerHeight;bandTop=b.top+window.scrollY;bandH=b.height;
+    L=r.left-st.left;T=r.top-st.top;MW=r.width;MH=r.height;          /* η θέση του λογοτύπου μέσα στη σκηνή: σταθερή όσο η σκηνή είναι καρφωμένη */
     if(W!==w||CH!==h||dpr!==density){
-      W=w;CH=h;dpr=density;cv.style.width=w+'px';cv.style.height=h+'px';
+      W=w;CH=h;dpr=density;
       cv.width=Math.max(1,Math.round(w*dpr));cv.height=Math.max(1,Math.round(h*dpr));
       g.setTransform(dpr,0,0,dpr,0,0);canvasEmpty=true;
     }
-    if(cv.style.top!==top+'px') cv.style.top=top+'px';
     layoutPending=false;
   }
-  function target(){return clamp((end+span-markTop+window.scrollY)/span);}
-  function visible(){var top=cvTop-window.scrollY;return top<vh&&top+CH>0;}
+  /* Η κύλιση ξεκινά να μετρά μισή οθόνη πριν καρφωθεί η σκηνή (οι κουκκίδες φαίνονται καθώς πλησιάζει) και τελειώνει στο FORMED. */
+  function target(){var lead=vh*0.5,travel=Math.max(bandH-vh+lead,1);return clamp((window.scrollY-(bandTop-lead))/travel/FORMED);}
+  function visible(){var top=bandTop-window.scrollY;return top<vh&&top+bandH>0;}
   function wake(){
     if(!ready||motion.matches||document.hidden) return;
     if(!layoutPending&&!visible()){
-      /* Keep reverse scrolling consistent without rendering offscreen. */
-      progress=target();stop();return;
+      progress=target();setFormed(progress>=0.93);stop();return;      /* εκτός οθόνης: συγχρονισμός χωρίς ζωγραφική */
     }
     if(!raf) raf=requestAnimationFrame(frame);
   }
   function invalidate(){layoutPending=true;wake();}
   function ease(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;}
+  function setFormed(on){if(on!==formed){formed=on;stage.classList.toggle('is-formed',on);}}
   function paint(m){
+    setFormed(m>=0.93);   /* το λογότυπο είναι πια καθαρό: ανεβαίνει το κείμενο */
     var im=clamp((m-0.3)/0.62);im=im*im*(3-2*im);
     var opacity=im.toFixed(3),filter=im<1?'blur('+((1-im)*9).toFixed(1)+'px)':'';
     if(opacity!==lastOpacity){img.style.opacity=opacity;lastOpacity=opacity;}
@@ -117,17 +120,17 @@
     if(ready||motion.matches||!img.naturalWidth) return;
     cv=document.createElement('canvas');g=cv.getContext&&cv.getContext('2d');
     if(!g||!build()) return;
-    cv.className='starfield';cv.setAttribute('aria-hidden','true');
-    document.body.appendChild(cv);ready=true;
-    /* Apply the first opacity before the class, avoiding a flash of the image. */
-    measure();progress=target();paint(progress);
+    cv.className='hx-stars';cv.setAttribute('aria-hidden','true');
+    stage.insertBefore(cv,stage.firstChild);ready=true;
+    /* Η κλάση stars-on καρφώνει τη σκηνή (CSS)· μετράμε αφού εφαρμοστεί, ώστε η γεωμετρία να είναι η τελική. */
     document.documentElement.classList.add('stars-on');
+    measure();progress=target();paint(progress);
     wake();
   }
   function motionChanged(){
     stop();
     if(motion.matches){
-      document.documentElement.classList.remove('stars-on');img.style.opacity='';img.style.filter='';
+      document.documentElement.classList.remove('stars-on');img.style.opacity='';img.style.filter='';setFormed(false);
       lastOpacity='';lastFilter='';if(cv) cv.style.display='none';
     }else if(ready){
       cv.style.display='';progress=-1;measure();progress=target();paint(progress);
@@ -140,7 +143,7 @@
   document.addEventListener('visibilitychange',function(){if(document.hidden) stop();else invalidate();});
   /* Images/fonts above the section can shift it long after initial rendering. */
   document.addEventListener('load',invalidate,true);
-  if(window.ResizeObserver){var observer=new ResizeObserver(invalidate);observer.observe(document.body);observer.observe(band);observer.observe(mark);}
+  if(window.ResizeObserver){var observer=new ResizeObserver(invalidate);observer.observe(document.body);observer.observe(band);observer.observe(stage);observer.observe(mark);}
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(invalidate);
   if(motion.addEventListener) motion.addEventListener('change',motionChanged);else if(motion.addListener) motion.addListener(motionChanged);
   img.loading='eager';if(img.complete&&img.naturalWidth) start();else img.addEventListener('load',start,{once:true});
