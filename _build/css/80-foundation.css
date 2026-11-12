@@ -92,9 +92,11 @@ main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-he
   /* τα τηλέφωνα υπάρχουν ήδη στο κλείσιμο της σελίδας και στην κάτω μπάρα */
 }
 /* ---- άγκυρες και εστίαση πληκτρολογίου: ποτέ κάτω από την κολλημένη κεφαλίδα ή την κάτω μπάρα του κινητού ---- */
-html{scroll-padding-top:calc(var(--hdr,80px) + 16px)}
+/* Η απόσταση μπαίνει στους στόχους (άγκυρες και ό,τι δέχεται εστίαση μέσα στο περιεχόμενο), όχι ως scroll-padding στη σελίδα:
+   με scroll-padding ο browser κυλούσε τη σελίδα κάθε φορά που η εστίαση έμπαινε στην ίδια την κολλημένη κεφαλίδα. */
+:where(main,footer) :is([id],a,button,summary){scroll-margin-top:calc(var(--hdr,80px) + 16px)}
 @media (max-width:1023px){
-  html{scroll-padding-bottom:88px}
+  :where(main,footer) :is([id],a,button,summary){scroll-margin-bottom:88px}
 }
 /* ---- χωρίς JavaScript το μενού κινητού είναι ανοιχτό μέσα στη σελίδα (η πλοήγηση δουλεύει πάντα) ---- */
 @media (max-width:1023px){

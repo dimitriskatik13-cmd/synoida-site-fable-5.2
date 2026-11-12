@@ -90,7 +90,9 @@ def main():
         js_names[name] = 'assets/%s.%s.js' % (name[:-3], hashlib.sha256(data).hexdigest()[:10])
         write(os.path.join(out, js_names[name]), data)
 
-    # το μοναδικό inline script (σημαδεύει ότι υπάρχει JS πριν ζωγραφιστεί η σελίδα) μπαίνει στην πολιτική με hash
+    # το μοναδικό inline script (σημαδεύει ότι υπάρχει JS πριν ζωγραφιστεί η σελίδα) μπαίνει στην πολιτική με hash.
+    # Το style-src κρατά 'unsafe-inline' για τα style="--c:…" των στοιχείων: το στενότερο style-src-attr δεν το καταλαβαίνει ο Safari
+    # και χωρίς εφεδρεία θα έκοβε τα χρώματα. Στο δικό του domain η πολιτική αξίζει να δοθεί και ως HTTP header.
     inline = re.search(r'<script>(.*?)</script>', template, re.S).group(1)
     csp = ("default-src 'self'; script-src 'self' 'sha256-%s'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
            "font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"
@@ -170,6 +172,7 @@ def main():
             page = page.replace('<head>', '<head>\n  <base href="%s" />' % (re.sub(r'^https?://[^/]+', '', base) or '/'), 1)
             page = page.replace('  <link rel="canonical" href="%s" />\n' % url, '')
         if a.final:
+            page = page.replace(',"%s"]' % base.rstrip('/'), ']')      # sameAs: όχι παραπομπή του site στον εαυτό του
             page = re.sub(r'<(p|figcaption|aside|span|small|div)\b[^>]*\bdata-preview-only\b[^>]*>.*?</\1>\n?', '', page, flags=re.S)
             if outfile != '404.html':
                 page = page.replace('  <!-- demo deployment: εκτός ευρετηρίασης -->\n  <meta name="robots" content="noindex, nofollow" />\n', '')
@@ -213,8 +216,10 @@ def main():
     for ref in sorted(refs):
         dst = os.path.join(out, ref)
         if not os.path.exists(dst):
-            src = os.path.join(ROOT, ref)
-            if os.path.exists(src):
+            # πηγή: το assets/ του repo· για τις παράγωγες εικόνες (WebP, og) που ζουν μόνο στο docs/assets, το docs/ (όταν χτίζουμε με --out αλλού)
+            src = next((p for p in (os.path.join(ROOT, ref), os.path.join(ROOT, 'docs', ref)) if os.path.exists(p)), None)
+            if src:
+                os.makedirs(os.path.dirname(dst), exist_ok=True)
                 shutil.copyfile(src, dst)
             else:
                 problems.append('ΛΕΙΠΕΙ αρχείο που αναφέρεται: %s (εικόνα; τρέξε _build/tools/make_images.py)' % ref)

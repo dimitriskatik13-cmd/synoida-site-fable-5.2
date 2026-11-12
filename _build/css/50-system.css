@@ -61,7 +61,7 @@ nav[aria-label="Διαδρομή"] a:hover{color:#fff;text-decoration:underline;
 header a.bg-green{color:var(--ink-strong);transition:background-color .2s,transform .25s var(--ease)}
 header a.bg-green:hover{transform:translateY(-1px)}
 /* text links: one underline, one arrow */
-:is(.about-text-link,.speech-text-link,.specialty-text-link,.therapies-text-link,.assessment-text-link){display:inline-flex;align-items:center;gap:14px;min-height:44px;padding:8px 0;border-bottom:1.5px solid color-mix(in srgb,currentColor 38%,transparent);font-size:14px;font-weight:600;line-height:1.5;color:inherit;transition:border-color .2s}
+:is(.about-text-link,.speech-text-link,.specialty-text-link,.therapies-text-link,.assessment-text-link){display:inline-flex;align-items:center;gap:14px;min-height:44px;padding:8px 0;border-bottom:1.5px solid rgba(38,40,42,.38);border-bottom:1.5px solid color-mix(in srgb,currentColor 38%,transparent);font-size:14px;font-weight:600;line-height:1.5;color:inherit;transition:border-color .2s}
 :is(.about-text-link,.speech-text-link,.specialty-text-link,.therapies-text-link,.assessment-text-link,.contact-next a)>span{font-size:18px;transition:transform .25s var(--ease)}
 :is(.about-text-link,.speech-text-link,.specialty-text-link,.therapies-text-link,.assessment-text-link,.contact-next a):hover{border-bottom-color:#8DC63F}
 :is(.about-text-link,.speech-text-link,.specialty-text-link,.therapies-text-link,.assessment-text-link,.contact-next a):hover>span{transform:translateX(4px)}

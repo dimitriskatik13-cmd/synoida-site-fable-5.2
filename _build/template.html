@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 {{CSP}}  <title>{{TITLE}}</title>
   <meta name="description" content="{{DESC}}" />
-  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/site\./.test(t.src))document.documentElement.classList.remove('js')},true);</script>
+  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/\/assets\/site\./.test(t.src))document.documentElement.classList.remove('js')},true);</script>
   <!-- demo deployment: εκτός ευρετηρίασης -->
   <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href="{{URL}}" />
@@ -149,7 +149,7 @@
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-white/80">
         <p class="font-semibold tracking-wide">© {{YEAR}} ΣΥΝΟΙΔΑ · Κέντρα Ειδικών Θεραπειών</p>
         <p><a href="contact-us.html" class="hover:text-white transition">Αρτέμιδα · Σπάτα · Νέα Μάκρη · Μαραθώνας</a></p>
-        <p><a href="mailto:info@synoida.gr" class="hover:text-white transition">info@synoida.gr</a> · <a href="https://www.synoida.gr" target="_blank" rel="noopener" class="hover:text-white transition">www.synoida.gr</a></p>
+        <p><a href="mailto:info@synoida.gr" class="hover:text-white transition">info@synoida.gr</a><span data-preview-only> · <a href="https://www.synoida.gr" target="_blank" rel="noopener" class="hover:text-white transition">www.synoida.gr</a></span></p>
       </div>
     </div>
   </footer>

@@ -1,9 +1,12 @@
 /* ΣΥΝΟΙΔΑ: κοινή συμπεριφορά όλων των σελίδων.
    1. ενεργό στοιχείο μενού   2. μενού κινητού   3. μενού «Θεραπείες» (υπολογιστής)   4. λίστες τηλεφώνων
-   4β. κάτω μπάρα   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. πρόοδος κύλισης (--hdr, data-progress)   6β. κεφαλίδα κινητού   7. μετρητής   8. ενεργή θεραπεία στη λίστα
+   4β. κάτω μπάρα   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. πρόοδος κύλισης (--hdr, data-progress)   6β. κεφαλίδα κινητού   7. ενεργή θεραπεία στη λίστα   8. μετρητής
    Χωρίς JavaScript η σελίδα είναι πλήρης. Με ρύθμιση «μείωση κίνησης» τίποτα δεν κινείται. */
 (function () {
   'use strict';
+  /* Όλη η συμπεριφορά ζει στη start(). Αν σκάσει στην εκκίνηση, η σελίδα γυρίζει στη μορφή «χωρίς JavaScript» (όλα ορατά, μενού ανοιχτό),
+     όπως κάνει και το μικρό script του <head> όταν το αρχείο δεν φορτώσει καθόλου. */
+  function start() {
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var clamp01 = function (v) { return Math.min(Math.max(v, 0), 1); };
@@ -210,7 +213,7 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* ---------- 8. «Θεραπείες»: η πλαϊνή λίστα δείχνει ποια θεραπεία διαβάζεται τώρα ---------- */
+  /* ---------- 7. «Θεραπείες»: η πλαϊνή λίστα δείχνει ποια θεραπεία διαβάζεται τώρα ---------- */
   var guideLinks = document.querySelectorAll('.therapies-guide a[href^="#"]');
   if (guideLinks.length && 'IntersectionObserver' in window) {
     var guideObserver = new IntersectionObserver(function (entries) {
@@ -229,7 +232,7 @@
     });
   }
 
-  /* ---------- 7. μετρητής (data-count): μετρά μέχρι τον αριθμό όταν φανεί. Το HTML έχει ήδη τον τελικό αριθμό. ---------- */
+  /* ---------- 8. μετρητής (data-count): μετρά μέχρι τον αριθμό όταν φανεί. Το HTML έχει ήδη τον τελικό αριθμό. ---------- */
   var counters = document.querySelectorAll('[data-count]');
   if (counters.length && !reduceMotion && 'IntersectionObserver' in window) {
     var countObserver = new IntersectionObserver(function (entries) {
@@ -261,4 +264,7 @@
       countObserver.observe(el);
     });
   }
+  }
+
+  try { start(); } catch (error) { document.documentElement.classList.remove('js'); throw error; }
 })();

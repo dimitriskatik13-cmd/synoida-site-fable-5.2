@@ -417,7 +417,7 @@
   .pg-hero-404>.pg-wrap::after{content:"404";position:absolute;right:var(--gutter);top:50%;translate:0 -50%;font:500 clamp(160px,19vw,260px)/1 Comfortaa,system-ui,sans-serif;letter-spacing:-.06em;color:var(--green);opacity:.22;pointer-events:none}
 }
 /* ---- 6ος γύρος ---- */
-/* «Θεραπείες»: η πλαϊνή λίστα δείχνει ποια θεραπεία διαβάζεται (site.js, ενότητα 8) */
+/* «Θεραπείες»: η πλαϊνή λίστα δείχνει ποια θεραπεία διαβάζεται (site.js, ενότητα 7) */
 .pg .therapies-guide a.is-current{font-weight:700}
 .therapies-guide a.is-current .therapies-nav-dot{transform:scale(1.5)}
 .therapies-nav-dot{transition:transform .2s var(--ease)}

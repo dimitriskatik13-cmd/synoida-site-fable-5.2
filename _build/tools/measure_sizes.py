@@ -80,7 +80,7 @@ def sizes_for(samples):
     # Κινητά με πυκνότητα 3: αρκεί η εικόνα που θα έπαιρνε ένα κινητό πυκνότητας 2 (η διαφορά δεν φαίνεται, το βάρος πέφτει έως 40%).
     # Browser που δεν καταλαβαίνει το min-resolution μέσα στο sizes απλώς αγνοεί τη γραμμή και κρατά τη συνηθισμένη συμπεριφορά.
     limit, entry = merged[0]
-    if limit == 767 or (limit is None and samples.get(390)):
+    if samples.get(390):                           # η πρώτη τιμή καλύπτει τα κινητά, όποιο κι αν είναι το όριό της (767, 1023 ή κανένα)
         n = int(entry[:-2])
         capped = ('%dvw' % max(1, int(n * 2 / 3 + 0.5))) if entry.endswith('vw') else ('%dpx' % max(1, int(n * 2 / 3 + 0.5)))
         out.insert(0, '(min-resolution: 2.5dppx) and (max-width: 767px) ' + capped)

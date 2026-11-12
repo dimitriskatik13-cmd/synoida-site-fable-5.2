@@ -100,7 +100,7 @@ def weigh(urls, base, cache={}):
 MENU = r"""(async()=>{const m=document.getElementById('mobileMenu'),bar=document.querySelector('.callbar'),hdr=document.querySelector('.site-header').getBoundingClientRect().bottom;
  document.getElementById('navToggle').click(); document.getElementById('mTherapiesBtn').click(); await new Promise(r=>setTimeout(r,250));
  const cb=bar&&getComputedStyle(bar).display!=='none'&&bar.getBoundingClientRect().top<innerHeight?bar.getBoundingClientRect().top:innerHeight, bad=[];
- for(const a of m.querySelectorAll('a,button')){ a.focus(); const r=a.getBoundingClientRect();   // όπως το Tab: ο browser φέρνει το στοιχείο στην οθόνη if(r.height<1) continue;
+ for(const a of m.querySelectorAll('a,button')){ a.focus(); /* όπως το Tab: ο browser φέρνει το στοιχείο στην οθόνη */ const r=a.getBoundingClientRect(); if(r.height<1) continue;
    if(r.bottom>cb+1||r.top<hdr-1) bad.push((a.textContent||'').trim().slice(0,24)) }
  return bad})()"""
 FOCUS = r"""(()=>{const bar=document.querySelector('.callbar'),hb=document.querySelector('.site-header').getBoundingClientRect().bottom, bad=[];
@@ -143,13 +143,13 @@ def scenarios(ws, base, problems, report):
         if free < 300:
             problems.append('χωρίς JS  %-18s μετά από κύλιση φαίνονται μόνο %d px περιεχομένου (η κεφαλίδα με το ανοιχτό μενού μένει κολλημένη)' % (p, free))
     # 2β. το site.js δεν φόρτωσε (ασταθές δίκτυο): η σελίδα πρέπει να φαίνεται ολόκληρη, όπως χωρίς JavaScript
-    ws.send('Network.setBlockedURLs', {'urls': ['*assets/site.*']})
+    ws.send('Network.setBlockedURLs', {'urls': ['*assets/site.*.js']})      # μόνο το script, όχι το site.<hash>.css
     for p in ('index', 'treatment-speech'):
         ws.open(base + p + '.html', settle=1.0)
-        r = ws.js("""({js:document.documentElement.classList.contains('js'),hidden:[...document.querySelectorAll('main .reveal')].filter(e=>getComputedStyle(e).opacity<0.99).length,
+        r = ws.js("""({js:document.documentElement.classList.contains('js'),css:getComputedStyle(document.querySelector('.sr-only')).position==='absolute',hidden:[...document.querySelectorAll('main .reveal')].filter(e=>getComputedStyle(e).opacity<0.99).length,
                       links:[...document.querySelectorAll('#mobileMenu a[href$=".html"]')].filter(a=>a.offsetHeight>0).length})""")
-        if r['js'] or r['hidden'] or r['links'] < 10:
-            problems.append('χωρίς site.js %-14s κρυμμένες ενότητες %d · σύνδεσμοι μενού %d · κλάση js %s' % (p, r['hidden'], r['links'], r['js']))
+        if r['js'] or r['hidden'] or r['links'] < 10 or not r['css']:
+            problems.append('χωρίς site.js %-14s κρυμμένες ενότητες %d · σύνδεσμοι μενού %d · κλάση js %s · φορτώθηκε το CSS %s' % (p, r['hidden'], r['links'], r['js'], r['css']))
     ws.send('Network.setBlockedURLs', {'urls': []})
     # 2γ. ανοιχτό μενού κινητού: η σελίδα από πίσω δεν δέχεται εστίαση
     ws.open(base + 'treatment-speech.html', settle=0.8)
@@ -182,6 +182,28 @@ def scenarios(ws, base, problems, report):
     r = ws.js('({main:document.querySelector("main").inert,footer:document.querySelector("footer").inert,locked:document.documentElement.classList.contains("menu-open")})')
     if r['main'] or r['footer'] or r['locked']:
         problems.append('αλλαγή πλάτους με ανοιχτό μενού: η σελίδα μένει ανενεργή (%s)' % r)
+    # 2η. κεφαλίδα κινητού: κρύβεται όταν κυλάς κάτω, επιστρέφει όταν κυλάς πάνω, και η εστίαση μέσα της δεν μετακινεί τη σελίδα
+    ws.viewport(390, 844, 2)
+    ws.open(base + 'treatment-speech.html', settle=0.8)
+    seq = []
+    for y in (700, 1500, 1900):
+        ws.js('window.scrollTo({top:%d,behavior:"instant"});1' % y); time.sleep(0.35)
+    seq.append(ws.js('document.documentElement.classList.contains("hdr-off")'))
+    ws.js('window.scrollTo({top:1700,behavior:"instant"});1'); time.sleep(0.35)
+    seq.append(ws.js('document.documentElement.classList.contains("hdr-off")'))
+    y0 = ws.js('Math.round(scrollY)')
+    ws.js('document.getElementById("navToggle").focus();1'); time.sleep(0.5)
+    y1 = ws.js('Math.round(scrollY)')
+    if seq != [True, False] or abs(y1 - y0) > 4:
+        problems.append('κεφαλίδα κινητού: κρυμμένη μετά από κύλιση κάτω %s, μετά από κύλιση πάνω %s · εστίαση στο κουμπί μενού μετακίνησε τη σελίδα %d px' % (seq[0], seq[1], y1 - y0))
+    ws.viewport(1440)
+    ws.open(base + 'treatment-speech.html', settle=0.8)
+    ws.js('window.scrollTo({top:1800,behavior:"instant"});1'); time.sleep(0.3)
+    y0 = ws.js('Math.round(scrollY)')
+    ws.js('document.querySelector(".nav-phones summary").focus();1'); time.sleep(0.5)
+    y1 = ws.js('Math.round(scrollY)')
+    if abs(y1 - y0) > 4:
+        problems.append('υπολογιστής: η εστίαση στα «Τηλέφωνα» της κεφαλίδας μετακίνησε τη σελίδα %d px' % (y1 - y0))
     # 2ζ. αργό κινητό (1,6 Mbps, 150 ms, CPU x4, πυκνότητα 3): η κύρια εικόνα ή ο τίτλος πρέπει να φανεί μέσα σε 2,5 s
     ws.viewport(390, 844, 3)
     ws.send('Network.emulateNetworkConditions', {'offline': False, 'latency': 150, 'downloadThroughput': 1.6e6 / 8, 'uploadThroughput': 750e3 / 8})
@@ -232,7 +254,7 @@ def scenarios(ws, base, problems, report):
             problems.append('κινητό 3x %-18s πρώτη οθόνη %.0f KB (όριο %d)' % (p, kb, BUDGET['mobile3x']['first']))
         if full > BUDGET['mobile3x']['full']:
             problems.append('κινητό 3x %-18s ολόκληρη σελίδα %.0f KB (όριο %d)' % (p, full, BUDGET['mobile3x']['full']))
-    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · αλλαγή πλάτους · αργό κινητό · μείωση κίνησης · πληκτρολόγιο · 404 · κινητό 3x πρώτη οθόνη διάμεσος %d KB, μέγιστο %d · όλη η σελίδα μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs), max(fulls)), flush=True)
+    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · αλλαγή πλάτους · κεφαλίδα που κρύβεται · εστίαση στην κεφαλίδα · αργό κινητό · μείωση κίνησης · πληκτρολόγιο · 404 · κινητό 3x πρώτη οθόνη διάμεσος %d KB, μέγιστο %d · όλη η σελίδα μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs), max(fulls)), flush=True)
 
 
 def main():

@@ -3,7 +3,7 @@
 Χρησιμοποιείται από τα measure_sizes.py και check_browser.py. Σερβίρει το docs/ τοπικά και μιλά στο Chrome
 με το DevTools Protocol. Δεν εγκαθιστά τίποτα· χρειάζεται μόνο εγκατεστημένο Google Chrome.
 """
-import base64, contextlib, functools, http.server, json, os, socket, struct, subprocess, tempfile, threading, time, urllib.request
+import base64, contextlib, functools, http.server, json, os, shutil, socket, struct, subprocess, tempfile, threading, time, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -174,4 +174,10 @@ def session(docs=DOCS):
         ws.send('Network.setCacheDisabled', {'cacheDisabled': True})
         yield ws, 'http://127.0.0.1:%d/' % srv.server_address[1]
     finally:
-        proc.terminate(); srv.shutdown()
+        proc.terminate()
+        try:
+            proc.wait(timeout=5)
+        except Exception:
+            proc.kill()
+        srv.shutdown()
+        shutil.rmtree(prof, ignore_errors=True)
