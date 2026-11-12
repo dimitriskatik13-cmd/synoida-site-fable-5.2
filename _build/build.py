@@ -151,6 +151,12 @@ def main():
                 .replace('{{MAIN}}', main_html)
                 .replace('{{YEAR}}', str(SITE['year']))
                 .replace('{{BASE}}', base))
+        if outfile == 'contact-us.html':
+            # σε αυτή τη σελίδα το δεύτερο κουμπί της κάτω μπάρας θα έδειχνε στον εαυτό της: δίνει email (πριν μπουν τα aria-current)
+            swapped = page.replace('<a href="contact-us.html" class="callbar-contact">Επικοινωνία</a>', '<a href="mailto:info@synoida.gr" class="callbar-contact">Email</a>', 1)
+            if swapped == page:
+                problems.append('contact-us.html: δεν βρέθηκε το κουμπί της κάτω μπάρας για να γίνει «Email»')
+            page = swapped
         # ενεργό στοιχείο μενού και για αναγνώστες οθόνης (ισχύει και χωρίς JavaScript): «page» για την ίδια τη σελίδα, «true» για τη γονική ενότητα
         page = re.sub(r'<a href="([^"]+)" data-nav="%s"' % re.escape(meta['nav']),
                       lambda m: m.group(0) + (' aria-current="page"' if m.group(1) == outfile else ' aria-current="true"'), page)
@@ -159,9 +165,6 @@ def main():
         mark_self = lambda part: re.sub(r'<a href="%s"(?![^>]*aria-current)' % re.escape(outfile), lambda m: m.group(0) + ' aria-current="page"', part)
         page = mark_self(head_part) + main_part + mark_self(tail_part)
         page = page.replace('<!doctype html>', '<!doctype html>\n' + MARKER, 1)
-        if outfile == 'contact-us.html':
-            # σε αυτή τη σελίδα το δεύτερο κουμπί της κάτω μπάρας θα έδειχνε στον εαυτό της: δίνει email
-            page = page.replace('<a href="contact-us.html" class="callbar-contact">Επικοινωνία</a>', '<a href="mailto:info@synoida.gr" class="callbar-contact">Email</a>', 1)
         if outfile == '404.html':
             # το 404 σερβίρεται σε οποιοδήποτε path: τα σχετικά links θέλουν σταθερή βάση
             page = page.replace('<head>', '<head>\n  <base href="%s" />' % (re.sub(r'^https?://[^/]+', '', base) or '/'), 1)

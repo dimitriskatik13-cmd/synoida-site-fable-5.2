@@ -132,3 +132,7 @@ html:not(.js) #copy-contact-email{display:none}
   .footer-grid{grid-template-columns:1.3fr 1fr;column-gap:20px;row-gap:40px}
   .footer-grid>div:first-child{grid-column:1/-1}
 }
+/* ---- 8ος γύρος: υποσέλιδο υπολογιστή, διευθύνσεις σε μία γραμμή ---- */
+@media (min-width:1024px){
+  .footer-centres span{white-space:nowrap;font-size:13px}
+}

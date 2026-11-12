@@ -229,6 +229,9 @@ def main():
                 bad('τηλέφωνο %s δεν ανήκει στα κέντρα των δομημένων δεδομένων' % num)
             elif not shown.endswith(num[3:]):
                 bad('το κείμενο του συνδέσμου tel:%s γράφει άλλο αριθμό' % num)
+        # κάτω μπάρα κινητού: κανένα κουμπί δεν οδηγεί στη σελίδα όπου ήδη βρίσκεται ο επισκέπτης
+        if re.search(r'<a href="%s"[^>]*class="callbar-contact"' % re.escape(name), x.raw):
+            bad('η κάτω μπάρα έχει κουμπί που οδηγεί στην ίδια σελίδα')
         heroes = [im for im in x.imgs if im.get('fetchpriority') == 'high']
         # 404 και Επικοινωνία δεν έχουν φωτογραφία στην πρώτη οθόνη (η Επικοινωνία ανοίγει με τα τηλέφωνα)
         if name not in NO_HERO_IMAGE and not heroes:

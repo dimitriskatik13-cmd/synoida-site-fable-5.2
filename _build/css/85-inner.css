@@ -423,3 +423,19 @@
 .therapies-nav-dot{transition:transform .2s var(--ease)}
 /* «Σχετικά»: λιγότερο κενό κάτω από το χρονολόγιο */
 .pg .about-story.about-section{padding-bottom:clamp(56px,5vw,72px)}
+/* ---- 8ος γύρος ---- */
+@media (max-width:899px){
+  /* «Πότε να απευθυνθείτε»: λίστα και μετρητής πιάνουν όλο το πλάτος (σε tablet έμεναν 190px κενά δεξιά) */
+  .pg-signs>.pg-grid{align-items:stretch}
+  .pg-signs-list p{max-width:none}
+}
+@media (max-width:700px){
+  /* Εργοθεραπεία στο κινητό: η λωρίδα δείχνει την ίδια αίθουσα με την επόμενη φωτογραφία, αρκεί η μία */
+  .pg.is-red .pg-band{display:none}
+}
+@media (min-width:1024px){
+  /* συχνές ερωτήσεις: ο τίτλος ακολουθεί όσο ανοίγουν οι απαντήσεις, δεν αφήνει ψηλή άδεια στήλη */
+  .pg-faq-grid>:first-child{position:sticky;top:calc(var(--hdr,80px) + 40px)}
+}
+/* «Σχετικά»: το λογότυπο της βιτρίνας μένει ολόκληρο όταν η φωτογραφία φτάνει στην άκρη της οθόνης */
+.pg-hero-photo>img.is-entrance{object-position:100% 50%}
