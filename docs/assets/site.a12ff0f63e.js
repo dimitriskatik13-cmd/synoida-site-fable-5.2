@@ -270,7 +270,7 @@
     counters.forEach(function (el) {
       // οι αναγνώστες οθόνης ακούν πάντα τον τελικό αριθμό, όχι το «0» από το οποίο ξεκινά η κίνηση
       var spoken = document.createElement('span');
-      spoken.className = 'sr-only';
+      spoken.className = 'sr-only count-final';              // στην εκτύπωση φαίνεται αυτό, όχι το ψηφίο που κινείται
       spoken.textContent = el.textContent;
       el.parentNode.insertBefore(spoken, el);
       el.setAttribute('aria-hidden', 'true');

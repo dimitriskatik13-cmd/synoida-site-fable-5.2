@@ -31,7 +31,7 @@ BUDGET = {  # KB, όπως φτάνουν στον επισκέπτη. Όρια 
     'mobile3x': {'first': 245, 'full': 500},
 }
 MODES = {'mobile': (390, 844, 2), 'desktop': (1440, 900, 1)}
-OVERFLOW_WIDTHS = (360, 768, 1024, 1920)
+OVERFLOW_WIDTHS = (320, 360, 768, 1024, 1366, 1920)
 
 INIT = r"""window.__cls=0;window.__lcp=null;window.__lcpt=0;window.__seen=new Map();
 try{new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput) window.__cls+=e.value}).observe({type:'layout-shift',buffered:true})}catch(e){}
@@ -208,8 +208,9 @@ def scenarios(ws, base, problems, report):
         ws.open(base + p + '.html', settle=0.8)
         r = ws.js(HIDDEN_TEXT)
         b = ws.js("""({bar:getComputedStyle(document.querySelector('.callbar')).display,hdr:getComputedStyle(document.querySelector('.site-header')).position})""")
-        if r['bad'] or b['bar'] != 'none' or b['hdr'] != 'static':
-            problems.append('εκτύπωση %-16s κρυμμένο κείμενο %s · κάτω μπάρα %s · κεφαλίδα %s' % (p, r['bad'], b['bar'], b['hdr']))
+        zero = ws.js("""[...document.querySelectorAll('[data-count]')].filter(e=>getComputedStyle(e).display!=='none'&&e.textContent.trim()!==e.getAttribute('data-count')).length""")
+        if r['bad'] or b['bar'] != 'none' or b['hdr'] != 'static' or zero:
+            problems.append('εκτύπωση %-16s κρυμμένο κείμενο %s · κάτω μπάρα %s · κεφαλίδα %s · μετρητές που δεν δείχνουν τον τελικό αριθμό %d' % (p, r['bad'], b['bar'], b['hdr'], zero))
     ws.send('Emulation.setEmulatedMedia', {'media': ''})
     # 2στ. το πλάτος περνά σε «υπολογιστή» με ανοιχτό το μενού κινητού (περιστροφή tablet): η σελίδα πρέπει να μείνει ενεργή
     ws.viewport(820, 1180, 2)
@@ -349,6 +350,21 @@ def scenarios(ws, base, problems, report):
             return {pinned:document.documentElement.classList.contains('stars-on'),logo:Math.round(m.top-hb),btn:Math.round(innerHeight-b.bottom)}})()''')
         if r['pinned'] and (r['logo'] < 0 or r['btn'] < 0):
             problems.append('σκηνή λογοτύπου %dx%d: λογότυπο %d px από την κεφαλίδα, κουμπί %d px από το κάτω όριο (αρνητικό = κομμένο)' % (w, h, r['logo'], r['btn']))
+    # 4ε. πλάτος 700 (iPad mini όρθιο, κινητό οριζόντια): καμία εικόνα υπερδιπλάσια από όσο χρειάζεται
+    ws.viewport(700, 900, 2)
+    for p in ('treatments', 'index', 'contact-us', 'rating'):
+        ws.open(base + p + '.html', settle=0.8); ws.scroll_through(0.2)
+        big = ws.js("""[...document.images].filter(i=>i.currentSrc&&/-(\\d+)\\.webp$/.test(i.currentSrc)&&i.offsetWidth>0).map(i=>{const r=i.getBoundingClientRect(),s=getComputedStyle(i),ar=(+i.getAttribute('width')||3)/(+i.getAttribute('height')||2);
+            const need=(s.objectFit==='cover'?Math.max(r.width,r.height*ar):r.width)*devicePixelRatio, nat=+i.currentSrc.match(/-(\\d+)\\.webp$/)[1]; return {src:i.currentSrc.split('/').pop(),nat,need:Math.round(need)}}).filter(x=>x.nat/x.need>2.05)""")
+        for i in big[:3]:
+            problems.append('πλάτος 700 %-14s εικόνα %s: %dpx ενώ χρειάζεται %d' % (p, i['src'], i['nat'], i['need']))
+    # 4δ. άνοιγμα της Αρχικής σε χαμηλό laptop: το κύριο κουμπί μέσα στην πρώτη οθόνη
+    for w, h in ((1366, 650), (1280, 680)):
+        ws.viewport(w, h, 1)
+        ws.open(base + 'index.html', settle=1.0)
+        b = ws.js('Math.round(innerHeight-document.querySelector(".hx-hero .hx-btn").getBoundingClientRect().bottom)')
+        if b < 8:
+            problems.append('Αρχική %dx%d: το κουμπί της πρώτης οθόνης είναι %d px από το κάτω όριο (αρνητικό = εκτός οθόνης)' % (w, h, b))
     # 5. σελίδα 404 όπως τη σερβίρει το GitHub Pages: άγνωστη διεύθυνση κάτω από το πρόθεμα του site
     ws.open(base.rstrip('/') + cdp.site_prefix() + 'kati/pou-den-yparxei', settle=1.0)
     r = ws.js("""(()=>{const sk=document.querySelector('a[href="#main"]'); const before=location.pathname; sk&&sk.click();

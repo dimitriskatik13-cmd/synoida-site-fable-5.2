@@ -346,3 +346,26 @@ main.hx .location-photos .preview-centre>.preview-centre-link{font-size:14px}
 @media (max-width:374px){
   .hx-name{font-size:20px}
 }
+/* ---- 12ος γύρος ---- */
+/* χαμηλές οθόνες laptop (1366x768, 1280x720): τίτλος, περιγραφή και κουμπί χωρούν στην πρώτη οθόνη */
+@media (min-width:901px) and (max-height:760px){
+  .hx-hero-grid{min-height:0}
+  .hx-hero-copy{padding-block:28px 40px}
+  .hx-hero h1{font-size:clamp(2.5rem,7.4vh,3.5rem)}
+  .hx-what{margin-top:14px}
+  .hx-hero-actions{margin-top:22px}
+  .hx-hero-art{min-height:calc(100vh - var(--hdr,80px) - 20px)}
+}
+@media (max-width:900px){
+  .hx-index{border-bottom:0}
+  /* μία γραμμή πριν από το «Πώς δουλεύουμε», όχι δύο */
+  .hx-sub{padding-left:19px}
+  /* ο υπότιτλος στοιχίζεται με το όνομα, όχι με την κουκκίδα */
+}
+@media (max-width:340px){
+  .hx-index a{grid-template-columns:48px minmax(0,1fr) 18px;column-gap:12px}
+  .hx-thumb{width:48px;height:48px}
+  .hx-name{font-size:1.125rem;overflow-wrap:anywhere}
+  .hx-places{font-size:13px}
+  .nw{white-space:normal}
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Μετρά πόσο πλάτος πιάνει ΠΡΑΓΜΑΤΙΚΑ κάθε εικόνα σε 8 πλάτη οθόνης και γράφει το sizes της στο _build/image-sizes.json.
+"""Μετρά πόσο πλάτος πιάνει ΠΡΑΓΜΑΤΙΚΑ κάθε εικόνα σε 9 πλάτη οθόνης και γράφει το sizes της στο _build/image-sizes.json.
 
 Έτσι ο browser κατεβάζει την έκδοση που χρειάζεται και όχι μεγαλύτερη. Τρέξε το όταν αλλάξει η διάταξη ή προστεθεί εικόνα:
     python3 _build/build.py && python3 _build/tools/measure_sizes.py && python3 _build/build.py
@@ -11,12 +11,12 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cdp
 
-WIDTHS = [360, 390, 430, 768, 1024, 1280, 1440, 1920]
+WIDTHS = [360, 390, 430, 700, 768, 1024, 1280, 1440, 1920]
 # περιοχές του sizes: (μέγιστο πλάτος οθόνης, δείγματα που ανήκουν εκεί)
 # Σε κινητό το hero είναι όρθιο κουτί και η φωτογραφία (cover) θέλει πλάτος πάνω από την οθόνη, έως 240vw.
 # Όριο 150vw: σε οθόνη 2x κατεβαίνει η έκδοση 1200 (καθαρή εικόνα) και όχι η 1600 ή 1920 (διπλάσιο βάρος για κομμένα pixels).
 CAP = 150
-BANDS = [(767, (360, 390, 430)), (1023, (768,)), (1279, (1024,)), (1439, (1280,)), (None, (1440, 1920))]
+BANDS = [(639, (360, 390, 430)), (767, (700,)), (1023, (768,)), (1279, (1024,)), (1439, (1280,)), (None, (1440, 1920))]
 
 PROBE = r"""(()=>{const seen={},out=[];
  for(const i of document.images){const m=(i.getAttribute('src')||'').match(/assets\/([A-Za-z0-9_-]+?)-\d+\.webp$/); if(!m) continue;
@@ -84,7 +84,7 @@ def sizes_for(samples):
     if samples.get(390):                           # η πρώτη τιμή καλύπτει τα κινητά, όποιο κι αν είναι το όριό της (767, 1023 ή κανένα)
         n = int(entry[:-2])
         capped = ('%dvw' % max(1, int(n * 2 / 3 + 0.5))) if entry.endswith('vw') else ('%dpx' % max(1, int(n * 2 / 3 + 0.5)))
-        out.insert(0, '(min-resolution: 2.5dppx) and (max-width: 767px) ' + capped)
+        out.insert(0, '(min-resolution: 2.5dppx) and (max-width: %dpx) ' % (639 if limit == 639 else 767) + capped)
     return ', '.join(out)
 
 

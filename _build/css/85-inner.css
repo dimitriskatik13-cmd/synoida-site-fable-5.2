@@ -180,7 +180,7 @@
 /* ---- 11. Κλείσιμο: ο τίτλος αριστερά, τα τέσσερα τηλέφωνα δεξιά, έτοιμα για πάτημα ---- */
 .pg-close>.pg-grid{row-gap:0}
 .pg-close-copy{grid-column:1/7}
-.pg-close-copy>h2{font-size:clamp(1.75rem,2.8vw,2.5rem);max-width:none}
+.pg-close-copy>h2{font-size:clamp(1.75rem,3.1vw,2.75rem);max-width:none}
 .pg-close-copy>p{font-size:17px;max-width:44ch}
 .pg-close-links{grid-column:1/7;grid-row:2;align-self:end}
 .pg-phones{grid-column:8/13;grid-row:1/3;min-width:0;border-bottom:1px solid var(--rule)}
@@ -471,3 +471,13 @@
 }
 /* η πρόσκληση κάτω από τα σημάδια σπάει σε δύο ισορροπημένες γραμμές, όχι με μία λέξη μόνη στο τέλος */
 .pg .signs-cta{text-wrap:balance}
+/* ---- 12ος γύρος ---- */
+/* συχνές ερωτήσεις με δύο μόνο ερωτήσεις: πιο κοντή ενότητα, ώστε το κλείσιμο να είναι η καθαρή κατάληξη της σελίδας */
+.pg-sec.is-short{padding-block:clamp(48px,5vw,64px)}
+@media (max-width:759px){
+  .pg .pg-hero-year{display:none}
+  /* στο κινητό το 1998 φαίνεται μία φορά, ως πρώτη στάση του χρονολογίου */
+}
+@media (min-width:700px) and (max-width:899px){
+  .pg-signs-list p,.pg-defs p,.pg-steps p{max-width:66ch}
+}
