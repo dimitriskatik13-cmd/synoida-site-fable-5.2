@@ -232,6 +232,11 @@ def main():
         # κάτω μπάρα κινητού: κανένα κουμπί δεν οδηγεί στη σελίδα όπου ήδη βρίσκεται ο επισκέπτης
         if re.search(r'<a href="%s"[^>]*class="callbar-contact"' % re.escape(name), x.raw):
             bad('η κάτω μπάρα έχει κουμπί που οδηγεί στην ίδια σελίδα')
+        # στατικά αρχεία με πηγή στο assets/ του repo (λογότυπα, εικονίδια): το δημοσιευμένο αντίγραφο είναι ίδιο με την πηγή
+        for ref in set(re.findall(r'(?:href|src)="(assets/[^"#?]+)"', x.raw)):
+            src_file = os.path.join(ROOT, ref)
+            if os.path.isfile(src_file) and os.path.isfile(os.path.join(DOCS, ref)) and open(src_file, 'rb').read() != open(os.path.join(DOCS, ref), 'rb').read():
+                bad('το %s στο docs/ είναι παλαιότερο από την πηγή του (τρέξε build)' % ref)
         heroes = [im for im in x.imgs if im.get('fetchpriority') == 'high']
         # 404 και Επικοινωνία δεν έχουν φωτογραφία στην πρώτη οθόνη (η Επικοινωνία ανοίγει με τα τηλέφωνα)
         if name not in NO_HERO_IMAGE and not heroes:

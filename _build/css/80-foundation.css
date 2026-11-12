@@ -22,6 +22,7 @@ main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-he
 @media (max-width:1023px){
   .site-header{transition:transform .22s var(--ease)}
   html.hdr-off:not(.menu-open) .site-header{transform:translateY(-101%)}
+  html.hdr-now .site-header{transition:none}
   .pg.tm-on .pg-countbar{transition:top .22s var(--ease)}
   html.hdr-off .pg.tm-on .pg-countbar{top:0}
 }
@@ -111,7 +112,7 @@ html:not(.js) #copy-contact-email{display:none}
 /* ---- 5ος γύρος ---- */
 /* υποσέλιδο: τέσσερις στήλες στον υπολογιστή (λογότυπο, θεραπείες, σελίδες, τηλέφωνα) */
 @media (min-width:1024px){
-  .footer-grid{grid-template-columns:1.15fr 1fr .8fr 1.35fr}
+  .footer-grid{grid-template-columns:1.1fr .95fr .7fr 1.6fr}
 }
 /* εκτύπωση ή αποθήκευση σε PDF: όλο το περιεχόμενο ορατό, χωρίς κολλημένα στοιχεία */
 @media print{
@@ -136,5 +137,15 @@ html:not(.js) #copy-contact-email{display:none}
 }
 /* ---- 8ος γύρος: υποσέλιδο υπολογιστή, διευθύνσεις σε μία γραμμή ---- */
 @media (min-width:1024px){
-  .footer-centres span{white-space:nowrap;font-size:13px}
+  .footer-centres span{font-size:13px}
+  /* η διεύθυνση σπάει σε δεύτερη γραμμή όταν δεν χωρά: ποτέ nowrap εδώ, πέφτει πάνω στο τηλέφωνο */
+}
+/* ---- 10ος γύρος ---- */
+.nw{white-space:nowrap}
+/* «Μετάβαση στο περιεχόμενο»: η αρχή του main κάθεται κάτω από την κολλημένη κεφαλίδα */
+main{scroll-margin-top:var(--hdr,80px)}
+/* μείωση κίνησης: οι ενότητες φαίνονται αμέσως, χωρίς μετάβαση (ο παλιός κανόνας του 60-page έχανε σε εξειδίκευση) */
+@media (prefers-reduced-motion:reduce){
+  .js .reveal{opacity:1;transform:none;transition:none}
+  .js body[data-page="home"] .callbar{transition:none}
 }

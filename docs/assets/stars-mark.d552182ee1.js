@@ -124,6 +124,9 @@
     stage.insertBefore(cv,stage.firstChild);ready=true;
     /* Η κλάση stars-on καρφώνει τη σκηνή (CSS)· μετράμε αφού εφαρμοστεί, ώστε η γεωμετρία να είναι η τελική. */
     document.documentElement.classList.add('stars-on');
+    /* Η σκηνή μόλις ψήλωσε: αν ο επισκέπτης ήρθε σε άγκυρα που βρίσκεται από κάτω της (π.χ. #preview-centres), ξαναπάμε εκεί. */
+    try{var anchor=location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if(anchor&&(band.compareDocumentPosition(anchor)&Node.DOCUMENT_POSITION_FOLLOWING)&&!band.contains(anchor)) anchor.scrollIntoView();}catch(e){}
     measure();progress=target();paint(progress);
     wake();
   }

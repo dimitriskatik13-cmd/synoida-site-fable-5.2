@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 {{CSP}}  <title>{{TITLE}}</title>
   <meta name="description" content="{{DESC}}" />
-  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/\/assets\/site\./.test(t.src))document.documentElement.classList.remove('js')},true);</script>
+  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/\/assets\/site\./.test(t.src))document.documentElement.classList.remove('js')},true);setTimeout(function(){if(!window.synoidaReady)document.documentElement.classList.remove('js')},4000);addEventListener('pagereveal',function(e){if(e.viewTransition)e.viewTransition.ready.catch(function(){})});</script>
   <!-- demo deployment: εκτός ευρετηρίασης -->
   <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href="{{URL}}" />

@@ -215,10 +215,16 @@ def main():
     refs = set(re.findall(r'assets/[A-Za-z0-9._/-]+\.[A-Za-z0-9]+', produced)) | set('assets/fonts/' + f for f in re.findall(r'url\(fonts/([A-Za-z0-9._-]+)\)', css))
     for ref in sorted(refs):
         dst = os.path.join(out, ref)
-        if not os.path.exists(dst):
-            # πηγή: το assets/ του repo· για τις παράγωγες εικόνες (WebP, og) που ζουν μόνο στο docs/assets, το docs/ (όταν χτίζουμε με --out αλλού)
-            src = next((p for p in (os.path.join(ROOT, ref), os.path.join(ROOT, 'docs', ref)) if os.path.exists(p)), None)
-            if src:
+        own = os.path.join(ROOT, ref)                  # στατικό αρχείο με πηγή στο assets/ του repo (λογότυπα, favicon)
+        if os.path.exists(own) and not ref.startswith('assets/fonts/'):
+            data = open(own, 'rb').read()
+            if not os.path.exists(dst) or open(dst, 'rb').read() != data:       # ξαναγράφεται όποτε αλλάξει η πηγή, όχι μόνο όταν λείπει
+                os.makedirs(os.path.dirname(dst), exist_ok=True)
+                open(dst, 'wb').write(data)
+        elif not os.path.exists(dst):
+            # παράγωγες εικόνες (WebP, og) που ζουν μόνο στο docs/assets: αντιγράφονται από εκεί όταν χτίζουμε με --out σε άλλο φάκελο
+            src = os.path.join(ROOT, 'docs', ref)
+            if os.path.exists(src):
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 shutil.copyfile(src, dst)
             else:

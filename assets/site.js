@@ -7,6 +7,8 @@
   /* Όλη η συμπεριφορά ζει στη start(). Αν σκάσει στην εκκίνηση, η σελίδα γυρίζει στη μορφή «χωρίς JavaScript» (όλα ορατά, μενού ανοιχτό),
      όπως κάνει και το μικρό script του <head> όταν το αρχείο δεν φορτώσει καθόλου. */
   function start() {
+    window.synoidaReady = true;                                // το script του <head> περιμένει αυτό το σημάδι
+    document.documentElement.classList.add('js');              // αν είχε γυρίσει σε «χωρίς JavaScript» επειδή αργήσαμε, επανέρχεται
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var clamp01 = function (v) { return Math.min(Math.max(v, 0), 1); };
@@ -28,7 +30,7 @@
     navToggle.setAttribute('aria-expanded', String(open));
     document.documentElement.classList.toggle('menu-open', open);      // η σελίδα από πίσω δεν κυλά
     // όσο το μενού είναι ανοιχτό, η σελίδα από πίσω δεν δέχεται εστίαση (πληκτρολόγιο, αναγνώστες οθόνης)· η κάτω μπάρα μένει ενεργή
-    document.querySelectorAll('main, footer').forEach(function (el) { el.inert = open; });
+    document.querySelectorAll('main, footer, .preview-status').forEach(function (el) { el.inert = open; });
   }
   navToggle.addEventListener('click', function () { setMobileMenu(mobileMenu.classList.contains('hidden')); });
   // αν το πλάτος περάσει σε «υπολογιστή» με ανοιχτό το μενού (περιστροφή tablet, παράθυρο που μεγαλώνει), το μενού κλείνει:
@@ -201,6 +203,14 @@
   }, { passive: true });
   if (header) header.addEventListener('focusin', function () { setHeaderOff(false); });   // εστίαση με πληκτρολόγιο: πάντα ορατή
   window.addEventListener('hashchange', function () { settleUntil = Date.now() + 1500; setHeaderOff(false); });   // άλμα σε άγκυρα μέσα στη σελίδα
+  // Πλοήγηση με Tab: η κεφαλίδα επιστρέφει αμέσως (χωρίς κίνηση) πριν μετακινηθεί η εστίαση. Αλλιώς η εστίαση θα έμπαινε σε κρυμμένη
+  // κεφαλίδα και ο browser θα κυλούσε τη σελίδα προς τα πάνω για να τη δείξει.
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab' || !headerOff) return;
+    document.documentElement.classList.add('hdr-now');
+    setHeaderOff(false);
+    requestAnimationFrame(function () { document.documentElement.classList.remove('hdr-now'); });
+  }, true);
 
   measureHeader();
   window.addEventListener('resize', measureHeader);

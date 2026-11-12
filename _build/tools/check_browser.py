@@ -112,7 +112,31 @@ FOCUS = r"""(()=>{const bar=document.querySelector('.callbar'),hb=document.query
 HIDDEN_TEXT = r"""(()=>{const bad=[];const w=document.createTreeWalker(document.querySelector('main'),NodeFilter.SHOW_TEXT);
  while(w.nextNode()){const el=w.currentNode.parentElement; if(w.currentNode.nodeValue.trim().length<3||el.closest('[aria-hidden="true"],details:not([open]),.sr-only')) continue;
    let op=1,e=el; while(e&&e.nodeType===1){op*=parseFloat(getComputedStyle(e).opacity); e=e.parentElement} if(op<0.95) bad.push(w.currentNode.nodeValue.trim().slice(0,28)) }
- return {bad:[...new Set(bad)].slice(0,5),pinned:document.documentElement.classList.contains('stars-on'),running:document.getAnimations().filter(a=>a.playState==='running').length}})()"""
+ const slow=[...document.querySelectorAll('.reveal,.callbar')].filter(e=>parseFloat(getComputedStyle(e).transitionDuration)>0.01).length;
+ return {bad:[...new Set(bad)].slice(0,5),pinned:document.documentElement.classList.contains('stars-on'),running:document.getAnimations().filter(a=>a.playState==='running').length,slow}})()"""
+
+
+LAYOUT_WIDTHS = ((360, 740), (390, 844), (768, 1024), (1024, 768), (1280, 800), (1440, 900), (1920, 1080))
+# Κείμενο που πέφτει πάνω σε άλλο κείμενο, κείμενο που ξεχειλίζει από το κουτί του, τίτλοι με μία μικρή λέξη μόνη στην τελευταία γραμμή.
+LAYOUT = r"""(()=>{
+ const vis=e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>1&&r.height>1&&s.visibility!=='hidden'&&s.display!=='none'&&+s.opacity>0.05};
+ const own=e=>[...e.childNodes].some(n=>n.nodeType===3&&n.nodeValue.trim().length>1);
+ const skip=e=>e.closest('header,.callbar,.preview-status,.sr-only,[aria-hidden="true"],details:not([open])>:not(summary),.hx-preview,svg');
+ const label=e=>(e.textContent||'').trim().replace(/\s+/g,' ').slice(0,36);
+ const els=[...document.querySelectorAll('main *,footer *')].filter(e=>own(e)&&vis(e)&&!skip(e)), rg=document.createRange();
+ const boxes=els.map(e=>{const rr=[];for(const n of e.childNodes){if(n.nodeType===3&&n.nodeValue.trim().length>1){rg.selectNodeContents(n);for(const r of rg.getClientRects()) if(r.width>2&&r.height>2) rr.push([r.left,r.top,r.right,r.bottom])}} return {e,rr}});
+ const overlap=[];
+ for(let i=0;i<boxes.length;i++) for(let j=i+1;j<boxes.length;j++){const a=boxes[i],b=boxes[j]; if(a.e.contains(b.e)||b.e.contains(a.e)) continue;
+   if(a.rr.some(x=>b.rr.some(y=>Math.min(x[2],y[2])-Math.max(x[0],y[0])>3&&Math.min(x[3],y[3])-Math.max(x[1],y[1])>3))) overlap.push(label(a.e)+' ✕ '+label(b.e))}
+ const spill=[];
+ for(const e of els){const s=getComputedStyle(e); if(e.scrollWidth>e.clientWidth+2&&e.clientWidth>0&&s.overflowX==='visible'&&s.display!=='inline') spill.push(label(e))}
+ const orphans=[];
+ for(const h of document.querySelectorAll('main h1,main h2,main h3')){ if(!vis(h)||skip(h)) continue; const words=[], w=document.createTreeWalker(h,NodeFilter.SHOW_TEXT);
+   while(w.nextNode()){const n=w.currentNode, re=/\S+/g; let m; while((m=re.exec(n.nodeValue))){rg.setStart(n,m.index);rg.setEnd(n,m.index+m[0].length);const r=rg.getBoundingClientRect(); if(r.width>0) words.push({t:m[0],y:r.top,l:r.left,r:r.right})}}
+   if(words.length<4) continue; const lines=[]; for(const x of words){const l=lines.find(q=>Math.abs(q.y-x.y)<8); if(l){l.w.push(x.t);l.r=Math.max(l.r,x.r);l.l=Math.min(l.l,x.l)} else lines.push({y:x.y,w:[x.t],l:x.l,r:x.r})}
+   lines.sort((a,b)=>a.y-b.y); const last=lines[lines.length-1], widest=Math.max(...lines.map(q=>q.r-q.l));
+   if(lines.length>=2&&last.w.length===1&&(last.r-last.l)<widest*0.5) orphans.push(lines.map(l=>l.w.join(' ')).join(' / '))}
+ return {overlap:[...new Set(overlap)].slice(0,4),spill:[...new Set(spill)].slice(0,4),orphans:orphans.slice(0,4)}})()"""
 
 
 def scenarios(ws, base, problems, report):
@@ -196,7 +220,26 @@ def scenarios(ws, base, problems, report):
     y1 = ws.js('Math.round(scrollY)')
     if seq != [True, False] or abs(y1 - y0) > 4:
         problems.append('κεφαλίδα κινητού: κρυμμένη μετά από κύλιση κάτω %s, μετά από κύλιση πάνω %s · εστίαση στο κουμπί μενού μετακίνησε τη σελίδα %d px' % (seq[0], seq[1], y1 - y0))
+    # το ίδιο με κρυμμένη κεφαλίδα και πραγματικό πλήκτρο Tab: η κεφαλίδα επιστρέφει, η σελίδα δεν κυλά
+    ws.open(base + 'treatment-speech.html', settle=0.8)          # καθαρή σελίδα, χωρίς εστίαση από το προηγούμενο βήμα
+    for y in (700, 2000, 2700):
+        ws.js('window.scrollTo({top:%d,behavior:"instant"});1' % y); time.sleep(0.35)
+    hidden, y0 = ws.js('document.documentElement.classList.contains("hdr-off")'), ws.js('Math.round(scrollY)')
+    for _ in range(2):                                   # 1ο Tab: «Μετάβαση στο περιεχόμενο», 2ο: λογότυπο μέσα στην κεφαλίδα
+        for kind in ('keyDown', 'keyUp'):
+            ws.send('Input.dispatchKeyEvent', {'type': kind, 'key': 'Tab', 'code': 'Tab', 'windowsVirtualKeyCode': 9})
+        time.sleep(0.3)
+    r = ws.js('({y:Math.round(scrollY),inHeader:!!document.activeElement.closest(".site-header"),top:Math.round(document.querySelector(".site-header").getBoundingClientRect().top)})')
+    if not hidden or not r['inHeader'] or abs(r['y'] - y0) > 4 or r['top'] < -2:
+        problems.append('κεφαλίδα κινητού με Tab: ήταν κρυμμένη %s · εστίαση μέσα της %s · η σελίδα κύλησε %d px · θέση κεφαλίδας %d' % (hidden, r['inHeader'], r['y'] - y0, r['top']))
+    # πλοήγηση με πραγματικό κλικ (μεταβάσεις σελίδων): φτάνει στη σωστή σελίδα χωρίς σφάλμα στην κονσόλα
     ws.viewport(1440)
+    ws.open(base + 'index.html', settle=0.8)
+    ws.events.clear()
+    ws.js('document.querySelector(\'.site-header a[href="rating.html"]\').click();1'); time.sleep(1.8)
+    errs = [e for e in ws.events if e['method'] == 'Runtime.exceptionThrown' or (e['method'] == 'Log.entryAdded' and e['params']['entry']['level'] == 'error')]
+    if not ws.js('location.pathname.endsWith("rating.html")') or errs:
+        problems.append('πλοήγηση με κλικ: σελίδα %s · σφάλματα κονσόλας %d' % (ws.js('location.pathname'), len(errs)))
     ws.open(base + 'treatment-speech.html', settle=0.8)
     ws.js('window.scrollTo({top:1800,behavior:"instant"});1'); time.sleep(0.3)
     y0 = ws.js('Math.round(scrollY)')
@@ -223,8 +266,8 @@ def scenarios(ws, base, problems, report):
         for p in ('index', 'treatment-speech', 'rating', 'about-us'):
             ws.open(base + p + '.html', settle=0.8)
             r = ws.js(HIDDEN_TEXT)
-            if r['bad'] or r['pinned'] or r['running']:
-                problems.append('μείωση κίνησης %d %-14s κρυμμένο κείμενο %s · καρφωμένη σκηνή %s · κινήσεις %d' % (w, p, r['bad'], r['pinned'], r['running']))
+            if r['bad'] or r['pinned'] or r['running'] or r['slow']:
+                problems.append('μείωση κίνησης %d %-14s κρυμμένο κείμενο %s · καρφωμένη σκηνή %s · κινήσεις %d · στοιχεία με μετάβαση %d' % (w, p, r['bad'], r['pinned'], r['running'], r['slow']))
     ws.send('Emulation.setEmulatedMedia', {'features': []})
     # 4. πληκτρολόγιο στο κινητό: κανένα στοιχείο με εστίαση κάτω από την κεφαλίδα ή την κάτω μπάρα
     ws.viewport(390, 844, 2)
@@ -234,6 +277,23 @@ def scenarios(ws, base, problems, report):
         r = ws.js(FOCUS)
         if r['bad']:
             problems.append('εστίαση   %-18s %d από %d στοιχεία κρύβονται πίσω από κεφαλίδα ή κάτω μπάρα: %s' % (p, len(r['bad']), r['n'], ', '.join(r['bad'][:4])))
+    # 4β. διάταξη σε 7 πλάτη, με όλα τα εφέ ολοκληρωμένα: κείμενα που επικαλύπτονται ή ξεχειλίζουν, τίτλοι με μόνη λέξη στο τέλος
+    ws.send('Emulation.setEmulatedMedia', {'features': [{'name': 'prefers-reduced-motion', 'value': 'reduce'}]})
+    found = {}
+    for w, h in LAYOUT_WIDTHS:
+        ws.viewport(w, h, 1)
+        for p in cdp.PAGES:
+            if p == '404':
+                continue
+            ws.open(base + p + '.html', settle=0.4)
+            ws.scroll_through(0.06); ws.js('window.scrollTo({top:0,behavior:"instant"});1'); time.sleep(0.15)
+            r = ws.js(LAYOUT)
+            for kind, name in (('overlap', 'κείμενα που επικαλύπτονται'), ('spill', 'κείμενο που ξεχειλίζει'), ('orphans', 'μόνη λέξη στην τελευταία γραμμή τίτλου')):
+                for item in r[kind]:
+                    found.setdefault((name, p, item), []).append(w)
+    for (name, p, item), widths in sorted(found.items()):
+        problems.append('διάταξη  %-18s %s: «%s» σε πλάτος %s' % (p, name, item, ', '.join(map(str, widths))))
+    ws.send('Emulation.setEmulatedMedia', {'features': []})
     # 5. σελίδα 404 όπως τη σερβίρει το GitHub Pages: άγνωστη διεύθυνση κάτω από το πρόθεμα του site
     ws.open(base.rstrip('/') + cdp.site_prefix() + 'kati/pou-den-yparxei', settle=1.0)
     r = ws.js("""(()=>{const sk=document.querySelector('a[href="#main"]'); const before=location.pathname; sk&&sk.click();
@@ -254,7 +314,7 @@ def scenarios(ws, base, problems, report):
             problems.append('κινητό 3x %-18s πρώτη οθόνη %.0f KB (όριο %d)' % (p, kb, BUDGET['mobile3x']['first']))
         if full > BUDGET['mobile3x']['full']:
             problems.append('κινητό 3x %-18s ολόκληρη σελίδα %.0f KB (όριο %d)' % (p, full, BUDGET['mobile3x']['full']))
-    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · αλλαγή πλάτους · κεφαλίδα που κρύβεται · εστίαση στην κεφαλίδα · αργό κινητό · μείωση κίνησης · πληκτρολόγιο · 404 · κινητό 3x πρώτη οθόνη διάμεσος %d KB, μέγιστο %d · όλη η σελίδα μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs), max(fulls)), flush=True)
+    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · αλλαγή πλάτους · κεφαλίδα που κρύβεται · εστίαση στην κεφαλίδα (ορατή και κρυμμένη) · πλοήγηση με κλικ · αργό κινητό · μείωση κίνησης · πληκτρολόγιο · διάταξη σε 7 πλάτη · 404 · κινητό 3x πρώτη οθόνη διάμεσος %d KB, μέγιστο %d · όλη η σελίδα μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs), max(fulls)), flush=True)
 
 
 def main():

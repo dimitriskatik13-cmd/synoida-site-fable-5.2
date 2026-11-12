@@ -148,7 +148,9 @@
   .hx-row{padding-left:0;gap:4px}
   .hx-row::before{display:none}
   .hx-name{font-size:22px;letter-spacing:-.025em}
-  .hx-name::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);margin-right:10px;vertical-align:.12em}
+  .hx-name{position:relative;padding-left:19px}
+  /* η κουκκίδα έξω από τη ροή του κειμένου: όταν ο τίτλος σπάει, η δεύτερη γραμμή στοιχίζεται κάτω από το πρώτο γράμμα */
+  .hx-name::before{content:"";position:absolute;left:0;top:.42em;width:9px;height:9px;border-radius:50%;background:var(--c)}
   .hx-desc{display:block;font-size:14.5px;line-height:1.55;color:var(--ink-soft)}
   .hx-index .hx-arrow{width:20px;height:20px;margin-top:6px}
 }
@@ -314,4 +316,16 @@ main.hx .location-photos .preview-centre>.preview-centre-link{font-size:14px}
   /* tablet: η φωτογραφία του «Σχετικά» σε όλο το πλάτος, όχι μισή στήλη με άδειο δεξί τρίτο */
   .hx-about-art{max-width:none}
   .hx-about-art .hx-frame{aspect-ratio:16/10}
+}
+/* ---- 10ος γύρος ---- */
+@media (min-width:901px) and (max-height:1000px){
+  /* οθόνες laptop: η μικρή φωτογραφία του hero φαίνεται ολόκληρη στην πρώτη οθόνη (24px πάνω από το κάτω όριό της) */
+  .hx-frame-small{bottom:auto;top:calc(100vh - var(--hdr,80px) - 194px)}
+}
+@media (min-width:1001px){
+  /* οι τίτλοι των έξι αρχών πιάνουν ίδιο ύψος, ώστε τα κείμενα κάθε σειράς να ξεκινούν στην ίδια γραμμή */
+  .hx-value h3{min-height:2.6em}
+}
+@media (max-width:600px){
+  .hx-peak-copy h2{font-size:1.75rem}
 }
