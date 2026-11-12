@@ -116,7 +116,7 @@ HIDDEN_TEXT = r"""(()=>{const bad=[];const w=document.createTreeWalker(document.
  return {bad:[...new Set(bad)].slice(0,5),pinned:document.documentElement.classList.contains('stars-on'),running:document.getAnimations().filter(a=>a.playState==='running').length,slow}})()"""
 
 
-LAYOUT_WIDTHS = ((360, 740), (390, 844), (768, 1024), (1024, 768), (1280, 800), (1440, 900), (1920, 1080))
+LAYOUT_WIDTHS = ((320, 640), (360, 740), (390, 844), (768, 1024), (1024, 768), (1280, 800), (1366, 650), (1440, 900), (1536, 730), (1920, 1080))
 # Κείμενο που πέφτει πάνω σε άλλο κείμενο, κείμενο που ξεχειλίζει από το κουτί του, τίτλοι με μία μικρή λέξη μόνη στην τελευταία γραμμή.
 LAYOUT = r"""(()=>{
  const vis=e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>1&&r.height>1&&s.visibility!=='hidden'&&s.display!=='none'&&+s.opacity>0.05};
@@ -130,13 +130,26 @@ LAYOUT = r"""(()=>{
    if(a.rr.some(x=>b.rr.some(y=>Math.min(x[2],y[2])-Math.max(x[0],y[0])>3&&Math.min(x[3],y[3])-Math.max(x[1],y[1])>3))) overlap.push(label(a.e)+' ✕ '+label(b.e))}
  const spill=[];
  for(const e of els){const s=getComputedStyle(e); if(e.scrollWidth>e.clientWidth+2&&e.clientWidth>0&&s.overflowX==='visible'&&s.display!=='inline') spill.push(label(e))}
- const orphans=[];
- for(const h of document.querySelectorAll('main h1,main h2,main h3')){ if(!vis(h)||skip(h)) continue; const words=[], w=document.createTreeWalker(h,NodeFilter.SHOW_TEXT);
-   while(w.nextNode()){const n=w.currentNode, re=/\S+/g; let m; while((m=re.exec(n.nodeValue))){rg.setStart(n,m.index);rg.setEnd(n,m.index+m[0].length);const r=rg.getBoundingClientRect(); if(r.width>0) words.push({t:m[0],y:r.top,l:r.left,r:r.right})}}
+ const orphans=[], broken=[];
+ for(const h of document.querySelectorAll('main h1,main h2,main h3,main .hx-btn,main .pg-link')){ if(!vis(h)||skip(h)) continue; const words=[], split=[], w=document.createTreeWalker(h,NodeFilter.SHOW_TEXT);
+   while(w.nextNode()){const n=w.currentNode, re=/\S+/g; let m; while((m=re.exec(n.nodeValue))){rg.setStart(n,m.index);rg.setEnd(n,m.index+m[0].length);const r=rg.getBoundingClientRect(); if(r.width>0){words.push({t:m[0],y:r.top,l:r.left,r:r.right}); if(new Set([...rg.getClientRects()].map(q=>Math.round(q.top))).size>1) split.push(m[0])}}}
+   if(split.length) broken.push(split.join(', ')+' στο «'+label(h)+'»');
    if(words.length<4) continue; const lines=[]; for(const x of words){const l=lines.find(q=>Math.abs(q.y-x.y)<8); if(l){l.w.push(x.t);l.r=Math.max(l.r,x.r);l.l=Math.min(l.l,x.l)} else lines.push({y:x.y,w:[x.t],l:x.l,r:x.r})}
    lines.sort((a,b)=>a.y-b.y); const last=lines[lines.length-1], widest=Math.max(...lines.map(q=>q.r-q.l));
    if(lines.length>=2&&last.w.length===1&&(last.r-last.l)<widest*0.5) orphans.push(lines.map(l=>l.w.join(' ')).join(' / '))}
- return {overlap:[...new Set(overlap)].slice(0,4),spill:[...new Set(spill)].slice(0,4),orphans:orphans.slice(0,4)}})()"""
+ return {overlap:[...new Set(overlap)].slice(0,4),spill:[...new Set(spill)].slice(0,4),orphans:orphans.slice(0,4),broken:broken.slice(0,4)}})()"""
+
+
+# Αντίθεση του δακτυλίου εστίασης προς το φόντο γύρω του (θέλει 3:1), για κάθε στοιχείο που δέχεται εστίαση.
+RING = r"""(()=>{const lum=c=>{const v=c.map(x=>{x/=255;return x<=.03928?x/12.92:Math.pow((x+.055)/1.055,2.4)});return .2126*v[0]+.7152*v[1]+.0722*v[2]};
+ const rgb=s=>{const m=s.match(/rgba?\(([^)]+)\)/);if(!m)return null;const p=m[1].split(/[ ,\/]+/).map(parseFloat);return {c:p.slice(0,3),a:p.length>3?p[3]:1}};
+ const bgOf=e=>{for(let p=e.parentElement;p;p=p.parentElement){const b=rgb(getComputedStyle(p).backgroundColor);if(b&&b.a>0.9)return b.c}return [255,255,255]};
+ const bad=[];
+ for(const e of document.querySelectorAll('a[href],button,summary')){ if(!e.offsetWidth||e.closest('[inert],[hidden],.sr-only,[data-preview-only]')) continue; e.focus({preventScroll:true}); if(document.activeElement!==e) continue;
+   const s=getComputedStyle(e); if(s.outlineStyle==='none'||parseFloat(s.outlineWidth)<2){bad.push('χωρίς δακτύλιο: '+(e.textContent||'').trim().slice(0,24));continue}
+   const o=rgb(s.outlineColor); if(!o) continue; const a=lum(o.c), b=lum(bgOf(e)), r=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+   if(r<3) bad.push(r.toFixed(2)+':1 «'+((e.textContent||e.getAttribute('aria-label')||'').trim().slice(0,24))+'»')}
+ document.activeElement&&document.activeElement.blur(); return [...new Set(bad)].slice(0,5)})()"""
 
 
 def scenarios(ws, base, problems, report):
@@ -277,6 +290,37 @@ def scenarios(ws, base, problems, report):
         r = ws.js(FOCUS)
         if r['bad']:
             problems.append('εστίαση   %-18s %d από %d στοιχεία κρύβονται πίσω από κεφαλίδα ή κάτω μπάρα: %s' % (p, len(r['bad']), r['n'], ', '.join(r['bad'][:4])))
+    # 4α. δακτύλιος εστίασης: αντίθεση 3:1 προς το φόντο γύρω του, σε κινητό και υπολογιστή
+    for w in (390, 1440):
+        ws.viewport(w)
+        for p in ('index', 'contact-us', 'about-us', 'treatments', 'treatment-speech', 'rating'):
+            ws.open(base + p + '.html', settle=0.6)
+            for kind in ('keyDown', 'keyUp'):            # ένα Tab: από εδώ και πέρα ο browser δείχνει δακτύλιο και στην εστίαση από κώδικα
+                ws.send('Input.dispatchKeyEvent', {'type': kind, 'key': 'Tab', 'code': 'Tab', 'windowsVirtualKeyCode': 9})
+            bad = ws.js(RING)
+            if bad:
+                problems.append('εστίαση %d %-18s δακτύλιος με χαμηλή αντίθεση: %s' % (w, p, ' · '.join(bad)))
+    # 4αα. το site.js αργεί 5,5 δευτερόλεπτα: στα 4,5 s οι ενότητες φαίνονται, και η διάταξη δεν μετακινείται ούτε τότε ούτε όταν φτάσει
+    ws.viewport(390, 844, 2)
+    ws.send('Fetch.enable', {'patterns': [{'urlPattern': '*assets/site.*.js'}]})
+    ws.events.clear()
+    ws.send('Page.navigate', {'url': base + 'treatment-speech.html'})
+    t0 = time.time(); paused = None
+    while time.time() - t0 < 4.6:
+        try:
+            ws.js('1')
+        except RuntimeError:
+            pass
+        paused = paused or next((e for e in ws.events if e['method'] == 'Fetch.requestPaused'), None)
+        time.sleep(0.2)
+    slow = ws.js("""({slow:document.documentElement.classList.contains('js-slow'),hidden:[...document.querySelectorAll('main .reveal')].filter(e=>getComputedStyle(e).opacity<0.99).length,cls:+window.__cls.toFixed(3)})""")
+    time.sleep(1.0)
+    if paused:
+        ws.send('Fetch.continueRequest', {'requestId': paused['params']['requestId']})
+    ws.send('Fetch.disable'); time.sleep(1.5)
+    late = ws.js("""({ready:!!window.synoidaReady,js:document.documentElement.classList.contains('js'),cls:+window.__cls.toFixed(3)})""")
+    if not paused or not slow['slow'] or slow['hidden'] or not late['ready'] or not late['js'] or late['cls'] > 0.05:
+        problems.append('αργό site.js: πιάστηκε %s · στα 4,5 s %s · όταν έφτασε %s' % (bool(paused), slow, late))
     # 4β. διάταξη σε 7 πλάτη, με όλα τα εφέ ολοκληρωμένα: κείμενα που επικαλύπτονται ή ξεχειλίζουν, τίτλοι με μόνη λέξη στο τέλος
     ws.send('Emulation.setEmulatedMedia', {'features': [{'name': 'prefers-reduced-motion', 'value': 'reduce'}]})
     found = {}
@@ -288,12 +332,23 @@ def scenarios(ws, base, problems, report):
             ws.open(base + p + '.html', settle=0.4)
             ws.scroll_through(0.06); ws.js('window.scrollTo({top:0,behavior:"instant"});1'); time.sleep(0.15)
             r = ws.js(LAYOUT)
-            for kind, name in (('overlap', 'κείμενα που επικαλύπτονται'), ('spill', 'κείμενο που ξεχειλίζει'), ('orphans', 'μόνη λέξη στην τελευταία γραμμή τίτλου')):
+            for kind, name in (('overlap', 'κείμενα που επικαλύπτονται'), ('spill', 'κείμενο που ξεχειλίζει'), ('orphans', 'μόνη λέξη στην τελευταία γραμμή τίτλου'), ('broken', 'λέξη που σπάει στη μέση')):
+                if kind == 'orphans' and w < 360:        # σε πολύ στενές οθόνες μετρούν μόνο τα σφάλματα, όχι η μικροτυπογραφία
+                    continue
                 for item in r[kind]:
                     found.setdefault((name, p, item), []).append(w)
     for (name, p, item), widths in sorted(found.items()):
         problems.append('διάταξη  %-18s %s: «%s» σε πλάτος %s' % (p, name, item, ', '.join(map(str, widths))))
     ws.send('Emulation.setEmulatedMedia', {'features': []})
+    # 4γ. σκηνή του λογοτύπου σε χαμηλές οθόνες laptop: το λογότυπο κάτω από την κεφαλίδα και το κουμπί ολόκληρο μέσα στην οθόνη
+    for w, h in ((1366, 650), (1280, 680), (1440, 900)):
+        ws.viewport(w, h, 1)
+        ws.open(base + 'index.html', settle=1.0)
+        ws.js('(()=>{const e=document.querySelector("#logo-reveal");window.scrollTo({top:e.getBoundingClientRect().top+scrollY+e.offsetHeight-innerHeight-10,behavior:"instant"});return 1})()'); time.sleep(2.2)
+        r = ws.js('''(()=>{const hb=document.querySelector('.site-header').getBoundingClientRect().bottom, m=document.querySelector('#logo-reveal .hx-mark').getBoundingClientRect(), b=document.querySelector('#logo-reveal .hx-btn').getBoundingClientRect();
+            return {pinned:document.documentElement.classList.contains('stars-on'),logo:Math.round(m.top-hb),btn:Math.round(innerHeight-b.bottom)}})()''')
+        if r['pinned'] and (r['logo'] < 0 or r['btn'] < 0):
+            problems.append('σκηνή λογοτύπου %dx%d: λογότυπο %d px από την κεφαλίδα, κουμπί %d px από το κάτω όριο (αρνητικό = κομμένο)' % (w, h, r['logo'], r['btn']))
     # 5. σελίδα 404 όπως τη σερβίρει το GitHub Pages: άγνωστη διεύθυνση κάτω από το πρόθεμα του site
     ws.open(base.rstrip('/') + cdp.site_prefix() + 'kati/pou-den-yparxei', settle=1.0)
     r = ws.js("""(()=>{const sk=document.querySelector('a[href="#main"]'); const before=location.pathname; sk&&sk.click();
@@ -314,7 +369,7 @@ def scenarios(ws, base, problems, report):
             problems.append('κινητό 3x %-18s πρώτη οθόνη %.0f KB (όριο %d)' % (p, kb, BUDGET['mobile3x']['first']))
         if full > BUDGET['mobile3x']['full']:
             problems.append('κινητό 3x %-18s ολόκληρη σελίδα %.0f KB (όριο %d)' % (p, full, BUDGET['mobile3x']['full']))
-    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · αλλαγή πλάτους · κεφαλίδα που κρύβεται · εστίαση στην κεφαλίδα (ορατή και κρυμμένη) · πλοήγηση με κλικ · αργό κινητό · μείωση κίνησης · πληκτρολόγιο · διάταξη σε 7 πλάτη · 404 · κινητό 3x πρώτη οθόνη διάμεσος %d KB, μέγιστο %d · όλη η σελίδα μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs), max(fulls)), flush=True)
+    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · αλλαγή πλάτους · κεφαλίδα που κρύβεται · εστίαση στην κεφαλίδα (ορατή και κρυμμένη) · πλοήγηση με κλικ · αργό κινητό · μείωση κίνησης · πληκτρολόγιο · δακτύλιος εστίασης · αργό site.js · διάταξη σε 10 πλάτη · σκηνή λογοτύπου σε χαμηλό laptop · 404 · κινητό 3x πρώτη οθόνη διάμεσος %d KB, μέγιστο %d · όλη η σελίδα μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs), max(fulls)), flush=True)
 
 
 def main():

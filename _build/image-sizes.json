@@ -1,7 +1,6 @@
 {
  "about-us.html": {
   "about-history#0": "(min-resolution: 2.5dppx) and (max-width: 767px) 67vw, (max-width: 767px) 100vw, (max-width: 1023px) 52vw, (max-width: 1279px) 50vw, (max-width: 1439px) 48vw, 640px",
-  "about-storefront#0": "(min-resolution: 2.5dppx) and (max-width: 767px) 67vw, (max-width: 767px) 100vw, (max-width: 1279px) 43vw, (max-width: 1439px) 51vw, 800px",
   "about-team#0": "(min-resolution: 2.5dppx) and (max-width: 767px) 67vw, (max-width: 767px) 100vw, (max-width: 1023px) 52vw, (max-width: 1279px) 50vw, (max-width: 1439px) 48vw, 640px"
  },
  "adult-diagnosis.html": {
@@ -33,7 +32,6 @@
   "treatments-hero#0": "(min-resolution: 2.5dppx) and (max-width: 767px) 101px, (max-width: 767px) 151px, (max-width: 1023px) 20vw, (max-width: 1279px) 25vw, (max-width: 1439px) 20vw, 240px"
  },
  "rating.html": {
-  "rating-hero#0": "(min-resolution: 2.5dppx) and (max-width: 767px) 67vw, (max-width: 767px) 100vw, (max-width: 1279px) 43vw, (max-width: 1439px) 51vw, 800px",
   "rating-materials#0": "(min-resolution: 2.5dppx) and (max-width: 767px) 67vw, (max-width: 1023px) 100vw, (max-width: 1279px) 43vw, (max-width: 1439px) 41vw, 588px",
   "rating-process#0": "(min-resolution: 2.5dppx) and (max-width: 767px) 67vw, (max-width: 1023px) 100vw, (max-width: 1279px) 43vw, (max-width: 1439px) 41vw, 588px"
  },

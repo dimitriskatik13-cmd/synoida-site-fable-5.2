@@ -126,7 +126,7 @@
     document.documentElement.classList.add('stars-on');
     /* Η σκηνή μόλις ψήλωσε: αν ο επισκέπτης ήρθε σε άγκυρα που βρίσκεται από κάτω της (π.χ. #preview-centres), ξαναπάμε εκεί. */
     try{var anchor=location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1)));
-      if(anchor&&(band.compareDocumentPosition(anchor)&Node.DOCUMENT_POSITION_FOLLOWING)&&!band.contains(anchor)) anchor.scrollIntoView();}catch(e){}
+      if(anchor&&(band.compareDocumentPosition(anchor)&Node.DOCUMENT_POSITION_FOLLOWING)&&!band.contains(anchor)){window.dispatchEvent(new Event('hashchange'));anchor.scrollIntoView();}}catch(e){}
     measure();progress=target();paint(progress);
     wake();
   }

@@ -44,10 +44,9 @@ details.phones[open]>summary .chev{transform:rotate(180deg)}
 /* ---- 5. Reading: bullets on therapy pages stay readable before they "light up"; prose left-aligned. ---- */
 /* ---- 6. Therapy pages: one family. The two layout sets keep their structure but share scale and weight. ---- */
 /* ---- 7. Focus and hover parity for the new controls ---- */
-details.phones>summary:focus-visible,.callbar-contact:focus-visible{outline:3px solid #00AEEF;outline-offset:3px}
+details.phones>summary:focus-visible,.callbar-contact:focus-visible{outline:3px solid #006E9C;outline-offset:3px}
 /* ---- 8. Second pass (19/09): only the LETTERS on «Σχετικά με μας» return to brand colours. Backgrounds stay as they are. ---- */
 .about-team-intro h2 span,.about-principle-index{color:#8DC63F}
-.about-refined .about-year{color:var(--green-text)}
 /* the ↗ read as a link; the year is not one */
 /* lighter, so the storefront photo shows */
 /* ---- 9. Minimum type sizes: nothing below 12px; captions and breadcrumbs 13px. ---- */

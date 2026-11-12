@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 {{CSP}}  <title>{{TITLE}}</title>
   <meta name="description" content="{{DESC}}" />
-  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/\/assets\/site\./.test(t.src))document.documentElement.classList.remove('js')},true);setTimeout(function(){if(!window.synoidaReady)document.documentElement.classList.remove('js')},4000);addEventListener('pagereveal',function(e){if(e.viewTransition)e.viewTransition.ready.catch(function(){})});</script>
-  <!-- demo deployment: εκτός ευρετηρίασης -->
+  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/\/assets\/site\./.test(t.src))document.documentElement.classList.remove('js')},true);setTimeout(function(){if(!window.synoidaReady)document.documentElement.classList.add('js-slow')},4000);addEventListener('load',function(){if(!window.synoidaReady)document.documentElement.classList.remove('js')});addEventListener('pagereveal',function(e){if(e.viewTransition)e.viewTransition.ready.catch(function(){})});</script>
+  <!-- εκτός ευρετηρίασης: δοκιμαστική έκδοση (στην τελική μένει μόνο στη σελίδα 404) -->
   <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href="{{URL}}" />
   <meta property="og:type" content="website" />
@@ -138,7 +138,7 @@
           <h2 class="font-display font-bold text-white text-lg mb-5">Επικοινωνία</h2>
           <ul class="footer-centres">
             <li><b>Αρτέμιδα</b><span>7η Στάση Βραυρώνος</span><a href="tel:+302294049981">22940 49981</a></li>
-            <li><b>Σπάτα</b><span>Στρατηγού Πλαστήρα 1 &amp; Χ. Μπέκα</span><a href="tel:+302106633333">210 6633333</a></li>
+            <li><b>Σπάτα</b><span>Στρατηγού Πλαστήρα 1 &amp; Χ. Μπέκα</span><a href="tel:+302106633333">210 6633333</a></li>
             <li><b>Νέα Μάκρη</b><span>Αγίας Παρασκευής 8</span><a href="tel:+302294700956">22947 00956</a></li>
             <li><b>Μαραθώνας</b><span>Σπηλαίου Πανός 10</span><a href="tel:+306945454203">694 5454203</a></li>
           </ul>
@@ -146,7 +146,7 @@
       </div>
     </div>
     <div class="border-t border-white/15">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-white/80">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 footer-legal flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-white/80">
         <p class="font-semibold tracking-wide">© {{YEAR}} ΣΥΝΟΙΔΑ · Κέντρα Ειδικών Θεραπειών</p>
         <p><a href="contact-us.html" class="hover:text-white transition">Αρτέμιδα · Σπάτα · Νέα Μάκρη · Μαραθώνας</a></p>
         <p><a href="mailto:info@synoida.gr" class="hover:text-white transition">info@synoida.gr</a><span data-preview-only> · <a href="https://www.synoida.gr" target="_blank" rel="noopener" class="hover:text-white transition">www.synoida.gr</a></span></p>

@@ -174,7 +174,6 @@
 .about-photo img{width:100%;height:auto;display:block;aspect-ratio:1/1;object-fit:cover}
 .about-photo .depth-clip{border-radius:4px 64px 4px 4px}
 .about-history-photo{position:relative}
-.about-refined .about-year{font-family:Comfortaa,system-ui,sans-serif;font-size:clamp(70px,8vw,110px);font-weight:500;letter-spacing:-.075em;line-height:1;margin:0 0 32px;display:flex;align-items:center;gap:24px}
 .about-story-copy h2{font-size:30px;line-height:1.45}
 .about-text-link{display:inline-flex;align-items:center;gap:22px;min-height:48px;padding:10px 0;border-bottom:1px solid #a6a7a2;font-size:13px;font-weight:650;line-height:1.7}
 .about-text-link span{font-size:23px;transition:transform .2s}
@@ -212,7 +211,7 @@
 .about-steps h3{font-size:20px;padding-top:6px}
 .about-steps p{font-size:15px;margin:0}
 .about-steps .steps-line{bottom:calc(100% / 6 - 22px)}
-.about-refined a:focus-visible{outline:3px solid #00AEEF;outline-offset:6px}
+.about-refined a:focus-visible{outline:3px solid #006E9C;outline-offset:6px}
 .about-team a:focus-visible{outline-color:#fff}
 @media(max-width:1000px){
   .about-wrap{padding-inline:30px}
@@ -222,7 +221,6 @@
   .about-team-intro h2{font-size:34px}
   .about-process-layout{gap:50px}
   .about-story-copy h2{font-size:26px}
-  .about-refined .about-year{font-size:80px}
 }
 @media(max-width:700px){
   .about-wrap{padding-inline:22px}
@@ -236,7 +234,6 @@
   .about-story-layout{gap:38px}
   .about-story-copy{order:-1}
   .about-story-copy h2{font-size:28px}
-  .about-refined .about-year{font-size:80px;margin-bottom:24px}
   .about-photo img{aspect-ratio:6/5}
   .about-photo .depth-clip{border-top-right-radius:45px}
   .about-timeline{margin-top:42px;padding-top:26px}
@@ -302,7 +299,7 @@
 .therapy-entry-link:hover .therapy-arrow,.therapy-entry-link:focus-visible .therapy-arrow{background:#58595B;color:#fff;transform:translate(2px,-2px)}
 .therapy-entry-link:hover img{transform:scale(1.045)}
 .therapy-entry:target{border-top-color:var(--therapy-color)}
-.therapies-refined a:focus-visible{outline:3px solid #00AEEF;outline-offset:5px}
+.therapies-refined a:focus-visible{outline:3px solid #006E9C;outline-offset:5px}
 @media(max-width:1050px){
   .therapies-wrap{padding-inline:28px}
   .therapies-directory-layout{grid-template-columns:190px minmax(0,1fr);gap:35px}

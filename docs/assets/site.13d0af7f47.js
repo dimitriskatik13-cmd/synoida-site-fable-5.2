@@ -8,7 +8,7 @@
      όπως κάνει και το μικρό script του <head> όταν το αρχείο δεν φορτώσει καθόλου. */
   function start() {
     window.synoidaReady = true;                                // το script του <head> περιμένει αυτό το σημάδι
-    document.documentElement.classList.add('js');              // αν είχε γυρίσει σε «χωρίς JavaScript» επειδή αργήσαμε, επανέρχεται
+    document.documentElement.classList.remove('js-slow');      // αν αργήσαμε, το <head> είχε ήδη δείξει τις ενότητες: από εδώ αναλαμβάνουμε εμείς
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var clamp01 = function (v) { return Math.min(Math.max(v, 0), 1); };
@@ -202,7 +202,11 @@
                  !header.contains(document.activeElement) && Date.now() > settleUntil);      // ποτέ όσο η εστίαση είναι μέσα της
   }, { passive: true });
   if (header) header.addEventListener('focusin', function () { setHeaderOff(false); });   // εστίαση με πληκτρολόγιο: πάντα ορατή
-  window.addEventListener('hashchange', function () { settleUntil = Date.now() + 1500; setHeaderOff(false); });   // άλμα σε άγκυρα μέσα στη σελίδα
+  var settle = function () { settleUntil = Date.now() + 1500; setHeaderOff(false); };
+  window.addEventListener('hashchange', settle);                                  // άλμα σε άγκυρα μέσα στη σελίδα
+  document.addEventListener('click', function (e) {                               // και δεύτερο κλικ στην ίδια άγκυρα (δεν βγάζει hashchange)
+    if (e.target.closest && e.target.closest('a[href^="#"]')) settle();
+  });
   // Πλοήγηση με Tab: η κεφαλίδα επιστρέφει αμέσως (χωρίς κίνηση) πριν μετακινηθεί η εστίαση. Αλλιώς η εστίαση θα έμπαινε σε κρυμμένη
   // κεφαλίδα και ο browser θα κυλούσε τη σελίδα προς τα πάνω για να τη δείξει.
   document.addEventListener('keydown', function (e) {

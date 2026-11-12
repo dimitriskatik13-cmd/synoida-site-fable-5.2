@@ -13,7 +13,7 @@
 import collections, json, os, re, sys, urllib.parse
 from html.parser import HTMLParser
 
-NO_HERO_IMAGE = ('404.html', 'contact-us.html')   # σελίδες χωρίς φωτογραφία στην πρώτη οθόνη
+NO_HERO_IMAGE = ('404.html', 'contact-us.html', 'about-us.html', 'rating.html')   # σελίδες χωρίς φωτογραφία στην πρώτη οθόνη
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)

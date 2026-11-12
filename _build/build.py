@@ -175,7 +175,7 @@ def main():
             page = page.replace(',"%s"]' % base.rstrip('/'), ']')      # sameAs: όχι παραπομπή του site στον εαυτό του
             page = re.sub(r'<(p|figcaption|aside|span|small|div)\b[^>]*\bdata-preview-only\b[^>]*>.*?</\1>\n?', '', page, flags=re.S)
             if outfile != '404.html':
-                page = page.replace('  <!-- demo deployment: εκτός ευρετηρίασης -->\n  <meta name="robots" content="noindex, nofollow" />\n', '')
+                page = page.replace('  <!-- εκτός ευρετηρίασης: δοκιμαστική έκδοση (στην τελική μένει μόνο στη σελίδα 404) -->\n  <meta name="robots" content="noindex, nofollow" />\n', '')
 
         # ---------- εικόνες: WebP σε πολλά πλάτη, sizes από μέτρηση, width/height για σταθερή διάταξη ----------
         seen = {}

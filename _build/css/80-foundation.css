@@ -12,7 +12,11 @@
   :root{--r-photo:6px 40px 6px 6px}
 }
 /* ---- χρώμα κειμένου: σκούρο μελάνι στους τίτλους, λευκό μέσα στις σκούρες ενότητες ---- */
-main :is(h1,h2,h3){color:var(--ink);overflow-wrap:break-word}
+main :is(h1,h2,h3){color:var(--ink)}
+/* μια λέξη τίτλου δεν σπάει ποτέ στη μέση· μόνο σε πολύ στενές οθόνες, όπου αλλιώς θα έβγαινε έξω από τη σελίδα */
+@media (max-width:359px){
+  main :is(h1,h2,h3){overflow-wrap:break-word}
+}
 main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-help,.speech-practice,.specialty-dark,.assessment-process,.speech-concerns,.specialty-signs,.on-deep) :is(h1,h2,h3){color:#fff}
 .site-footer{background-color:var(--deep)}
 ::selection{background:rgba(141,198,63,.35)}
@@ -62,7 +66,7 @@ main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-he
 @media (hover:hover) and (pointer:fine){
   :is(a.bg-green,.preview-button,.about-button,.speech-button,.specialty-button):hover{transform:translateY(-1px);box-shadow:var(--e2)}
 }
-:is(a,button,summary,[tabindex]):focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+:is(a,button,summary,[tabindex]):focus-visible{outline:3px solid var(--blue-text);outline-offset:3px;border-radius:6px}
 :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-help,.speech-practice,.specialty-dark,.assessment-process,.speech-concerns,.specialty-signs,.on-deep,.site-footer) :is(a,button,summary):focus-visible{outline-color:var(--green)}
 /* ---- λέξεις έμφασης στους τίτλους ----
    Σε σκούρο φόντο μένουν στο πράσινο του λογοτύπου (αντίθεση 6,6:1). Σε ανοιχτό φόντο το ίδιο πράσινο ως γράμματα έχει μόλις 2:1,
@@ -149,3 +153,15 @@ main{scroll-margin-top:var(--hdr,80px)}
   .js .reveal{opacity:1;transform:none;transition:none}
   .js body[data-page="home"] .callbar{transition:none}
 }
+/* ---- 11ος γύρος: tablet ---- */
+@media (max-width:1023px){
+  .footer-legal{flex-direction:column;gap:2px;text-align:center}
+  .footer-legal a{display:inline-block;padding-block:10px}
+}
+@media (min-width:640px) and (max-width:1023px){
+  /* η κάτω μπάρα δεν απλώνεται σε δύο κουμπιά 370px: δύο κουμπιά κανονικού πλάτους στο κέντρο */
+  .callbar{justify-content:center}
+  .callbar details.phones,.callbar-contact{flex:0 1 260px}
+}
+/* αργό δίκτυο: αν το site.js δεν έχει τρέξει σε 4 δευτερόλεπτα, οι ενότητες φαίνονται χωρίς να αλλάξει η διάταξη (κλάση js-slow από το <head>) */
+html.js-slow :is(.reveal,.hx-syn li,.hx-steps-list li,.pg-steps>li,.pg-track>li,.pg-phones i){opacity:1;transform:none;translate:none}

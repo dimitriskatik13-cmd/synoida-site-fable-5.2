@@ -40,7 +40,7 @@
 .pg-links{display:flex;flex-wrap:wrap;gap:8px 36px;margin-top:28px}
 /* εστίαση: σκούρο μπλε σε ανοιχτό φόντο (το καθαρό γαλάζιο δεν φτάνει το 3:1), πράσινο σε σκούρο */
 .pg :is(a,button,summary):focus-visible{outline:3px solid var(--blue-text);outline-offset:3px;border-radius:6px}
-.pg .on-deep :is(a,button,summary):focus-visible{outline-color:var(--green)}
+.pg :is(.on-deep,.contact-email-section,.about-team) :is(a,button,summary):focus-visible{outline-color:var(--green)}
 /* ---- 4. Κάδρο φωτογραφίας: ένα σχήμα παντού, μεγάλη γωνία πάνω δεξιά, χωρίς σκιά ---- */
 .pg-photo{margin:0;min-width:0;border-radius:var(--r-photo);overflow:hidden;background:var(--paper-warm);aspect-ratio:5/4}
 .pg-photo>img{display:block;width:100%;height:100%;object-fit:cover}
@@ -438,16 +438,36 @@
   .pg-faq-grid>:first-child{position:sticky;top:calc(var(--hdr,80px) + 40px)}
 }
 /* «Σχετικά»: το λογότυπο της βιτρίνας μένει ολόκληρο όταν η φωτογραφία φτάνει στην άκρη της οθόνης */
-.pg-hero-photo>img.is-entrance{object-position:100% 50%}
 /* ---- 10ος γύρος ---- */
 /* «Πότε να απευθυνθείτε σε …»: λίγο μικρότερος τίτλος, ώστε να μένει σε δύο γραμμές χωρίς μόνη λέξη στο τέλος */
 @media (min-width:900px){
   .pg-signs-intro>h2{font-size:clamp(1.75rem,2.7vw,2.5rem)}
 }
-.pg h2.is-wide{max-width:24ch}
+.pg h2.is-wide{max-width:26ch}
 /* Επικοινωνία σε tablet: τα τηλέφωνα σε όλο το πλάτος (σε στενή στήλη οι αριθμοί ξεχείλιζαν από τις κάρτες) */
 @media (max-width:899px){
   .pg-hero-contact .pg-hero-grid{display:block}
   .pg-hero-contact .pg-hero-side{margin-top:28px}
   .pg-hero-contact .pg-hero-actions{margin-top:14px}
 }
+/* ---- 11ος γύρος: δικό τους άνοιγμα για «Σχετικά» και «Αξιολόγηση» (οι 7 θεραπείες κρατούν το κοινό) ---- */
+/* Σχετικά: το έτος ως μεγάλο τυπογραφικό στοιχείο και το χρονολόγιο σε όλο το πλάτος κάτω από τον τίτλο */
+.pg-hero-about .pg-hero-grid{row-gap:0}
+.pg .pg-hero-year{grid-column:8/13;justify-self:end;align-self:center;margin:0;max-width:none;font:500 clamp(7.5rem,15vw,14rem)/.86 Comfortaa,system-ui,sans-serif;letter-spacing:-.075em;color:var(--green-text)}
+.pg-hero-timeline{grid-column:1/-1;margin-top:clamp(56px,6vw,88px)}
+.pg-hero-about{padding-bottom:clamp(48px,5vw,72px)}
+/* Αξιολόγηση: τα τρία βήματα στη θέση της φωτογραφίας */
+.pg-hero-steps{grid-column:8/13;align-self:center;border-bottom:1px solid var(--rule);counter-reset:none}
+.pg-hero-steps>li{display:flex;align-items:baseline;gap:20px;padding:22px 0 20px;border-top:1px solid var(--rule);font:600 clamp(1.25rem,1.7vw,1.5rem)/1.25 Comfortaa,system-ui,sans-serif;letter-spacing:-.02em;color:var(--ink)}
+.pg-hero-steps>li>span{flex:none;min-width:1.6em;font-weight:500;font-size:clamp(2rem,3vw,2.75rem);line-height:1;letter-spacing:-.05em;color:var(--green-text)}
+@media (max-width:759px){
+  .pg .pg-hero-year{margin-top:28px;font-size:6.5rem}
+  .pg-hero-timeline{margin-top:36px}
+  .pg-hero-steps{margin-top:28px}
+  .pg-hero-steps>li{padding:16px 0 14px;gap:16px}
+}
+@media (max-width:339px){
+  .pg-hero h1,.pg-hero.is-phrase h1{font-size:1.875rem}
+}
+/* η πρόσκληση κάτω από τα σημάδια σπάει σε δύο ισορροπημένες γραμμές, όχι με μία λέξη μόνη στο τέλος */
+.pg .signs-cta{text-wrap:balance}
