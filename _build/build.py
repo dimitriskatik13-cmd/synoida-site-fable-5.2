@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Χτίζει το site ΣΥΝΟΙΔΑ: template + fragments -> docs/ (ο μόνος φάκελος που δημοσιεύεται).
 
-    python3 _build/build.py                 δοκιμαστική έκδοση (noindex, σήμα «Δοκιμαστική έκδοση»)
-    python3 _build/build.py --final         τελική έκδοση (επιτρέπει ευρετηρίαση, χωρίς σήμα)
-    python3 _build/build.py --base https://www.synoida.gr/      άλλη διεύθυνση (canonical, sitemap, og)
+    python3 _build/build.py                 χτίζει όπως ορίζει το _build/site.json (διεύθυνση, δοκιμαστική ή τελική, έτος)
+    python3 _build/build.py --final         τελική έκδοση για μία φορά (επιτρέπει ευρετηρίαση, χωρίς σήμα)· --preview το αντίθετο
+    python3 _build/build.py --base https://www.synoida.gr/      άλλη διεύθυνση για μία φορά (canonical, sitemap, og)
     python3 _build/build.py --prune         σβήνει από το docs/assets ό,τι δεν αναφέρεται πια
 
 Μόνο βασική Python, χωρίς πακέτα. Πηγές:
@@ -16,13 +16,16 @@
     _build/image-sizes.json     το sizes κάθε εικόνας (το γράφει το tools/measure_sizes.py)
 Μετά από κάθε build τρέξε: python3 _build/check.py
 """
-import argparse, datetime, base64, glob, hashlib, html, json, os, re, shutil, sys
+import argparse, base64, glob, hashlib, html, json, os, re, shutil, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 FRAG = os.path.join(HERE, 'fragments')
 SRC_ASSETS = os.path.join(ROOT, 'assets')
-DEFAULT_BASE = 'https://dimitriskatik13-cmd.github.io/synoida-site-fable-5.2/'
+# Κατάσταση έκδοσης: διεύθυνση, δοκιμαστική ή τελική, έτος υποσέλιδου. Τη διαβάζει και το pre-push hook (μέσω αυτού του script),
+# ώστε το docs/ να ξαναχτίζεται πάντα με τις ίδιες παραμέτρους με τις οποίες δημοσιεύτηκε.
+SITE = json.load(open(os.path.join(HERE, 'site.json'), encoding='utf-8'))
+DEFAULT_BASE = SITE['base']
 MARKER = ('<!-- ΠΑΡΑΓΕΤΑΙ ΑΥΤΟΜΑΤΑ από _build/build.py. Μην επεξεργάζεσαι αυτό το αρχείο: '
           'άλλαξε το _build/fragments/<σελίδα>.html ή το _build/template.html και τρέξε python3 _build/build.py -->')
 # ποιο script φορτώνει πού (το site.js φορτώνει παντού)
@@ -59,7 +62,8 @@ def text_of(fragment):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('--base', default=DEFAULT_BASE, help='διεύθυνση του site, με τελικό /')
-    ap.add_argument('--final', action='store_true', help='τελική έκδοση: επιτρέπει ευρετηρίαση, χωρίς σήμα δοκιμής')
+    ap.add_argument('--final', action='store_true', default=bool(SITE.get('final')), help='τελική έκδοση: επιτρέπει ευρετηρίαση, χωρίς σήμα δοκιμής')
+    ap.add_argument('--preview', dest='final', action='store_false', help='δοκιμαστική έκδοση, ακόμη κι αν το site.json λέει τελική')
     ap.add_argument('--out', default=os.path.join(ROOT, 'docs'))
     ap.add_argument('--prune', action='store_true', help='σβήνει αρχεία του docs/assets που δεν αναφέρονται')
     a = ap.parse_args()
@@ -145,11 +149,15 @@ def main():
                 .replace('{{CSS}}', css_name)
                 .replace('{{SCRIPTS}}', scripts)
                 .replace('{{MAIN}}', main_html)
-                .replace('{{YEAR}}', str(datetime.date.today().year))
+                .replace('{{YEAR}}', str(SITE['year']))
                 .replace('{{BASE}}', base))
         # ενεργό στοιχείο μενού και για αναγνώστες οθόνης (ισχύει και χωρίς JavaScript): «page» για την ίδια τη σελίδα, «true» για τη γονική ενότητα
         page = re.sub(r'<a href="([^"]+)" data-nav="%s"' % re.escape(meta['nav']),
                       lambda m: m.group(0) + (' aria-current="page"' if m.group(1) == outfile else ' aria-current="true"'), page)
+        # και κάθε άλλος σύνδεσμος προς την ίδια τη σελίδα έξω από το <main> (υπομενού θεραπειών, υποσέλιδο)
+        head_part, main_part, tail_part = page.partition('<main')[0], page[page.index('<main'):page.index('</main>')], page[page.index('</main>'):]
+        mark_self = lambda part: re.sub(r'<a href="%s"(?![^>]*aria-current)' % re.escape(outfile), lambda m: m.group(0) + ' aria-current="page"', part)
+        page = mark_self(head_part) + main_part + mark_self(tail_part)
         page = page.replace('<!doctype html>', '<!doctype html>\n' + MARKER, 1)
         if outfile == 'contact-us.html':
             # σε αυτή τη σελίδα το δεύτερο κουμπί της κάτω μπάρας θα έδειχνε στον εαυτό της: δίνει email

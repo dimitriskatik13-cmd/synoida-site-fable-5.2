@@ -76,7 +76,15 @@ def sizes_for(samples):
             merged.append((limit, entry))
     if merged[-1][0] is not None:                  # δεν φαίνεται σε μεγάλες οθόνες: η τελευταία τιμή ισχύει για όλες
         merged[-1] = (None, merged[-1][1])
-    return ', '.join(('(max-width: %dpx) %s' % (l, e)) if l else e for l, e in merged)
+    out = [('(max-width: %dpx) %s' % (l, e)) if l else e for l, e in merged]
+    # Κινητά με πυκνότητα 3: αρκεί η εικόνα που θα έπαιρνε ένα κινητό πυκνότητας 2 (η διαφορά δεν φαίνεται, το βάρος πέφτει έως 40%).
+    # Browser που δεν καταλαβαίνει το min-resolution μέσα στο sizes απλώς αγνοεί τη γραμμή και κρατά τη συνηθισμένη συμπεριφορά.
+    limit, entry = merged[0]
+    if limit == 767 or (limit is None and samples.get(390)):
+        n = int(entry[:-2])
+        capped = ('%dvw' % max(1, int(n * 2 / 3 + 0.5))) if entry.endswith('vw') else ('%dpx' % max(1, int(n * 2 / 3 + 0.5)))
+        out.insert(0, '(min-resolution: 2.5dppx) and (max-width: 767px) ' + capped)
+    return ', '.join(out)
 
 
 def main():

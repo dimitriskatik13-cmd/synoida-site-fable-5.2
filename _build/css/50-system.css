@@ -21,7 +21,7 @@
 /* soft blobs are gone everywhere; the section colours underneath stay */
 /* ---- 2. One container: every page lines up with the header and the footer (content from x=160 at 1440px) ---- */
 .preview-container,.contact-wrap,.about-wrap,.therapies-wrap{max-width:var(--wrap);padding-inline:var(--gutter)}
-.max-w-6xl{max-width:1184px}
+.max-w-6xl{max-width:calc(var(--wrap) - 16px)}
 @media (max-width:639px){
   .max-w-6xl{padding-left:20px;padding-right:20px}
 }

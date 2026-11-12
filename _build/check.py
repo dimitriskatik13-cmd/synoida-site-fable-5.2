@@ -221,6 +221,14 @@ def main():
                     bad('λείπει αρχείο εικόνας: ' + f)
             if im.get('srcset') and not im.get('sizes'):
                 bad('εικόνα με srcset χωρίς sizes: ' + src)
+        # τηλέφωνα: κάθε tel: ανήκει στα τέσσερα κέντρα των δομημένων δεδομένων και το ορατό κείμενο γράφει τον ίδιο αριθμό
+        known = set(re.findall(r'"telephone":"(\+\d+)"', x.raw))
+        for num, inner in re.findall(r'<a\b[^>]*href="tel:(\+?\d+)"[^>]*>(.*?)</a>', x.raw, re.S):
+            shown = re.sub(r'\D', '', re.sub(r'<[^>]+>', ' ', inner))
+            if num not in known:
+                bad('τηλέφωνο %s δεν ανήκει στα κέντρα των δομημένων δεδομένων' % num)
+            elif not shown.endswith(num[3:]):
+                bad('το κείμενο του συνδέσμου tel:%s γράφει άλλο αριθμό' % num)
         heroes = [im for im in x.imgs if im.get('fetchpriority') == 'high']
         # 404 και Επικοινωνία δεν έχουν φωτογραφία στην πρώτη οθόνη (η Επικοινωνία ανοίγει με τα τηλέφωνα)
         if name not in NO_HERO_IMAGE and not heroes:

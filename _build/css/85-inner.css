@@ -62,8 +62,9 @@
 .pg-hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 32px;margin-top:clamp(20px,2.4vw,30px)}
 .pg .pg-hero .pg-kicker{margin-bottom:14px}
 @media (min-width:1280px){
-  /* σε φαρδιά οθόνη το κάδρο βγαίνει λίγο στο δεξί περιθώριο, έως 560px πλάτος */
-  .pg-hero-photo{margin-right:calc(-1 * min(112px,(100vw - var(--wrap)) / 2 - 8px))}
+  /* σε φαρδιά οθόνη η φωτογραφία φτάνει ως τη δεξιά άκρη της οθόνης, όπως στην Αρχική (η μεγάλη γωνία περνά πάνω αριστερά) */
+  .pg-hero{overflow-x:hidden;overflow-x:clip}
+  .pg-hero-photo{margin-right:calc(-1 * min(440px,(100vw - var(--wrap)) / 2 + var(--gutter)));aspect-ratio:auto;height:clamp(440px,34vw,540px);border-radius:56px 0 0 8px}
 }
 @media (max-width:759px){
   .pg-hero h1,.pg-hero.is-phrase h1{font-size:clamp(2.125rem,9.4vw,2.5rem)}
@@ -219,9 +220,9 @@
 .pg-next h2{grid-column:1/7;margin:0}
 .pg-next-body{grid-column:8/13}
 .pg-next-body>.pg-link{margin-top:10px}
-/* «Η διαδικασία, βήμα βήμα»: μία συνεχής γραμμή 2px που σχεδιάζεται από αριστερά και περνά από τέσσερις κόμβους.
+/* «Η διαδικασία, βήμα βήμα»: μία συνεχής γραμμή 2px που σχεδιάζεται από αριστερά και περνά από τους κόμβους των βημάτων.
    Εδώ η σειρά είναι πληροφορία, άρα οι αριθμοί μένουν. Στο κινητό η γραμμή γίνεται κάθετη, αριστερά. */
-.pg-track{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:var(--col-gap)}
+.pg-track{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);column-gap:clamp(32px,5vw,72px)}
 .pg-track::before{content:"";position:absolute;left:0;right:0;top:5px;height:2px;background:var(--green);transform-origin:left}
 .pg-track>li{position:relative;padding-top:40px}
 .pg-track>li::before{content:"";position:absolute;left:0;top:0;width:12px;height:12px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px var(--sec-bg)}
@@ -236,7 +237,6 @@
   .js .pg-track.reveal.in>li{opacity:1;transform:none}
   .pg-track>li:nth-child(2){--k:1}
   .pg-track>li:nth-child(3){--k:2}
-  .pg-track>li:nth-child(4){--k:3}
 }
 @media (max-width:899px){
   .pg-side{position:static}
@@ -416,3 +416,10 @@
 @media (min-width:900px){
   .pg-hero-404>.pg-wrap::after{content:"404";position:absolute;right:var(--gutter);top:50%;translate:0 -50%;font:500 clamp(160px,19vw,260px)/1 Comfortaa,system-ui,sans-serif;letter-spacing:-.06em;color:var(--green);opacity:.22;pointer-events:none}
 }
+/* ---- 6ος γύρος ---- */
+/* «Θεραπείες»: η πλαϊνή λίστα δείχνει ποια θεραπεία διαβάζεται (site.js, ενότητα 8) */
+.pg .therapies-guide a.is-current{font-weight:700}
+.therapies-guide a.is-current .therapies-nav-dot{transform:scale(1.5)}
+.therapies-nav-dot{transition:transform .2s var(--ease)}
+/* «Σχετικά»: λιγότερο κενό κάτω από το χρονολόγιο */
+.pg .about-story.about-section{padding-bottom:clamp(56px,5vw,72px)}

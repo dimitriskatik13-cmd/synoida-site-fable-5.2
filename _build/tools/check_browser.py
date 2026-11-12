@@ -28,14 +28,14 @@ import cdp
 BUDGET = {  # KB, όπως φτάνουν στον επισκέπτη. Όρια κοντά στο σημερινό μέγιστο (+15% περίπου), ώστε μια αύξηση να φαίνεται αμέσως.
     'mobile': {'first': 250, 'full': 520, 'requests': 16},
     'desktop': {'first': 300, 'full': 430, 'requests': 16},
-    'mobile3x': {'first': 310},
+    'mobile3x': {'first': 245, 'full': 500},
 }
 MODES = {'mobile': (390, 844, 2), 'desktop': (1440, 900, 1)}
 OVERFLOW_WIDTHS = (360, 768, 1024, 1920)
 
-INIT = r"""window.__cls=0;window.__lcp=null;window.__seen=new Map();
+INIT = r"""window.__cls=0;window.__lcp=null;window.__lcpt=0;window.__seen=new Map();
 try{new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput) window.__cls+=e.value}).observe({type:'layout-shift',buffered:true})}catch(e){}
-try{new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__lcp=(e.url||'').split('/').pop()||e.element&&e.element.tagName}).observe({type:'largest-contentful-paint',buffered:true})}catch(e){}"""
+try{new PerformanceObserver(l=>{for(const e of l.getEntries()) {window.__lcp=(e.url||'').split('/').pop()||e.element&&e.element.tagName;window.__lcpt=e.startTime}}).observe({type:'largest-contentful-paint',buffered:true})}catch(e){}"""
 
 # Τρέχει σε κάθε στάση της κύλισης: αντίθεση για ό,τι κείμενο φαίνεται ΤΩΡΑ στην οθόνη.
 STOP = r"""(()=>{
@@ -100,7 +100,7 @@ def weigh(urls, base, cache={}):
 MENU = r"""(async()=>{const m=document.getElementById('mobileMenu'),bar=document.querySelector('.callbar'),hdr=document.querySelector('.site-header').getBoundingClientRect().bottom;
  document.getElementById('navToggle').click(); document.getElementById('mTherapiesBtn').click(); await new Promise(r=>setTimeout(r,250));
  const cb=bar&&getComputedStyle(bar).display!=='none'&&bar.getBoundingClientRect().top<innerHeight?bar.getBoundingClientRect().top:innerHeight, bad=[];
- for(const a of m.querySelectorAll('a,button')){ a.scrollIntoView({block:'center'}); const r=a.getBoundingClientRect(); if(r.height<1) continue;
+ for(const a of m.querySelectorAll('a,button')){ a.focus(); const r=a.getBoundingClientRect();   // όπως το Tab: ο browser φέρνει το στοιχείο στην οθόνη if(r.height<1) continue;
    if(r.bottom>cb+1||r.top<hdr-1) bad.push((a.textContent||'').trim().slice(0,24)) }
  return bad})()"""
 FOCUS = r"""(()=>{const bar=document.querySelector('.callbar'),hb=document.querySelector('.site-header').getBoundingClientRect().bottom, bad=[];
@@ -167,12 +167,33 @@ def scenarios(ws, base, problems, report):
     # 2ε. εκτύπωση: όλες οι ενότητες ορατές, καμία κάτω μπάρα
     ws.viewport(390, 844, 2)
     ws.send('Emulation.setEmulatedMedia', {'media': 'print'})
-    ws.open(base + 'treatment-speech.html', settle=0.8)
-    r = ws.js("""({hidden:[...document.querySelectorAll('main .reveal')].filter(e=>getComputedStyle(e).opacity<0.99).length,bar:getComputedStyle(document.querySelector('.callbar')).display,
-                  hdr:getComputedStyle(document.querySelector('.site-header')).position})""")
-    if r['hidden'] or r['bar'] != 'none' or r['hdr'] != 'static':
-        problems.append('εκτύπωση: %s' % r)
+    for p in ('index', 'treatment-speech', 'rating'):
+        ws.open(base + p + '.html', settle=0.8)
+        r = ws.js(HIDDEN_TEXT)
+        b = ws.js("""({bar:getComputedStyle(document.querySelector('.callbar')).display,hdr:getComputedStyle(document.querySelector('.site-header')).position})""")
+        if r['bad'] or b['bar'] != 'none' or b['hdr'] != 'static':
+            problems.append('εκτύπωση %-16s κρυμμένο κείμενο %s · κάτω μπάρα %s · κεφαλίδα %s' % (p, r['bad'], b['bar'], b['hdr']))
     ws.send('Emulation.setEmulatedMedia', {'media': ''})
+    # 2στ. το πλάτος περνά σε «υπολογιστή» με ανοιχτό το μενού κινητού (περιστροφή tablet): η σελίδα πρέπει να μείνει ενεργή
+    ws.viewport(820, 1180, 2)
+    ws.open(base + 'treatment-speech.html', settle=0.8)
+    ws.js('document.getElementById("navToggle").click();1'); time.sleep(0.2)
+    ws.viewport(1180, 820, 2); time.sleep(0.5)
+    r = ws.js('({main:document.querySelector("main").inert,footer:document.querySelector("footer").inert,locked:document.documentElement.classList.contains("menu-open")})')
+    if r['main'] or r['footer'] or r['locked']:
+        problems.append('αλλαγή πλάτους με ανοιχτό μενού: η σελίδα μένει ανενεργή (%s)' % r)
+    # 2ζ. αργό κινητό (1,6 Mbps, 150 ms, CPU x4, πυκνότητα 3): η κύρια εικόνα ή ο τίτλος πρέπει να φανεί μέσα σε 2,5 s
+    ws.viewport(390, 844, 3)
+    ws.send('Network.emulateNetworkConditions', {'offline': False, 'latency': 150, 'downloadThroughput': 1.6e6 / 8, 'uploadThroughput': 750e3 / 8})
+    ws.send('Emulation.setCPUThrottlingRate', {'rate': 4})
+    for p in ('index', 'treatments', 'treatment-speech'):
+        ws.open(base + p + '.html', settle=2.5)
+        t = ws.js('Math.round(window.__lcpt)')
+        report['slow/%s' % p] = {'lcp_ms': t}
+        if not t or t > 2500:
+            problems.append('αργό κινητό %-16s LCP %s ms (όριο 2500)' % (p, t))
+    ws.send('Emulation.setCPUThrottlingRate', {'rate': 1})
+    ws.send('Network.emulateNetworkConditions', {'offline': False, 'latency': 0, 'downloadThroughput': -1, 'uploadThroughput': -1})
     # 3. μειωμένη κίνηση: τίποτα κρυμμένο, τίποτα καρφωμένο, καμία κίνηση σε εξέλιξη
     ws.send('Emulation.setEmulatedMedia', {'features': [{'name': 'prefers-reduced-motion', 'value': 'reduce'}]})
     for w in (390, 1440):
@@ -200,14 +221,18 @@ def scenarios(ws, base, problems, report):
     if not (r['styled'] and r['logo'] and r['stay'] and r['focus'] == 'main') or errs:
         problems.append('404       %s · αποτυχίες αιτημάτων %d' % (r, len(errs)))
     # 6. κινητό υψηλής πυκνότητας (3x): το βάρος της πρώτης οθόνης, εκεί που είναι τα περισσότερα κινητά
-    ws.viewport(390, 844, 3); kbs = []
+    ws.viewport(390, 844, 3); kbs = []; fulls = []
     for p in [x for x in cdp.PAGES if x != '404']:
         ws.open(base + p + '.html', settle=2.0)
         kb = weigh(ws.js('[location.href].concat(performance.getEntriesByType("resource").map(r=>r.name))'), base)
-        kbs.append(kb); report['mobile3x/%s' % p] = {'first_kb': round(kb)}
+        ws.scroll_through(0.25)
+        full = weigh(ws.js('[location.href].concat(performance.getEntriesByType("resource").map(r=>r.name))'), base)
+        kbs.append(kb); fulls.append(full); report['mobile3x/%s' % p] = {'first_kb': round(kb), 'full_kb': round(full)}
         if kb > BUDGET['mobile3x']['first']:
             problems.append('κινητό 3x %-18s πρώτη οθόνη %.0f KB (όριο %d)' % (p, kb, BUDGET['mobile3x']['first']))
-    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · μείωση κίνησης · πληκτρολόγιο · 404 · κινητό 3x διάμεσος %d KB, μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs)), flush=True)
+        if full > BUDGET['mobile3x']['full']:
+            problems.append('κινητό 3x %-18s ολόκληρη σελίδα %.0f KB (όριο %d)' % (p, full, BUDGET['mobile3x']['full']))
+    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · αλλαγή πλάτους · αργό κινητό · μείωση κίνησης · πληκτρολόγιο · 404 · κινητό 3x πρώτη οθόνη διάμεσος %d KB, μέγιστο %d · όλη η σελίδα μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs), max(fulls)), flush=True)
 
 
 def main():

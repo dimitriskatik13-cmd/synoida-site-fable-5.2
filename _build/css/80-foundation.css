@@ -71,7 +71,7 @@ main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-he
 /* ---- μενού κινητού: πλήρες ύψος, λευκό, με τα τέσσερα τηλέφωνα στο τέλος ---- */
 .menu-phones{display:none}
 @media (max-width:1023px){
-  #mobileMenu:not(.hidden){position:absolute;left:0;right:0;top:100%;height:calc(100vh - var(--hdr,69px));height:calc(100dvh - var(--hdr,69px));overflow-y:auto;overscroll-behavior:contain;background:#fff;padding-bottom:104px}
+  #mobileMenu:not(.hidden){position:absolute;left:0;right:0;top:100%;height:calc(100vh - var(--hdr,69px));height:calc(100dvh - var(--hdr,69px));overflow-y:auto;overscroll-behavior:contain;background:#fff;padding-bottom:104px;scroll-padding-bottom:104px}
   html.menu-open{overflow:hidden}
   .menu-phones{display:grid;grid-template-columns:1fr 1fr;gap:10px;list-style:none;margin:8px 0 0;padding:16px 16px 0}
   .menu-phones a{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 8px;min-height:60px;align-content:center;padding:8px 14px;border:1px solid var(--rule);border-radius:var(--r-1);color:var(--ink);text-decoration:none}
@@ -113,7 +113,22 @@ html:not(.js) #copy-contact-email{display:none}
 }
 /* εκτύπωση ή αποθήκευση σε PDF: όλο το περιεχόμενο ορατό, χωρίς κολλημένα στοιχεία */
 @media print{
-  .reveal{opacity:1!important;transform:none!important}
+  .reveal,.hx-syn li,.hx-steps-list li,.pg-steps>li,.pg-track>li,.pg-phones i,.hx-peak-copy>*,.hx-mark img{opacity:1!important;transform:none!important;translate:none!important}
+  .hx-steps-list::before,.pg-steps::before,.pg-track::before{transform:none!important}
+  .stars-on .hx-peak{height:auto}
+  .stars-on .hx-stage{position:static;height:auto}
+  .hx-stars{display:none}
+  .hx-light,.hx-light em{color:inherit}
   .site-header{position:static}
   .callbar,.preview-status{display:none}
+}
+/* ---- 6ος γύρος ---- */
+/* μεγάλες οθόνες: φαρδύτερο περιεχόμενο, ώστε η σελίδα να μη δείχνει μικρή */
+@media (min-width:1600px){
+  :root{--wrap:1320px}
+}
+/* υποσέλιδο κινητού: οι δύο λίστες δίπλα δίπλα */
+@media (max-width:700px){
+  .footer-grid{grid-template-columns:1.3fr 1fr;column-gap:20px;row-gap:40px}
+  .footer-grid>div:first-child{grid-column:1/-1}
 }

@@ -1,6 +1,6 @@
 /* ΣΥΝΟΙΔΑ: κοινή συμπεριφορά όλων των σελίδων.
    1. ενεργό στοιχείο μενού   2. μενού κινητού   3. μενού «Θεραπείες» (υπολογιστής)   4. λίστες τηλεφώνων
-   4β. κάτω μπάρα   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. πρόοδος κύλισης (--hdr, data-progress)   6β. κεφαλίδα κινητού   7. μετρητής
+   4β. κάτω μπάρα   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. πρόοδος κύλισης (--hdr, data-progress)   6β. κεφαλίδα κινητού   7. μετρητής   8. ενεργή θεραπεία στη λίστα
    Χωρίς JavaScript η σελίδα είναι πλήρης. Με ρύθμιση «μείωση κίνησης» τίποτα δεν κινείται. */
 (function () {
   'use strict';
@@ -28,6 +28,11 @@
     document.querySelectorAll('main, footer').forEach(function (el) { el.inert = open; });
   }
   navToggle.addEventListener('click', function () { setMobileMenu(mobileMenu.classList.contains('hidden')); });
+  // αν το πλάτος περάσει σε «υπολογιστή» με ανοιχτό το μενού (περιστροφή tablet, παράθυρο που μεγαλώνει), το μενού κλείνει:
+  // αλλιώς το κουμπί του κρύβεται και η σελίδα θα έμενε ανενεργή
+  var wideScreen = window.matchMedia('(min-width:1024px)');
+  var closeWhenWide = function (e) { if (e.matches && !mobileMenu.classList.contains('hidden')) setMobileMenu(false); };
+  if (wideScreen.addEventListener) wideScreen.addEventListener('change', closeWhenWide); else wideScreen.addListener(closeWhenWide);
   mobileMenu.querySelectorAll('a').forEach(function (a) {
     a.addEventListener('click', function () { setMobileMenu(false); });
   });
@@ -44,7 +49,7 @@
 
   /* ---------- 3. μενού «Θεραπείες» στον υπολογιστή: ανοίγει με CSS, εδώ ενημερώνεται μόνο το aria-expanded ---------- */
   var dropdown = document.querySelector('nav .group');
-  var dropdownTrigger = dropdown && dropdown.querySelector('[aria-haspopup]');
+  var dropdownTrigger = dropdown && dropdown.querySelector('[aria-controls]');
   if (dropdown && dropdownTrigger) {
     ['mouseenter', 'focusin'].forEach(function (type) {
       dropdown.addEventListener(type, function () { dropdownTrigger.setAttribute('aria-expanded', 'true'); });
@@ -192,6 +197,7 @@
                  !header.contains(document.activeElement) && Date.now() > settleUntil);      // ποτέ όσο η εστίαση είναι μέσα της
   }, { passive: true });
   if (header) header.addEventListener('focusin', function () { setHeaderOff(false); });   // εστίαση με πληκτρολόγιο: πάντα ορατή
+  window.addEventListener('hashchange', function () { settleUntil = Date.now() + 1500; setHeaderOff(false); });   // άλμα σε άγκυρα μέσα στη σελίδα
 
   measureHeader();
   window.addEventListener('resize', measureHeader);
@@ -202,6 +208,25 @@
     window.addEventListener('resize', function () { measureItems(); frame(); });
     window.addEventListener('load', function () { measureItems(); frame(); });
     window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  /* ---------- 8. «Θεραπείες»: η πλαϊνή λίστα δείχνει ποια θεραπεία διαβάζεται τώρα ---------- */
+  var guideLinks = document.querySelectorAll('.therapies-guide a[href^="#"]');
+  if (guideLinks.length && 'IntersectionObserver' in window) {
+    var guideObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        guideLinks.forEach(function (a) {
+          var on = a.getAttribute('href') === '#' + entry.target.id;
+          a.classList.toggle('is-current', on);
+          if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });       // «τώρα» είναι ό,τι περνά από το πάνω τρίτο της οθόνης
+    guideLinks.forEach(function (a) {
+      var target = document.getElementById(a.getAttribute('href').slice(1));
+      if (target) guideObserver.observe(target);
+    });
   }
 
   /* ---------- 7. μετρητής (data-count): μετρά μέχρι τον αριθμό όταν φανεί. Το HTML έχει ήδη τον τελικό αριθμό. ---------- */
@@ -225,6 +250,15 @@
         requestAnimationFrame(step);
       });
     }, { threshold: 0.5 });
-    counters.forEach(function (el) { el.textContent = '0'; countObserver.observe(el); });
+    counters.forEach(function (el) {
+      // οι αναγνώστες οθόνης ακούν πάντα τον τελικό αριθμό, όχι το «0» από το οποίο ξεκινά η κίνηση
+      var spoken = document.createElement('span');
+      spoken.className = 'sr-only';
+      spoken.textContent = el.textContent;
+      el.parentNode.insertBefore(spoken, el);
+      el.setAttribute('aria-hidden', 'true');
+      el.textContent = '0';
+      countObserver.observe(el);
+    });
   }
 })();
