@@ -47,7 +47,7 @@ details.phones[open]>summary .chev{transform:rotate(180deg)}
 details.phones>summary:focus-visible,.callbar-contact:focus-visible{outline:3px solid #00AEEF;outline-offset:3px}
 /* ---- 8. Second pass (19/09): only the LETTERS on «Σχετικά με μας» return to brand colours. Backgrounds stay as they are. ---- */
 .about-team-intro h2 span,.about-principle-index{color:#8DC63F}
-.about-refined .about-year,.about-refined .about-year span{color:#8DC63F}
+.about-refined .about-year,.about-refined .about-year span{color:var(--green-text)}
 .about-year span{display:none}
 /* the ↗ read as a link; the year is not one */
 /* lighter, so the storefront photo shows */
@@ -88,7 +88,7 @@ details.phones>summary:focus-visible,.callbar-contact:focus-visible{outline:3px 
    Button text on green 3.4 -> 7.2; phone numbers 2.5 -> 5.6; small green/blue labels about 2 -> 4.7 or more; addresses in the phone list 3.8 -> 5.3. ---- */
 a.bg-green,.preview-button{color:#26282A}
 .kicker.text-green{color:#4F7A1F}
-.phones-list span{color:#006E9C}
+.phones-list span{color:#26282A}
 .phones-list small{opacity:1;color:#6B6C6E}
 details.phones>summary:hover,details.phones[open]>summary{border-color:#006E9C;color:#006E9C}
 details.phones>summary:focus-visible,.callbar-contact:focus-visible{outline-color:#006E9C}

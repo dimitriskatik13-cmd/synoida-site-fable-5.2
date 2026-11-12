@@ -1,6 +1,6 @@
 /* ΣΥΝΟΙΔΑ: κοινή συμπεριφορά όλων των σελίδων.
    1. ενεργό στοιχείο μενού   2. μενού κινητού   3. μενού «Θεραπείες» (υπολογιστής)   4. λίστες τηλεφώνων
-   4β. κεφαλίδα και κάτω μπάρα   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. πρόοδος κύλισης (--hdr, data-progress)   7. μετρητής
+   4β. κάτω μπάρα   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. πρόοδος κύλισης (--hdr, data-progress)   6β. κεφαλίδα κινητού   7. μετρητής
    Χωρίς JavaScript η σελίδα είναι πλήρης. Με ρύθμιση «μείωση κίνησης» τίποτα δεν κινείται. */
 (function () {
   'use strict';
@@ -166,6 +166,22 @@
       });
     });
   }
+
+  /* ---------- 6β. κινητό: η κεφαλίδα κρύβεται όταν κυλάς προς τα κάτω και επιστρέφει μόλις κυλήσεις προς τα πάνω ---------- */
+  var narrow = window.matchMedia('(max-width:1023px)');
+  var lastY = window.scrollY, headerOff = false;
+  function setHeaderOff(off) {
+    if (off === headerOff) return;
+    headerOff = off;
+    document.documentElement.classList.toggle('hdr-off', off);
+  }
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY, dy = y - lastY;
+    if (Math.abs(dy) < 8) return;                         // μικρές κινήσεις του δαχτύλου δεν μετράνε
+    lastY = y;
+    setHeaderOff(dy > 0 && y > 240 && narrow.matches && mobileMenu.classList.contains('hidden'));
+  }, { passive: true });
+  if (header) header.addEventListener('focusin', function () { setHeaderOff(false); });   // εστίαση με πληκτρολόγιο: πάντα ορατή
 
   measureHeader();
   window.addEventListener('resize', measureHeader);

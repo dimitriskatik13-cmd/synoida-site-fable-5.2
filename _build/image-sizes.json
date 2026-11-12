@@ -11,8 +11,7 @@
  "contact-us.html": {
   "about-history#0": "(max-width: 767px) 136px, (max-width: 1279px) 26vw, (max-width: 1439px) 21vw, 266px",
   "about-storefront#0": "(max-width: 767px) 136px, (max-width: 1279px) 26vw, (max-width: 1439px) 21vw, 266px",
-  "contact-hero#0": "(max-width: 767px) 101vw, (max-width: 1279px) 43vw, (max-width: 1439px) 44vw, 662px",
-  "contact-hero#1": "(max-width: 767px) 136px, (max-width: 1279px) 26vw, (max-width: 1439px) 21vw, 266px",
+  "contact-hero#0": "(max-width: 767px) 136px, (max-width: 1279px) 26vw, (max-width: 1439px) 21vw, 266px",
   "spata-exterior#0": "(max-width: 767px) 136px, (max-width: 1279px) 26vw, (max-width: 1439px) 21vw, 266px"
  },
  "index.html": {

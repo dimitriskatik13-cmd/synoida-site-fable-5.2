@@ -13,6 +13,8 @@
 import collections, json, os, re, sys, urllib.parse
 from html.parser import HTMLParser
 
+NO_HERO_IMAGE = ('404.html', 'contact-us.html')   # σελίδες χωρίς φωτογραφία στην πρώτη οθόνη
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 DOCS = os.environ.get('SYNOIDA_DOCS') or os.path.join(ROOT, 'docs')   # άλλος φάκελος εξόδου για δοκιμές: SYNOIDA_DOCS=/διαδρομή
@@ -220,8 +222,11 @@ def main():
             if im.get('srcset') and not im.get('sizes'):
                 bad('εικόνα με srcset χωρίς sizes: ' + src)
         heroes = [im for im in x.imgs if im.get('fetchpriority') == 'high']
-        if name != '404.html' and not heroes:
+        # 404 και Επικοινωνία δεν έχουν φωτογραφία στην πρώτη οθόνη (η Επικοινωνία ανοίγει με τα τηλέφωνα)
+        if name not in NO_HERO_IMAGE and not heroes:
             bad('καμία εικόνα με fetchpriority="high" (η πρώτη μεγάλη εικόνα)')
+        if name in NO_HERO_IMAGE and heroes:
+            bad('σελίδα χωρίς φωτογραφία πρώτης οθόνης έχει εικόνα με fetchpriority="high"')
         for im in heroes:
             if im.get('loading') == 'lazy':
                 bad('η κύρια εικόνα δεν πρέπει να είναι lazy: ' + im.get('src', ''))

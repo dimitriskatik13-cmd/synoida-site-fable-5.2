@@ -57,16 +57,7 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
 .contact-refined{color:#58595B;background:#fff}
 .contact-refined p{text-wrap:pretty;line-height:1.8}
 .contact-wrap{max-width:1152px;margin-inline:auto;padding-inline:32px}
-.contact-intro{position:relative;margin-top:-28px;z-index:2}
-.contact-intro-panel{padding:32px 36px;background:#fff;border:1px solid #e6e6e6;border-radius:24px;box-shadow:0 16px 40px -30px rgba(88,89,91,.55);display:grid;grid-template-columns:1fr auto;gap:24px 36px;align-items:center}
 .contact-refined h2{font-size:clamp(24px,2.6vw,34px);line-height:1.45;font-weight:700;letter-spacing:-.02em;margin:0 0 12px}
-.contact-intro-panel h2{font-size:25px;margin-bottom:10px}
-.contact-intro-panel p{max-width:600px;font-size:15px;margin:0}
-.contact-email-action{display:inline-flex;align-items:center;justify-content:center;gap:18px;padding:14px 24px;border-radius:999px;background:#8DC63F;color:#303133;font-size:15px;font-weight:700;min-height:48px}
-.contact-jumps{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px;padding-top:24px;border-top:1px solid #e6e6e6}
-.contact-jumps a{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;min-height:44px;border:1px solid #e1e1e1;border-radius:999px;font-size:14px;font-weight:600;background:#fff;transition:background .2s}
-.contact-jumps a:hover{background:#f5f5f5}
-.contact-jumps a>span{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .contact-directory{padding:64px 0 88px;scroll-margin-top:108px}
 .contact-directory-title{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:28px}
 .contact-directory-title h2{margin:0}
@@ -84,7 +75,7 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
 .contact-phone:hover{text-decoration:underline;text-decoration-color:var(--centre-color);text-underline-offset:6px}
 .contact-map{display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid #e6e6e6;padding-top:20px;margin-top:22px;font-size:14px;font-weight:650;min-height:48px}
 .contact-map>span{display:grid;place-items:center;border:1px solid #dedede;width:32px;height:32px;border-radius:50%;font-size:18px}
-.contact-email-section{padding:68px 0;background:var(--deep);color:#fff;scroll-margin-top:110px}
+.contact-email-section{padding:clamp(64px,8vw,112px) 0;background:var(--deep);color:#fff;scroll-margin-top:110px}
 .contact-email-layout{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:72px}
 .contact-email-section h2{color:#fff}
 .contact-email-section p{color:#fff;font-size:16px;margin:0;max-width:500px}
@@ -96,11 +87,6 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
 #contact-copy-status{min-height:24px;margin-top:14px;font-size:13px}
 @media(max-width:700px){
   .contact-wrap{padding-inline:20px}
-  .contact-intro-panel{grid-template-columns:1fr;padding:26px 22px;gap:20px}
-  .contact-intro-panel h2{font-size:23px}
-  .contact-email-action{justify-self:start;font-size:14px}
-  .contact-jumps{gap:10px;padding-top:20px}
-  .contact-jumps a{font-size:13px;padding:9px 12px}
   .contact-directory{padding-block:44px 56px}
   .contact-directory-title{display:block}
   .contact-directory-title p{margin-top:10px;font-size:14px}
@@ -110,12 +96,9 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
   .contact-centre address{font-size:15px;min-height:0}
   .contact-phone{font-size:28px}
   .contact-email-layout{grid-template-columns:1fr;gap:30px}
-  .contact-email-section{padding:48px 0 36px}
+  .contact-email-section{padding:64px 0}
   .contact-email-section h2{font-size:27px}
   .contact-email-details>a{font-size:27px}
-}
-@media(prefers-reduced-motion:reduce){
-  .contact-refined .contact-jumps a{transition:none}
 }
 /* Locations as an open directory, shared by Home and Contact. */
 .home-refined .preview-centres,.contact-refined .contact-centres-grid{display:block;border-top:1px solid rgba(88,89,91,.22)}
@@ -136,9 +119,6 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
 .home-refined .preview-centre:hover,.home-refined .preview-centre:focus-within,.contact-refined .contact-centre:hover,.contact-refined .contact-centre:focus-within,.contact-refined .contact-centre:target{border-bottom-color:var(--centre-color);outline:none;background:transparent;box-shadow:none}
 .home-refined .preview-centre:hover h3,.contact-refined .contact-centre:hover h3{transform:translateX(3px)}
 .home-refined .preview-centre:hover .preview-centre-link>span,.home-refined .preview-centre:focus-within .preview-centre-link>span,.contact-refined .contact-centre:hover .contact-map>span,.contact-refined .contact-centre:focus-within .contact-map>span,.contact-refined .contact-centre:target .contact-map>span{background:#58595B;border-color:#58595B;color:#fff;transform:translateX(3px)}
-.contact-refined .contact-intro-panel{border:0;border-bottom:1px solid rgba(88,89,91,.18);border-radius:0;box-shadow:none;padding-inline:0;padding-top:42px;background:transparent}
-.contact-refined .contact-intro{margin-top:0}
-.contact-refined .contact-jumps{border-top:0;padding-top:4px}
 .contact-refined .contact-directory{padding-top:48px}
 @media(max-width:1000px){
   .home-refined .preview-centre,.contact-refined .contact-centre{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"place phone" "address action";gap:10px 28px;padding-block:28px}
@@ -153,7 +133,6 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
   .home-refined .preview-centre>.preview-phone,.contact-refined .contact-centre>.contact-phone{font-size:19px;justify-self:start}
   .home-refined .preview-centre>.preview-centre-link,.contact-refined .contact-centre>.contact-map{font-size:11px;gap:10px;max-width:156px}
   .home-refined .preview-centre-link>span,.contact-refined .contact-map>span{width:40px;height:40px;flex-basis:40px;font-size:21px}
-  .contact-refined .contact-intro-panel{padding:32px 0 28px}
   .contact-refined .contact-directory{padding-top:36px}
 }
 @media(prefers-reduced-motion:reduce){

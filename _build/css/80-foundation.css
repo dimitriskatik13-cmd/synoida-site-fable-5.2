@@ -14,12 +14,21 @@
 /* ---- χρώμα κειμένου: σκούρο μελάνι στους τίτλους, λευκό μέσα στις σκούρες ενότητες ---- */
 main :is(h1,h2,h3){color:var(--ink);overflow-wrap:break-word}
 main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-help,.speech-practice,.specialty-dark,.assessment-process,.speech-concerns,.specialty-signs,.on-deep) :is(h1,h2,h3){color:#fff}
-.bg-mist{background-color:var(--paper-warm)}
 .site-footer{background-color:var(--deep)}
 ::selection{background:rgba(141,198,63,.35)}
 :where(main,footer) [id]{scroll-margin-top:calc(var(--hdr,80px) + 24px)}
 /* ---- κεφαλίδα μίας γραμμής: τα τηλέφωνα δίπλα στο «Επικοινωνία». Σταθερό ύψος (καμία αλλαγή διάταξης στην κύλιση). ---- */
-.site-header{background:rgba(255,255,255,.88)}
+.site-header{background:#fff}
+/* κινητό: η κεφαλίδα κρύβεται όταν κυλάς προς τα κάτω και επιστρέφει όταν κυλάς προς τα πάνω (assets/site.js, ενότητα 6β) */
+@media (max-width:1023px){
+  .site-header{transition:transform .22s var(--ease)}
+  html.hdr-off:not(.menu-open) .site-header{transform:translateY(-101%)}
+  .pg.tm-on .pg-countbar{transition:top .22s var(--ease)}
+  html.hdr-off .pg.tm-on .pg-countbar{top:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .site-header,.pg.tm-on .pg-countbar{transition:none}
+}
 @media (min-width:1024px){
   .site-header>div>div{height:80px}
 }
@@ -66,9 +75,10 @@ main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-he
   #mobileMenu:not(.hidden){position:absolute;left:0;right:0;top:100%;height:calc(100vh - var(--hdr,69px));height:calc(100dvh - var(--hdr,69px));overflow-y:auto;overscroll-behavior:contain;background:#fff;padding-bottom:104px}
   html.menu-open{overflow:hidden}
   .menu-phones{display:grid;grid-template-columns:1fr 1fr;gap:10px;list-style:none;margin:8px 0 0;padding:16px 16px 0}
-  .menu-phones a{display:grid;gap:2px;min-height:60px;align-content:center;padding:8px 14px;border:1px solid var(--rule);border-radius:var(--r-1);color:var(--ink);text-decoration:none}
+  .menu-phones a{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 8px;min-height:60px;align-content:center;padding:8px 14px;border:1px solid var(--rule);border-radius:var(--r-1);color:var(--ink);text-decoration:none}
   .menu-phones b{font-size:14px;font-weight:600;color:var(--ink-soft)}
-  .menu-phones span{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
+  .menu-phones i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+  .menu-phones span{grid-column:1/-1;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
 }
 @media (min-width:640px) and (max-width:1023px){
   .menu-phones{padding-inline:24px;grid-template-columns:repeat(4,1fr)}
@@ -77,6 +87,7 @@ main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-he
 .footer-links{display:grid;gap:12px;list-style:none;margin:0;padding:0}
 @media (max-width:700px){
   .footer-links{gap:0}
+  .site-footer>div:first-child{padding-block:48px 28px}
   .footer-links a,.site-footer p>a{display:inline-block;padding-block:12px}
   .site-footer div:has(>.footer-centres){display:none}
   /* τα τηλέφωνα υπάρχουν ήδη στο κλείσιμο της σελίδας και στην κάτω μπάρα */

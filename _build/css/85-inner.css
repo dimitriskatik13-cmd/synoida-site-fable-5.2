@@ -122,13 +122,15 @@
   .pg-countbar i{font-size:13px;margin-left:5px}
   .pg.tm-on .pg-signs-list>li:first-child{border-top:0}
 }
-/* ---- 8. «Τομείς»: πλέγμα ορισμών δύο στηλών, χωρίς αριθμούς ---- */
-.pg-defs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:64px}
-.pg-defs>li{border-top:1px solid var(--rule);padding:28px 0 clamp(32px,3.6vw,44px)}
-.pg-defs>li:last-child:nth-child(odd){grid-column:1/-1}
-.pg-defs h3{font-size:22px}
-.pg-defs p{font-size:16px;line-height:1.65;max-width:54ch;margin:0}
+/* ---- 8. «Τομείς»: αριθμημένες γραμμές (αριθμός, τίτλος, περιγραφή), με μικρή γραμμή στο χρώμα της ειδικότητας. Καμία ορφανή στήλη. ---- */
+.pg-defs{counter-reset:pgdef;border-bottom:1px solid var(--rule)}
+.pg-defs>li{counter-increment:pgdef;position:relative;display:grid;grid-template-columns:56px minmax(0,5fr) minmax(0,7fr);column-gap:32px;align-items:baseline;border-top:1px solid var(--rule);padding:28px 0 30px}
+.pg-defs>li::before{content:counter(pgdef,decimal-leading-zero);font:700 13px/1 Comfortaa,system-ui,sans-serif;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:var(--ink-mute)}
+.pg-defs>li::after{content:"";position:absolute;left:0;top:-1px;width:40px;height:2px;background:var(--accent)}
+.pg-defs h3{font-size:22px;margin:0}
+.pg-defs p{font-size:16px;line-height:1.65;max-width:60ch;margin:0}
 .pg .on-deep .pg-defs h3{color:#fff}
+.pg .on-deep .pg-defs>li::before{color:rgba(255,255,255,.72)}
 .pg .on-deep .pg-head>p{color:rgba(255,255,255,.82)}
 /* ---- 9. «Πώς οργανώνεται»: φωτογραφία σε κάδρο αριστερά, βήματα δεξιά πάνω σε μία γραμμή που σχεδιάζεται ---- */
 .pg-steps-photo{grid-column:1/6}
@@ -258,7 +260,8 @@
   .pg-grid>*+*{margin-top:32px}
   .pg-intro h2+.pg-lead{margin-top:20px}
   .pg-intro-body>p{font-size:16px}
-  .pg-defs{grid-template-columns:1fr}
+  .pg-defs>li{grid-template-columns:auto minmax(0,1fr);column-gap:12px;row-gap:8px;padding:22px 0 24px}
+  .pg-defs>li>p{grid-column:1/-1}
   .pg-defs h3,.pg-signs-list h3{font-size:20px}
   .pg-steps-photo{aspect-ratio:4/3}
   .pg-faq summary{font-size:17px;gap:16px}
@@ -323,11 +326,9 @@
   .pg .therapy-copy p[id]{font-size:15.5px}
 }
 /* «Επικοινωνία»: ευανάγνωστα τα μικρά, το κλείσιμο σε δύο στήλες */
-.pg .contact-jumps a{font-size:15px}
 .pg .contact-centre>.contact-map{font-size:14px}
 .pg #copy-contact-email{font-size:14px}
 /* λίστα κέντρων: το τηλέφωνο πρωταγωνιστής, μικρογραφία 4:3, ήρεμη απόκριση στον δείκτη */
-.pg .contact-intro-panel{border-top:1px solid var(--rule)}
 .pg .location-photo{overflow:hidden;border-radius:var(--r-1)}
 .pg .location-photo img{border-radius:0;transition:transform .32s var(--ease)}
 .pg .contact-centre>.contact-phone{font-variant-numeric:tabular-nums;color:var(--ink)}
@@ -377,3 +378,22 @@
   .pg-band-photo{aspect-ratio:4/3}
   .pg-photo-pair .pg-photo-second{right:-6px}
 }
+/* ---- 4ος γύρος ---- */
+/* κύριο κουμπί στην πρώτη οθόνη: από 1024px (στο κινητό την ίδια δουλειά κάνει η κάτω μπάρα «Κλήση / Επικοινωνία») */
+@media (max-width:1023px){
+  .pg-hero-cta,.pg-hero-actions.is-desk{display:none}
+}
+/* Επικοινωνία: τα τέσσερα τηλέφωνα στην πρώτη οθόνη, στη θέση της φωτογραφίας */
+.pg-hero-contact .pg-hero-grid{align-items:start}
+.pg-hero-contact .pg-hero-copy,.pg-hero-contact .pg-hero-actions{grid-column:1/7}
+.pg-hero-side{grid-column:8/13;grid-row:1/3;align-self:center;min-width:0}
+.pg .pg-hero-side>.pg-kicker{max-width:none;margin:0 0 14px}
+@media (max-width:759px){
+  .pg-hero-side{margin-top:28px}
+  .pg-hero-contact .pg-hero-actions{margin-top:14px;gap:0 28px}
+}
+/* 404: ίδια «σελίδα τίτλου», χωρίς φωτογραφία */
+.pg-hero-404{padding-block:clamp(72px,11vw,152px)}
+.pg-hero-404 h1{max-width:16ch}
+/* ίδιο ύψος ενότητας παντού (112px υπολογιστής, 64px κινητό) */
+.pg :is(.about-section,.therapies-section){padding-block:clamp(64px,8vw,112px)}
