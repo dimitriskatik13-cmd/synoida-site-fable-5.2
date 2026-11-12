@@ -24,6 +24,8 @@
     iconClose.classList.toggle('hidden', !open);
     navToggle.setAttribute('aria-expanded', String(open));
     document.documentElement.classList.toggle('menu-open', open);      // η σελίδα από πίσω δεν κυλά
+    // όσο το μενού είναι ανοιχτό, η σελίδα από πίσω δεν δέχεται εστίαση (πληκτρολόγιο, αναγνώστες οθόνης)· η κάτω μπάρα μένει ενεργή
+    document.querySelectorAll('main, footer').forEach(function (el) { el.inert = open; });
   }
   navToggle.addEventListener('click', function () { setMobileMenu(mobileMenu.classList.contains('hidden')); });
   mobileMenu.querySelectorAll('a').forEach(function (a) {
@@ -55,16 +57,19 @@
   }
 
   /* ---------- 4. λίστες τηλεφώνων (<details class="phones">): κλείνουν με κλικ έξω και με Escape ---------- */
-  function closePhones(except) {
+  function closePhones(except, keepFocus) {
     document.querySelectorAll('details.phones[open]').forEach(function (d) {
-      if (!except || !d.contains(except)) d.removeAttribute('open');
+      if (except && d.contains(except)) return;
+      var hadFocus = keepFocus && d.contains(document.activeElement);
+      d.removeAttribute('open');
+      if (hadFocus) d.querySelector('summary').focus();      // με Escape η εστίαση γυρίζει στο κουμπί της λίστας, δεν χάνεται
     });
   }
   document.addEventListener('click', function (e) { closePhones(e.target); });
 
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
-    closePhones(null);
+    closePhones(null, true);
     if (!mobileMenu.classList.contains('hidden')) { setMobileMenu(false); navToggle.focus(); return; }
     if (dropdown && dropdown.contains(document.activeElement)) {
       document.activeElement.blur();
@@ -139,16 +144,19 @@
 
   /* data-progress="αρχή τέλος": πρόοδος 0 έως 1 καθώς το στοιχείο περνά από την οθόνη (--p). Προεπιλογή 0.85 και 0.6.
      Γράφει μόνο μεταβλητές CSS, δεν αλλάζει διάταξη. */
+  var progressRange = progressEls.map(function (el) {            // το data-progress διαβάζεται μία φορά
+    var parts = (el.getAttribute('data-progress') || '').split(/\s+/);
+    var start = parseFloat(parts[0]), end = parseFloat(parts[1]);
+    return { start: isNaN(start) ? 0.85 : start, end: isNaN(end) ? 0.6 : end };
+  });
   function frame() {
     ticking = false;
     var vh = window.innerHeight;
-    for (var i = 0; i < progressEls.length; i++) {
-      var el = progressEls[i], rect = el.getBoundingClientRect();
-      var parts = (el.getAttribute('data-progress') || '').split(/\s+/);
-      var start = parseFloat(parts[0]); if (isNaN(start)) start = 0.85;
-      var end = parseFloat(parts[1]); if (isNaN(end)) end = 0.6;
-      el.style.setProperty('--p', clamp01((vh * start - rect.top) / (vh * (start - end) + rect.height)).toFixed(3));
-    }
+    var rects = progressEls.map(function (el) { return el.getBoundingClientRect(); });     // πρώτα όλες οι μετρήσεις
+    progressEls.forEach(function (el, i) {                                                 // μετά όλες οι εγγραφές
+      var r = progressRange[i];
+      el.style.setProperty('--p', clamp01((vh * r.start - rects[i].top) / (vh * (r.start - r.end) + rects[i].height)).toFixed(3));
+    });
   }
 
   function onScroll() {
@@ -170,6 +178,7 @@
   /* ---------- 6β. κινητό: η κεφαλίδα κρύβεται όταν κυλάς προς τα κάτω και επιστρέφει μόλις κυλήσεις προς τα πάνω ---------- */
   var narrow = window.matchMedia('(max-width:1023px)');
   var lastY = window.scrollY, headerOff = false;
+  var settleUntil = location.hash ? Date.now() + 1500 : 0;     // άφιξη σε άγκυρα (π.χ. #centre-spata): η πρώτη κύλιση δεν κρύβει την κεφαλίδα
   function setHeaderOff(off) {
     if (off === headerOff) return;
     headerOff = off;
@@ -179,7 +188,8 @@
     var y = window.scrollY, dy = y - lastY;
     if (Math.abs(dy) < 8) return;                         // μικρές κινήσεις του δαχτύλου δεν μετράνε
     lastY = y;
-    setHeaderOff(dy > 0 && y > 240 && narrow.matches && mobileMenu.classList.contains('hidden'));
+    setHeaderOff(dy > 0 && y > 240 && narrow.matches && mobileMenu.classList.contains('hidden') &&
+                 !header.contains(document.activeElement) && Date.now() > settleUntil);      // ποτέ όσο η εστίαση είναι μέσα της
   }, { passive: true });
   if (header) header.addEventListener('focusin', function () { setHeaderOff(false); });   // εστίαση με πληκτρολόγιο: πάντα ορατή
 

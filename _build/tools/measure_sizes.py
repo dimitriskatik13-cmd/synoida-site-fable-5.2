@@ -30,8 +30,25 @@ PROBE = r"""(()=>{const seen={},out=[];
 TOL = 0.985          # ανοχή 1,5%: μια εικόνα 1,5% μικρότερη δεν φαίνεται, ενώ η στρογγύλευση προς τα πάνω ανέβαζε ολόκληρο σκαλί
 
 
+STEPS = (240, 400, 640, 800, 1200, 1600)   # τα πλάτη που βγάζει το make_images.py
+SNAP = 1.08          # αν σε πυκνότητα 1, 2 ή 3 η εικόνα ξεπερνά μια έκδοση έως 8%, δηλώνεται όσο η έκδοση: η διαφορά δεν φαίνεται,
+                     # ενώ αλλιώς ο browser κατεβάζει ολόκληρο σκαλί πάνω (π.χ. 136px x 3 = 408 θα έφερνε την 640 αντί της 400)
+
+
 def vw(w, v):
     return max(1, int(w * 100 * TOL / v + 0.5))
+
+
+def snap_px(px):
+    for dpr in (3, 2, 1):
+        for st in STEPS:
+            if st < px * dpr <= st * SNAP:
+                px = st // dpr
+    return px
+
+
+def snap_vw(n):
+    return 100 if 100 < n <= 100 * SNAP else n
 
 
 def sizes_for(samples):
@@ -43,11 +60,11 @@ def sizes_for(samples):
             continue
         ws = [w for w, _ in vals]
         if max(ws) - min(ws) <= 2 and (len(ws) > 1 or limit is None):       # ίδιο πλάτος σε όλα τα δείγματα: σταθερά pixels
-            entry = '%dpx' % int(max(ws) * TOL + 0.5)
+            entry = '%dpx' % snap_px(int(max(ws) * TOL + 0.5))
         elif limit is None and not (samples.get(1920, 0) > samples.get(1440, 0) * 1.15):
-            entry = '%dpx' % int(max(ws) * TOL + 0.5)                        # δεν μεγαλώνει με την οθόνη
+            entry = '%dpx' % snap_px(int(max(ws) * TOL + 0.5))               # δεν μεγαλώνει με την οθόνη
         else:
-            entry = '%dvw' % min(CAP, max(vw(w, v) for w, v in vals))
+            entry = '%dvw' % snap_vw(min(CAP, max(vw(w, v) for w, v in vals)))
         parts.append((limit, entry))
     if not parts:
         return None

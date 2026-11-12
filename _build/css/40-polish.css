@@ -18,7 +18,7 @@ details.phones[open]>summary .chev{transform:rotate(180deg)}
 .callbar{display:none}
 @media (max-width:1023px){
   body{padding-bottom:64px}
-  .callbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;gap:10px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid rgba(88,89,91,.12)}
+  .callbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;gap:10px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid rgba(88,89,91,.12)}
   .callbar details.phones{flex:1;position:static}
   .callbar details.phones>summary{width:100%;justify-content:center;min-height:44px;font-size:15px;background:#8DC63F;border-color:#8DC63F;color:#303133}
   .callbar details.phones[open]>summary{background:#7CB22E;border-color:#7CB22E;color:#303133}
@@ -47,8 +47,7 @@ details.phones[open]>summary .chev{transform:rotate(180deg)}
 details.phones>summary:focus-visible,.callbar-contact:focus-visible{outline:3px solid #00AEEF;outline-offset:3px}
 /* ---- 8. Second pass (19/09): only the LETTERS on «Σχετικά με μας» return to brand colours. Backgrounds stay as they are. ---- */
 .about-team-intro h2 span,.about-principle-index{color:#8DC63F}
-.about-refined .about-year,.about-refined .about-year span{color:var(--green-text)}
-.about-year span{display:none}
+.about-refined .about-year{color:var(--green-text)}
 /* the ↗ read as a link; the year is not one */
 /* lighter, so the storefront photo shows */
 /* ---- 9. Minimum type sizes: nothing below 12px; captions and breadcrumbs 13px. ---- */

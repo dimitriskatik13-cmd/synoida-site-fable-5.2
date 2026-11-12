@@ -10,7 +10,6 @@
 }
 /* ---- 1. Fixes found in the review ---- */
 /* the header keeps its white background on every page (was transparent on Αξιολόγηση, Επικοινωνία, Διάγνωση, Απόρρητο) */
-body>header{background:rgba(255,255,255,.96)}
 /* no stray colour bar glued to the left edge of the dark sections */
 /* list rows settle with opacity only: no sideways drift, so the rows stay aligned */
 /* main: must beat the inline <style> of the template, which loads after this file */

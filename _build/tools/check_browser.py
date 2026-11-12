@@ -25,10 +25,10 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cdp
 
-BUDGET = {  # KB, όπως φτάνουν στον επισκέπτη
-    'mobile': {'first': 400, 'full': 800, 'requests': 18},
-    'desktop': {'first': 650, 'full': 1300, 'requests': 18},
-    'mobile3x': {'first': 360},
+BUDGET = {  # KB, όπως φτάνουν στον επισκέπτη. Όρια κοντά στο σημερινό μέγιστο (+15% περίπου), ώστε μια αύξηση να φαίνεται αμέσως.
+    'mobile': {'first': 250, 'full': 520, 'requests': 16},
+    'desktop': {'first': 300, 'full': 430, 'requests': 16},
+    'mobile3x': {'first': 310},
 }
 MODES = {'mobile': (390, 844, 2), 'desktop': (1440, 900, 1)}
 OVERFLOW_WIDTHS = (360, 768, 1024, 1920)
@@ -139,6 +139,40 @@ def scenarios(ws, base, problems, report):
             problems.append('χωρίς JS  %-18s το μενού κινητού δεν είναι διαθέσιμο (%d σύνδεσμοι)' % (p, r['links']))
         if r['hidden'] or r['pinned']:
             problems.append('χωρίς JS  %-18s %d ενότητες μένουν κρυμμένες' % (p, r['hidden']))
+        free = ws.js('(()=>{window.scrollTo({top:2000,behavior:"instant"});const hb=document.querySelector(".site-header").getBoundingClientRect().bottom;return Math.round(innerHeight-Math.max(0,hb))})()')
+        if free < 300:
+            problems.append('χωρίς JS  %-18s μετά από κύλιση φαίνονται μόνο %d px περιεχομένου (η κεφαλίδα με το ανοιχτό μενού μένει κολλημένη)' % (p, free))
+    # 2β. το site.js δεν φόρτωσε (ασταθές δίκτυο): η σελίδα πρέπει να φαίνεται ολόκληρη, όπως χωρίς JavaScript
+    ws.send('Network.setBlockedURLs', {'urls': ['*assets/site.*']})
+    for p in ('index', 'treatment-speech'):
+        ws.open(base + p + '.html', settle=1.0)
+        r = ws.js("""({js:document.documentElement.classList.contains('js'),hidden:[...document.querySelectorAll('main .reveal')].filter(e=>getComputedStyle(e).opacity<0.99).length,
+                      links:[...document.querySelectorAll('#mobileMenu a[href$=".html"]')].filter(a=>a.offsetHeight>0).length})""")
+        if r['js'] or r['hidden'] or r['links'] < 10:
+            problems.append('χωρίς site.js %-14s κρυμμένες ενότητες %d · σύνδεσμοι μενού %d · κλάση js %s' % (p, r['hidden'], r['links'], r['js']))
+    ws.send('Network.setBlockedURLs', {'urls': []})
+    # 2γ. ανοιχτό μενού κινητού: η σελίδα από πίσω δεν δέχεται εστίαση
+    ws.open(base + 'treatment-speech.html', settle=0.8)
+    r = ws.js("""(()=>{document.getElementById('navToggle').click(); const a=document.querySelector('main').inert&&document.querySelector('footer').inert;
+        document.getElementById('navToggle').click(); return {open:a,closed:!document.querySelector('main').inert&&!document.querySelector('footer').inert}})()""")
+    if not (r['open'] and r['closed']):
+        problems.append('μενού κινητού: η σελίδα πίσω από το ανοιχτό μενού δέχεται εστίαση (%s)' % r)
+    # 2δ. άφιξη σε άγκυρα: ο στόχος κάθεται ακριβώς κάτω από την κεφαλίδα, όχι πιο χαμηλά
+    for w in (390, 1440):
+        ws.viewport(w)
+        ws.open(base + 'contact-us.html#centre-spata', settle=1.2)
+        r = ws.js('({top:Math.round(document.getElementById("centre-spata").getBoundingClientRect().top),hdr:Math.round(document.querySelector(".site-header").getBoundingClientRect().bottom)})')
+        if not (r['hdr'] <= r['top'] <= r['hdr'] + 40):
+            problems.append('άγκυρα %d: ο στόχος είναι στα %d px, η κεφαλίδα τελειώνει στα %d' % (w, r['top'], r['hdr']))
+    # 2ε. εκτύπωση: όλες οι ενότητες ορατές, καμία κάτω μπάρα
+    ws.viewport(390, 844, 2)
+    ws.send('Emulation.setEmulatedMedia', {'media': 'print'})
+    ws.open(base + 'treatment-speech.html', settle=0.8)
+    r = ws.js("""({hidden:[...document.querySelectorAll('main .reveal')].filter(e=>getComputedStyle(e).opacity<0.99).length,bar:getComputedStyle(document.querySelector('.callbar')).display,
+                  hdr:getComputedStyle(document.querySelector('.site-header')).position})""")
+    if r['hidden'] or r['bar'] != 'none' or r['hdr'] != 'static':
+        problems.append('εκτύπωση: %s' % r)
+    ws.send('Emulation.setEmulatedMedia', {'media': ''})
     # 3. μειωμένη κίνηση: τίποτα κρυμμένο, τίποτα καρφωμένο, καμία κίνηση σε εξέλιξη
     ws.send('Emulation.setEmulatedMedia', {'features': [{'name': 'prefers-reduced-motion', 'value': 'reduce'}]})
     for w in (390, 1440):
@@ -173,7 +207,7 @@ def scenarios(ws, base, problems, report):
         kbs.append(kb); report['mobile3x/%s' % p] = {'first_kb': round(kb)}
         if kb > BUDGET['mobile3x']['first']:
             problems.append('κινητό 3x %-18s πρώτη οθόνη %.0f KB (όριο %d)' % (p, kb, BUDGET['mobile3x']['first']))
-    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · μείωση κίνησης · πληκτρολόγιο · 404 · κινητό 3x διάμεσος %d KB, μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs)), flush=True)
+    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · μείωση κίνησης · πληκτρολόγιο · 404 · κινητό 3x διάμεσος %d KB, μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs)), flush=True)
 
 
 def main():
@@ -181,7 +215,7 @@ def main():
     out_json = sys.argv[sys.argv.index('--json') + 1] if '--json' in sys.argv else None
     if out_json:
         args = [a for a in args if a != out_json]
-    # το 404 σερβίρεται από τον server σε άγνωστη διεύθυνση και έχει <base>: τοπικά δεν φορτώνει στυλ, ελέγχεται μετά τη δημοσίευση
+    # το 404 έχει <base>: ελέγχεται στα σενάρια, όπως το σερβίρει το GitHub Pages (άγνωστη διεύθυνση κάτω από το πρόθεμα του site)
     pages = args or [p for p in cdp.PAGES if p != '404']
     problems, warnings, report, brand = [], [], {}, set()
     with cdp.session() as (ws, base):
@@ -191,13 +225,14 @@ def main():
             for p in pages:
                 ws.open(base + p + '.html', settle=2.0)
                 first = ws.js('[location.href].concat(performance.getEntriesByType("resource").map(r=>r.name))')
+                lcp = ws.js('window.__lcp')                     # πριν από την κύλιση: μετά γράφονται και εικόνες κάτω από την πρώτη οθόνη
                 total = ws.js('document.documentElement.scrollHeight'); y = 0
                 while True:                                    # στάσεις ανάγνωσης: μισή οθόνη κάθε φορά
                     ws.js('window.scrollTo({top:%d,behavior:"instant"});1' % y); time.sleep(0.9); ws.js(STOP)
                     if y + h >= total:
                         break
                     y = min(y + h // 2, total - h)
-                r = ws.js(FINAL)
+                r = ws.js(FINAL); r['lcp'] = lcp
                 errs = []
                 for e in ws.events:
                     if e['method'] == 'Runtime.exceptionThrown':

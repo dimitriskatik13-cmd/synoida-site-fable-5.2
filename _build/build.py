@@ -16,7 +16,7 @@
     _build/image-sizes.json     το sizes κάθε εικόνας (το γράφει το tools/measure_sizes.py)
 Μετά από κάθε build τρέξε: python3 _build/check.py
 """
-import argparse, base64, glob, hashlib, html, json, os, re, shutil, sys
+import argparse, datetime, base64, glob, hashlib, html, json, os, re, shutil, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -145,7 +145,11 @@ def main():
                 .replace('{{CSS}}', css_name)
                 .replace('{{SCRIPTS}}', scripts)
                 .replace('{{MAIN}}', main_html)
+                .replace('{{YEAR}}', str(datetime.date.today().year))
                 .replace('{{BASE}}', base))
+        # ενεργό στοιχείο μενού και για αναγνώστες οθόνης (ισχύει και χωρίς JavaScript): «page» για την ίδια τη σελίδα, «true» για τη γονική ενότητα
+        page = re.sub(r'<a href="([^"]+)" data-nav="%s"' % re.escape(meta['nav']),
+                      lambda m: m.group(0) + (' aria-current="page"' if m.group(1) == outfile else ' aria-current="true"'), page)
         page = page.replace('<!doctype html>', '<!doctype html>\n' + MARKER, 1)
         if outfile == 'contact-us.html':
             # σε αυτή τη σελίδα το δεύτερο κουμπί της κάτω μπάρας θα έδειχνε στον εαυτό της: δίνει email

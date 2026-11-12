@@ -4,10 +4,6 @@ body{font-family: 'Inter', system-ui, sans-serif;overflow-x:hidden;overflow-x:cl
 h1,h2,h3,.font-display{font-family: 'Comfortaa', system-ui, cursive}
 .kicker{font-family:'Inter',sans-serif;letter-spacing:.2em;font-weight:700;text-transform:uppercase}
 h1,h2{text-wrap: balance}
-/* photo banner scrim (neutral dark) */
-/* τοπικό σκούρο πίσω από το κείμενο (αριστερά) πάνω σε ελαφρύ καθολικό scrim — η δεξιά πλευρά της φωτο μένει φωτεινή */
-/* bottom-weighted scrim for internal-page banners (title sits at the bottom) */
-/* rounded photo frames (brand: generous symmetric radius) */
 /* service icon-chip cards */
 a:focus-visible, button:focus-visible{outline: 3px solid #00AEEF;outline-offset: 3px;border-radius: 6px}
 footer a:focus-visible{outline-color: #fff}
@@ -24,19 +20,12 @@ footer a:focus-visible{outline-color: #fff}
   .reveal{opacity:1;transform:none;transition:none}
   html{scroll-behavior:auto}
 }
-/* ---- scroll progress devices (any page): --p 0..1 on [data-progress]; photo depth; drawn step line; timeline ---- */
 /* photo depth: the picture sits behind its rounded frame and moves a little slower than the page (--p from data-progress) */
 .depth-box{position:relative;isolation:isolate}
 /* keeps the -z-10 tinted backdrop inside the box */
 .depth-clip{overflow:hidden;border-radius:28px}
 .depth-clip img{display:block}
 .js .depth-clip img{transform: scale(1.1) translate3d(0, calc((var(--p,0.5) - 0.5) * 30px), 0);will-change:transform}
-/* focus-scroll: driven by the scroll position (--p on the wrapper). Soft, enlarged and faint while low on the screen,
-   sharp and settled by the time the picture reaches the upper half. Reverses when scrolling back. */
-/* formal-scroll: editorial variant. No blur, no zoom. The print rises and gains strength, the tinted mat
-   settles behind it, and a short rule in the specialty colour draws under the frame. All from --p. */
-/* mosaic-scroll: the picture assembles from six pieces that arrive from different directions (--p on the wrapper).
-   One piece starts as a flat tile in the specialty colour and turns into photograph last. */
 /* ends at 1.006 so the pieces overlap by a hair: no seams */
 .steps-draw{position:relative}
 .steps-draw .step-num{position:relative;z-index:0;background:#fff;box-shadow: inset 0 0 0 2px #8DC63F;overflow:hidden}
@@ -53,13 +42,8 @@ footer a:focus-visible{outline-color: #fff}
 .tl-year{font-family: Comfortaa, sans-serif;font-weight:700;font-size:1.375rem;line-height:1.1;opacity: calc(0.35 + var(--on) * 0.65)}
 .tl-year{color: #58595B}
 .tl-place{font-size:0.875rem;line-height:1.35;color:#4A4B4D;margin-top:0.2rem;opacity: calc(0.8 + var(--on) * 0.2)}
-/* ευανάγνωστο και πριν «ανάψει» ο σταθμός */
 /* list items settle in one by one as the list scrolls up (opacity + 8px slide, driven by --p) */
 @media (prefers-reduced-motion: reduce){
   [data-progress]{--p:1 !important}
   .depth-clip img{transform:none !important}
 }
-/* ---- depth & motion (homepage): hero camera move, pinned therapies rail, count-up, logo that assembles ---- */
-/* layered hero: the wrapper carries the camera scale, the room and the cut-out foreground move at different rates */
-/* the mark assembles itself while the CTA band scrolls in (--k: 1 scattered, 0 assembled) */
-/* therapies: photo cards; normal grid everywhere, and on wide screens without reduced-motion a pinned horizontal rail */

@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-4+HV0MxLsilcm/ot/L44vSAa55jquhPUcsL7qkm16uY='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
   <title>Η ιστορία και η ομάδα μας | ΣΥΝΟΙΔΑ</title>
   <meta name="description" content="Γνωρίστε τη ΣΥΝΟΙΔΑ: από το 1998, τέσσερα κέντρα ειδικών θεραπειών στην Ανατολική Αττική. Η ιστορία, η ομάδα και ο τρόπος συνεργασίας με την οικογένεια." />
-  <script>document.documentElement.classList.add('js');</script>
+  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/site\./.test(t.src))document.documentElement.classList.remove('js')},true);</script>
   <!-- demo deployment: εκτός ευρετηρίασης -->
   <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href="https://dimitriskatik13-cmd.github.io/synoida-site-fable-5.2/about-us.html" />
@@ -32,7 +32,7 @@
   <link rel="preload" href="assets/fonts/comfortaa-greek.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/comfortaa-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/site.0701e5e9bc.css" />
+  <link rel="stylesheet" href="assets/site.491d8077c6.css" />
 
 </head>
 
@@ -48,7 +48,7 @@
         <nav aria-label="Κύρια πλοήγηση" class="hidden lg:block text-[15px] font-medium text-grey">
           <ul class="flex items-center gap-8">
           <li><a href="index.html" data-nav="home" class="nav-link transition">Αρχική</a></li>
-          <li><a href="about-us.html" data-nav="about" class="nav-link transition">Σχετικά με μας</a></li>
+          <li><a href="about-us.html" data-nav="about" aria-current="page" class="nav-link transition">Σχετικά με μας</a></li>
           <li><a href="rating.html" data-nav="rating" class="nav-link transition">Αξιολόγηση</a></li>
           <li class="relative group">
             <a href="treatments.html" data-nav="treatments" aria-haspopup="true" aria-expanded="false" aria-controls="therapiesDropdown" class="nav-link inline-flex items-center gap-1 py-2 transition">Θεραπείες
@@ -83,7 +83,7 @@
     <nav id="mobileMenu" aria-label="Πλοήγηση κινητού" class="lg:hidden hidden border-t border-grey/10 bg-white">
       <ul class="max-w-6xl mx-auto px-4 py-3 flex flex-col text-[16px] font-medium text-grey">
         <li><a href="index.html" data-nav="home" class="block py-3 border-b border-grey/10">Αρχική</a></li>
-        <li><a href="about-us.html" data-nav="about" class="block py-3 border-b border-grey/10">Σχετικά με μας</a></li>
+        <li><a href="about-us.html" data-nav="about" aria-current="page" class="block py-3 border-b border-grey/10">Σχετικά με μας</a></li>
         <li><a href="rating.html" data-nav="rating" class="block py-3 border-b border-grey/10">Αξιολόγηση</a></li>
         <li class="border-b border-grey/10">
           <button id="mTherapiesBtn" type="button" class="w-full flex items-center justify-between py-3" aria-expanded="false" aria-controls="mTherapiesSub"><span data-nav="treatments">Θεραπείες</span>
@@ -118,13 +118,13 @@
         <p class="pg-hero-lead">Γνωρίστε την ιστορία μας, τον τρόπο που συνεργαζόμαστε και τους ανθρώπους που στηρίζουν τη διαδρομή κάθε παιδιού.</p>
         <div class="pg-hero-actions"><a href="contact-us.html" class="hx-btn pg-hero-cta">Μιλήστε μαζί μας <svg class="hx-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="pg-link" href="#about-story">Η δική μας διαδρομή <span aria-hidden="true">↓</span></a></div>
       </div>
-      <figure class="pg-photo pg-hero-photo"><img width="1920" height="1280" fetchpriority="high" src="assets/about-storefront-800.webp" srcset="assets/about-storefront-240.webp 240w, assets/about-storefront-400.webp 400w, assets/about-storefront-640.webp 640w, assets/about-storefront-800.webp 800w, assets/about-storefront-1200.webp 1200w, assets/about-storefront-1600.webp 1600w" sizes="(max-width: 767px) 101vw, (max-width: 1279px) 43vw, (max-width: 1439px) 44vw, 662px" alt="Γυάλινη είσοδος χώρου της ΣΥΝΟΙΔΑ μέσα σε στοά" /></figure>
+      <figure class="pg-photo pg-hero-photo"><img width="1920" height="1280" fetchpriority="high" src="assets/about-storefront-800.webp" srcset="assets/about-storefront-240.webp 240w, assets/about-storefront-400.webp 400w, assets/about-storefront-640.webp 640w, assets/about-storefront-800.webp 800w, assets/about-storefront-1200.webp 1200w, assets/about-storefront-1600.webp 1600w" sizes="(max-width: 767px) 100vw, (max-width: 1279px) 43vw, (max-width: 1439px) 44vw, 640px" alt="Γυάλινη είσοδος χώρου της ΣΥΝΟΙΔΑ μέσα σε στοά" /></figure>
     </div>
   </section>
 
   <section class="about-manifesto about-section">
     <div class="about-wrap about-manifesto-layout">
-      <div class="reveal"><p class="about-eyebrow">Αυτό που μας συνδέει</p><p class="about-small-note">Ειδικές θεραπείες για παιδιά και εφήβους στην Ανατολική Αττική.</p></div>
+      <div class="reveal"><p class="about-eyebrow">Ποιοι είμαστε</p><p class="about-small-note">Ειδικές θεραπείες για παιδιά και εφήβους στην Ανατολική Αττική.</p></div>
       <div class="reveal d1"><h2>Πίσω από κάθε στόχο<br>υπάρχει <span class="about-highlight">ένα παιδί.</span></h2><p>Με τον δικό του ρυθμό, τις δικές του δυνάμεις και όσα το δυσκολεύουν. Ξεκινάμε από εκεί: γνωρίζουμε το παιδί και ακούμε την οικογένειά του.</p><p>Στη ΣΥΝΟΙΔΑ συνδυάζουμε την επιστημονική γνώση με το παιχνίδι και τη σχέση εμπιστοσύνης, ώστε η υποστήριξη να έχει νόημα στην καθημερινή ζωή του παιδιού.</p></div>
     </div>
   </section>
@@ -132,10 +132,10 @@
   <section id="about-story" class="about-story about-section">
     <div class="about-wrap">
       <div class="about-story-layout">
-        <figure class="reveal about-photo about-history-photo"><div class="depth-box" data-progress="1 0"><div class="depth-clip"><img width="1920" height="1280" loading="lazy" decoding="async" src="assets/about-history-800.webp" srcset="assets/about-history-240.webp 240w, assets/about-history-400.webp 400w, assets/about-history-640.webp 640w, assets/about-history-800.webp 800w, assets/about-history-1200.webp 1200w, assets/about-history-1600.webp 1600w" sizes="(max-width: 767px) 107vw, (max-width: 1023px) 52vw, (max-width: 1279px) 50vw, (max-width: 1439px) 48vw, 618px" alt="Εξωτερική όψη κτιρίου με μεγάλη πινακίδα ΣΥΝΟΙΔΑ" /></div></div></figure>
-        <div class="reveal d1 about-story-copy"><p class="about-eyebrow">Η ιστορία μας</p><p class="about-year" aria-label="Από το 1998">1998<span aria-hidden="true">↗</span></p><h2>Από ένα κέντρο στα Σπάτα, <br>σε τέσσερα στην Ανατολική Αττική.</h2><p>Σήμερα, σε <span data-count="4" data-count-ms="1200">4</span> κέντρα, συνεχίζουμε με την ίδια αρχή: να κατανοούμε τις ανάγκες του παιδιού και να στεκόμαστε δίπλα στην οικογένεια με επιστημονικότητα και ενσυναίσθηση.</p><a href="contact-us.html#contact-centres" class="about-text-link">Γνωρίστε τα κέντρα μας <span aria-hidden="true">→</span></a></div>
+        <figure class="reveal about-photo about-history-photo"><div class="depth-box" data-progress="1 0"><div class="depth-clip"><img width="1920" height="1280" loading="lazy" decoding="async" src="assets/about-history-800.webp" srcset="assets/about-history-240.webp 240w, assets/about-history-400.webp 400w, assets/about-history-640.webp 640w, assets/about-history-800.webp 800w, assets/about-history-1200.webp 1200w, assets/about-history-1600.webp 1600w" sizes="(max-width: 767px) 100vw, (max-width: 1023px) 52vw, (max-width: 1279px) 50vw, (max-width: 1439px) 48vw, 600px" alt="Εξωτερική όψη κτιρίου με μεγάλη πινακίδα ΣΥΝΟΙΔΑ" /></div></div></figure>
+        <div class="reveal d1 about-story-copy"><p class="about-eyebrow">Η ιστορία μας</p><p class="about-year">1998</p><h2>Από ένα κέντρο στα Σπάτα, <br>σε τέσσερα στην Ανατολική Αττική.</h2><p>Σήμερα, σε <span data-count="4" data-count-ms="1200">4</span> κέντρα, συνεχίζουμε με την ίδια αρχή: να κατανοούμε τις ανάγκες του παιδιού και να στεκόμαστε δίπλα στην οικογένεια με επιστημονικότητα και ενσυναίσθηση.</p><a href="contact-us.html#contact-centres" class="about-text-link">Γνωρίστε τα κέντρα μας <span aria-hidden="true">→</span></a></div>
       </div>
-      <div class="reveal tl about-timeline" data-progress="0.85 0.55" aria-label="Η διαδρομή της ΣΥΝΟΙΔΑ">
+      <div class="reveal tl about-timeline" data-progress="0.85 0.55" role="group" aria-label="Η διαδρομή της ΣΥΝΟΙΔΑ">
         <div class="tl-line" aria-hidden="true"></div><div class="tl-items">
           <div class="tl-item" style="--at:0.08"><div class="tl-year">1998</div><div class="tl-place">Σπάτα</div></div>
           <div class="tl-item" style="--at:0.5"><div class="tl-year">2010</div><div class="tl-place">Αρτέμιδα</div></div>
@@ -149,7 +149,7 @@
     <div class="about-wrap">
       <div class="about-team-intro"><div class="reveal"><p class="about-eyebrow">Η ομάδα μας</p><h2>Διαφορετικές ειδικότητες.<br><span>Κοινή κατεύθυνση.</span></h2></div><p class="reveal d1">Οι ανάγκες ενός παιδιού <span class="about-accent">δεν χωρούν πάντα σε μία ειδικότητα</span>. Οι θεραπευτές μας <span class="about-accent">συνεργάζονται</span>, ανταλλάσσουν παρατηρήσεις και συνδέουν τους στόχους της υποστήριξής του.</p></div>
       <div class="about-team-layout">
-        <figure class="reveal about-photo"><div class="depth-box" data-progress="1 0"><div class="depth-clip"><img width="1920" height="1280" loading="lazy" decoding="async" src="assets/about-team-800.webp" srcset="assets/about-team-240.webp 240w, assets/about-team-400.webp 400w, assets/about-team-640.webp 640w, assets/about-team-800.webp 800w, assets/about-team-1200.webp 1200w, assets/about-team-1600.webp 1600w" sizes="(max-width: 767px) 107vw, (max-width: 1023px) 52vw, (max-width: 1279px) 50vw, (max-width: 1439px) 48vw, 618px" alt="Χώρος θεραπείας της ΣΥΝΟΙΔΑ με τραπέζι, καθίσματα και κρεμαστό εξοπλισμό" /></div></div></figure>
+        <figure class="reveal about-photo"><div class="depth-box" data-progress="1 0"><div class="depth-clip"><img width="1920" height="1280" loading="lazy" decoding="async" src="assets/about-team-800.webp" srcset="assets/about-team-240.webp 240w, assets/about-team-400.webp 400w, assets/about-team-640.webp 640w, assets/about-team-800.webp 800w, assets/about-team-1200.webp 1200w, assets/about-team-1600.webp 1600w" sizes="(max-width: 767px) 100vw, (max-width: 1023px) 52vw, (max-width: 1279px) 50vw, (max-width: 1439px) 48vw, 600px" alt="Χώρος θεραπείας της ΣΥΝΟΙΔΑ με τραπέζι, καθίσματα και κρεμαστό εξοπλισμό" /></div></div></figure>
         <div class="reveal d1 about-team-principles">
           <div><span class="about-principle-index" aria-hidden="true">01</span><h3>Μοιραζόμαστε την εικόνα</h3><p>Η ομάδα συνεδριάζει κάθε μήνα για την εξέλιξη κάθε παιδιού. Οι θεραπευτές συζητούν τις δυσκολίες που προκύπτουν και αναζητούν λύσεις μαζί με τις υπόλοιπες ειδικότητες.</p></div>
           <div><span class="about-principle-index" aria-hidden="true">02</span><h3>Στηρίζουμε τους θεραπευτές μας</h3><p>Κανένας θεραπευτής δεν δουλεύει μόνος. Κάθε πρόγραμμα συζητιέται στην ομάδα.</p></div>
@@ -169,7 +169,7 @@
         <li><span class="step-num" data-at aria-hidden="true">3</span><div><h3>Σχεδιάζουμε τα επόμενα βήματα</h3><p>Αν χρειάζεται θεραπευτική υποστήριξη, συζητάμε μαζί σας το πρόγραμμα, τους στόχους και το πλαίσιο συνεργασίας πριν ξεκινήσουμε.</p></div></li>
         <li><span class="step-num" data-at aria-hidden="true">4</span><div><h3>Ξεκινάμε τις συνεδρίες</h3><p>Κάθε συνεδρία διαρκεί 45 λεπτά. Το πρόγραμμα προσαρμόζεται στις ανάγκες του παιδιού. Το παιχνίδι και η σχέση με τον θεραπευτή βοηθούν το παιδί να συμμετέχει και τη θεραπεία να αποδίδει.</p></div></li>
         <li><span class="step-num" data-at aria-hidden="true">5</span><div><h3>Κρατάμε ανοιχτή την επικοινωνία</h3><p>Σας ενημερώνουμε για την πορεία και συζητάμε πρακτικές οδηγίες για το σπίτι, ανάλογα με τους στόχους που δουλεύουμε.</p></div></li>
-        <li><span class="step-num" data-at aria-hidden="true">6</span><div><h3>Γραπτή αναφορά προόδου κάθε 6 μήνες</h3><p>Επανεξετάζουμε τους στόχους και σας δίνουμε γραπτή αναφορά προόδου.</p></div></li>
+        <li><span class="step-num" data-at aria-hidden="true">6</span><div><h3>Επανεξετάζουμε τους στόχους κάθε 6 μήνες</h3><p>Σας δίνουμε γραπτή αναφορά προόδου και συζητάμε μαζί σας τη συνέχεια.</p></div></li>
       </ol></div>
     </div>
   </section>
@@ -191,7 +191,7 @@
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer bg-grey text-white/85">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1.4fr]">
+      <div class="footer-grid grid gap-12 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1.4fr]">
         <div>
           <img src="assets/logo-stacked-light.svg" alt="ΣΥΝΟΙΔΑ, Κέντρα Ειδικών Θεραπειών" width="938" height="622" loading="lazy" decoding="async" class="h-28 w-auto" />
           <p class="mt-5 text-white/80 leading-relaxed max-w-xs">Όταν το παιδί εξελίσσεται, ο κόσμος αλλάζει προς το καλύτερο.</p>
@@ -210,6 +210,15 @@
           </ul>
         </div>
         <div>
+          <h2 class="font-display font-bold text-white text-lg mb-5">ΣΥΝΟΙΔΑ</h2>
+          <ul class="footer-links text-white/75">
+            <li><a href="about-us.html" class="hover:text-white transition">Σχετικά με μας</a></li>
+            <li><a href="rating.html" class="hover:text-white transition">Αξιολόγηση</a></li>
+            <li><a href="adult-diagnosis.html" class="hover:text-white transition">Διάγνωση ενηλίκων</a></li>
+            <li><a href="contact-us.html" class="hover:text-white transition">Επικοινωνία</a></li>
+          </ul>
+        </div>
+        <div>
           <h2 class="font-display font-bold text-white text-lg mb-5">Επικοινωνία</h2>
           <ul class="footer-centres">
             <li><b>Αρτέμιδα</b><span>7η Στάση Βραυρώνος</span><a href="tel:+302294049981">22940 49981</a></li>
@@ -222,7 +231,7 @@
     </div>
     <div class="border-t border-white/15">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-white/80">
-        <p class="font-semibold tracking-wide">Αρτέμιδα · Σπάτα · Νέα Μάκρη · Μαραθώνας</p>
+        <p class="font-semibold tracking-wide">© 2026 ΣΥΝΟΙΔΑ · Κέντρα Ειδικών Θεραπειών</p>
         <p><a href="mailto:info@synoida.gr" class="hover:text-white transition">info@synoida.gr</a> · <a href="https://www.synoida.gr" target="_blank" rel="noopener" class="hover:text-white transition">www.synoida.gr</a></p>
       </div>
     </div>
@@ -238,6 +247,6 @@
   </nav>
 
 <aside class="preview-status" aria-label="Δοκιμαστική έκδοση" data-preview-only>Δοκιμαστική έκδοση <b>Fable 5.2</b> <span aria-hidden="true">·</span> <a href="https://dimitriskatik13-cmd.github.io/synoida-site/" target="_blank" rel="noopener">Αρχικό site ↗</a></aside>
-  <script src="assets/site.38905f48d3.js" defer></script>
+  <script src="assets/site.bc3408e386.js" defer></script>
 </body>
 </html>

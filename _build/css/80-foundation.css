@@ -16,7 +16,6 @@ main :is(h1,h2,h3){color:var(--ink);overflow-wrap:break-word}
 main :is(.home-question,.contact-email-section,.assessment-prepare,.therapies-help,.speech-practice,.specialty-dark,.assessment-process,.speech-concerns,.specialty-signs,.on-deep) :is(h1,h2,h3){color:#fff}
 .site-footer{background-color:var(--deep)}
 ::selection{background:rgba(141,198,63,.35)}
-:where(main,footer) [id]{scroll-margin-top:calc(var(--hdr,80px) + 24px)}
 /* ---- κεφαλίδα μίας γραμμής: τα τηλέφωνα δίπλα στο «Επικοινωνία». Σταθερό ύψος (καμία αλλαγή διάταξης στην κύλιση). ---- */
 .site-header{background:#fff}
 /* κινητό: η κεφαλίδα κρύβεται όταν κυλάς προς τα κάτω και επιστρέφει όταν κυλάς προς τα πάνω (assets/site.js, ενότητα 6β) */
@@ -100,8 +99,21 @@ html{scroll-padding-top:calc(var(--hdr,80px) + 16px)}
 /* ---- χωρίς JavaScript το μενού κινητού είναι ανοιχτό μέσα στη σελίδα (η πλοήγηση δουλεύει πάντα) ---- */
 @media (max-width:1023px){
   html:not(.js) #navToggle{display:none}
+  html:not(.js) .site-header{position:static}
+  /* το ανοιχτό μενού δεν μένει κολλημένο πάνω από το περιεχόμενο */
   html:not(.js) #mobileMenu{display:block}
   html:not(.js) #mTherapiesSub{display:flex}
 }
 html:not(.js) #copy-contact-email{display:none}
 /* το κουμπί αντιγραφής χρειάζεται JavaScript */
+/* ---- 5ος γύρος ---- */
+/* υποσέλιδο: τέσσερις στήλες στον υπολογιστή (λογότυπο, θεραπείες, σελίδες, τηλέφωνα) */
+@media (min-width:1024px){
+  .footer-grid{grid-template-columns:1.15fr 1fr .8fr 1.35fr}
+}
+/* εκτύπωση ή αποθήκευση σε PDF: όλο το περιεχόμενο ορατό, χωρίς κολλημένα στοιχεία */
+@media print{
+  .reveal{opacity:1!important;transform:none!important}
+  .site-header{position:static}
+  .callbar,.preview-status{display:none}
+}

@@ -4,4 +4,4 @@
 cd "$(git rev-parse --show-toplevel)" || exit 1
 python3 _build/build.py >/dev/null || { echo "pre-push: το build απέτυχε"; exit 1; }
 python3 _build/check.py || { echo "pre-push: ο έλεγχος βρήκε προβλήματα"; exit 1; }
-git diff --quiet -- docs || { echo "pre-push: το docs/ δεν είναι ενημερωμένο (τρέξε build και κάνε commit)"; exit 1; }
+test -z "$(git status --porcelain -- docs)" || { echo "pre-push: το docs/ δεν είναι ενημερωμένο (τρέξε build και κάνε commit)"; exit 1; }

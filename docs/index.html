@@ -4,10 +4,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-4+HV0MxLsilcm/ot/L44vSAa55jquhPUcsL7qkm16uY='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
   <title>ΣΥΝΟΙΔΑ | Κέντρα Ειδικών Θεραπειών στην Ανατολική Αττική</title>
   <meta name="description" content="Λογοθεραπεία, εργοθεραπεία και ειδικές θεραπείες για παιδιά και εφήβους σε Αρτέμιδα, Σπάτα, Νέα Μάκρη και Μαραθώνα. Γνωρίστε τη ΣΥΝΟΙΔΑ και πώς ξεκινάμε." />
-  <script>document.documentElement.classList.add('js');</script>
+  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/site\./.test(t.src))document.documentElement.classList.remove('js')},true);</script>
   <!-- demo deployment: εκτός ευρετηρίασης -->
   <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href="https://dimitriskatik13-cmd.github.io/synoida-site-fable-5.2/" />
@@ -31,7 +31,7 @@
   <link rel="preload" href="assets/fonts/comfortaa-greek.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/comfortaa-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="assets/site.0701e5e9bc.css" />
+  <link rel="stylesheet" href="assets/site.491d8077c6.css" />
 
 </head>
 
@@ -46,7 +46,7 @@
         <a href="index.html" class="flex items-center shrink-0"><img src="assets/logo-horizontal.svg" alt="ΣΥΝΟΙΔΑ" width="982" height="268" class="h-11 lg:h-[52px] w-auto" /></a>
         <nav aria-label="Κύρια πλοήγηση" class="hidden lg:block text-[15px] font-medium text-grey">
           <ul class="flex items-center gap-8">
-          <li><a href="index.html" data-nav="home" class="nav-link transition">Αρχική</a></li>
+          <li><a href="index.html" data-nav="home" aria-current="page" class="nav-link transition">Αρχική</a></li>
           <li><a href="about-us.html" data-nav="about" class="nav-link transition">Σχετικά με μας</a></li>
           <li><a href="rating.html" data-nav="rating" class="nav-link transition">Αξιολόγηση</a></li>
           <li class="relative group">
@@ -81,7 +81,7 @@
     </div>
     <nav id="mobileMenu" aria-label="Πλοήγηση κινητού" class="lg:hidden hidden border-t border-grey/10 bg-white">
       <ul class="max-w-6xl mx-auto px-4 py-3 flex flex-col text-[16px] font-medium text-grey">
-        <li><a href="index.html" data-nav="home" class="block py-3 border-b border-grey/10">Αρχική</a></li>
+        <li><a href="index.html" data-nav="home" aria-current="page" class="block py-3 border-b border-grey/10">Αρχική</a></li>
         <li><a href="about-us.html" data-nav="about" class="block py-3 border-b border-grey/10">Σχετικά με μας</a></li>
         <li><a href="rating.html" data-nav="rating" class="block py-3 border-b border-grey/10">Αξιολόγηση</a></li>
         <li class="border-b border-grey/10">
@@ -114,6 +114,7 @@
       <div class="hx-hero-copy">
         <p class="hx-eyebrow">Κέντρα Ειδικών Θεραπειών</p>
         <h1><span class="hx-line"><span>Όταν το παιδί εξελίσσεται,</span></span> <span class="hx-line hx-accent"><span>ο κόσμος αλλάζει προς το καλύτερο.</span></span></h1>
+        <p class="hx-what">Λογοθεραπεία, εργοθεραπεία, ειδική αγωγή και ψυχοθεραπεία για παιδιά και εφήβους.</p>
         <p class="hx-places">Αρτέμιδα · Σπάτα · Νέα Μάκρη · Μαραθώνας</p>
         <div class="hx-hero-actions">
           <a href="contact-us.html" data-callbar-after class="hx-btn">Μιλήστε μαζί μας <svg class="hx-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -121,28 +122,13 @@
         </div>
       </div>
       <div class="hx-hero-art">
-        <div class="hx-frame"><img width="1920" height="1280" fetchpriority="high" src="assets/hero-room-800.webp" srcset="assets/hero-room-240.webp 240w, assets/hero-room-400.webp 400w, assets/hero-room-640.webp 640w, assets/hero-room-800.webp 800w, assets/hero-room-1200.webp 1200w, assets/hero-room-1600.webp 1600w" sizes="(max-width: 767px) 107vw, (max-width: 1023px) 110vw, (max-width: 1279px) 97vw, (max-width: 1439px) 85vw, 1125px" alt="Φωτεινός χώρος θεραπείας για παιδιά στη ΣΥΝΟΙΔΑ" /></div>
-        <div class="hx-frame-small"><img width="1920" height="1280" src="assets/treatments-hero-800.webp" srcset="assets/treatments-hero-240.webp 240w, assets/treatments-hero-400.webp 400w, assets/treatments-hero-640.webp 640w, assets/treatments-hero-800.webp 800w, assets/treatments-hero-1200.webp 1200w, assets/treatments-hero-1600.webp 1600w" sizes="(max-width: 767px) 138px, (max-width: 1023px) 18vw, (max-width: 1279px) 25vw, (max-width: 1439px) 20vw, 251px" alt="Παιδικό τραπέζι με εκπαιδευτικά παιχνίδια και κάρτες σε χώρο της ΣΥΝΟΙΔΑ" /></div>
+        <div class="hx-frame"><img width="1920" height="1280" fetchpriority="high" src="assets/hero-room-800.webp" srcset="assets/hero-room-240.webp 240w, assets/hero-room-400.webp 400w, assets/hero-room-640.webp 640w, assets/hero-room-800.webp 800w, assets/hero-room-1200.webp 1200w, assets/hero-room-1600.webp 1600w" sizes="(max-width: 767px) 100vw, (max-width: 1023px) 110vw, (max-width: 1279px) 100vw, (max-width: 1439px) 92vw, 1200px" alt="Φωτεινός χώρος θεραπείας για παιδιά στη ΣΥΝΟΙΔΑ" /></div>
+        <div class="hx-frame-small"><img width="1920" height="1280" src="assets/treatments-hero-800.webp" srcset="assets/treatments-hero-240.webp 240w, assets/treatments-hero-400.webp 400w, assets/treatments-hero-640.webp 640w, assets/treatments-hero-800.webp 800w, assets/treatments-hero-1200.webp 1200w, assets/treatments-hero-1600.webp 1600w" sizes="(max-width: 767px) 133px, (max-width: 1023px) 18vw, (max-width: 1279px) 25vw, (max-width: 1439px) 20vw, 240px" alt="Παιδικό τραπέζι με εκπαιδευτικά παιχνίδια και κάρτες σε χώρο της ΣΥΝΟΙΔΑ" /></div>
       </div>
     </div>
   </section>
 
-  <!-- 2. ΠΩΣ ΔΟΥΛΕΥΟΥΜΕ: οι έξι αρχές, χωρίς κουτιά -->
-  <section class="hx-values" aria-labelledby="home-values-title">
-    <div class="hx-wrap hx-split">
-      <div class="hx-split-head reveal"><h2 id="home-values-title">Πώς δουλεύουμε</h2><p>Έξι αρχές που μας οδηγούν στη συνεργασία με το παιδί και την οικογένεια.</p></div>
-      <div class="hx-values-list">
-        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#8DC63F" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#F7941D" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path class="f" fill="rgba(88,89,91,.07)" stroke="none" d="M20 11.2A7.8 7.8 0 0 1 8.7 18.1L4 19.5l1.3-4.2A7.8 7.8 0 1 1 20 11.2Z"/><path class="d" pathLength="1" style="--i:0" d="M20 11.2A7.8 7.8 0 0 1 8.7 18.1L4 19.5l1.3-4.2A7.8 7.8 0 1 1 20 11.2Z"/><g class="a"><path class="beat" fill="#8DC63F" stroke="none" d="M12.1 14.6s-3-1.8-3-3.9a1.7 1.7 0 0 1 3-1 1.7 1.7 0 0 1 3 1c0 2.1-3 3.9-3 3.9Z"/></g></g></svg></span><div><h3>Ακούμε την οικογένεια</h3><p>Οι παρατηρήσεις και οι ανησυχίες σας μάς βοηθούν να γνωρίσουμε καλύτερα το παιδί.</p></div></div>
-        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#00AEEF" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#8DC63F" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="bb bb1"><circle class="d" pathLength="1" style="--i:0" cx="5.6" cy="9.4" r="2"/><path class="d" pathLength="1" style="--i:1" d="M2.5 18a3.4 3.4 0 0 1 5.4-2.7"/></g><g class="bb bb3"><circle class="d" pathLength="1" style="--i:0" cx="18.4" cy="9.4" r="2"/><path class="d" pathLength="1" style="--i:1" d="M21.5 18a3.4 3.4 0 0 0-5.4-2.7"/></g><g class="bb bb2"><path class="f" fill="rgba(88,89,91,.07)" stroke="none" d="M6.8 19.5a5.2 5.2 0 0 1 10.4 0Z"/><path class="d" pathLength="1" style="--i:2" d="M6.8 19.5a5.2 5.2 0 0 1 10.4 0Z"/><circle class="a" cx="12" cy="8" r="3.1" fill="#00AEEF" stroke="none"/></g></g></svg></span><div><h3>Συνεργαζόμαστε ως ομάδα</h3><p>Οι ειδικότητες συνδυάζουν τη γνώση τους γύρω από τις ανάγκες του παιδιού.</p></div></div>
-        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#ED1C24" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#00AEEF" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="wg"><path class="f" fill="rgba(88,89,91,.07)" stroke="none" d="M5 6h4.2a2.3 2.3 0 1 1 4.6 0H18v4.2a2.3 2.3 0 1 1 0 4.6V19h-4.2a2.3 2.3 0 1 0-4.6 0H5v-4.2a2.3 2.3 0 1 0 0-4.6Z"/><path class="d" pathLength="1" style="--i:0" d="M5 6h4.2a2.3 2.3 0 1 1 4.6 0H18v4.2a2.3 2.3 0 1 1 0 4.6V19h-4.2a2.3 2.3 0 1 0-4.6 0H5v-4.2a2.3 2.3 0 1 0 0-4.6Z"/><circle class="a" cx="11.5" cy="12.5" r="2" fill="#ED1C24" stroke="none"/></g></g></svg></span><div><h3>Προσαρμόζουμε τη δουλειά μας</h3><p>Επιλέγουμε δραστηριότητες που ταιριάζουν στις δυνατότητες και στα ενδιαφέροντα του παιδιού.</p></div></div>
-        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#00AEEF" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#F7941D" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect class="f" fill="rgba(88,89,91,.07)" stroke="none" x="4.8" y="4.6" width="14.4" height="16.4" rx="2.6"/><rect class="d" pathLength="1" style="--i:0" x="4.8" y="4.6" width="14.4" height="16.4" rx="2.6"/><rect class="d" pathLength="1" style="--i:1" x="8.6" y="2.8" width="6.8" height="3.6" rx="1.4" fill="#fff"/><g class="a"><path class="d rd" pathLength="1" style="--i:3" d="m8.8 13.4 2.2 2.2 4.4-4.6" stroke="#00AEEF" stroke-width="2.2"/></g></g></svg></span><div><h3>Ξεκινάμε από την αξιολόγηση</h3><p>Διερευνούμε τις ανάγκες του παιδιού πριν προτείνουμε πρόγραμμα υποστήριξης.</p></div></div>
-        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#F7941D" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#8DC63F" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path class="d" pathLength="1" style="--i:0" d="M8 21h8"/><path class="d" pathLength="1" style="--i:1" d="M12 21v-8.5"/><g class="sw"><path class="f" fill="rgba(88,89,91,.07)" stroke="none" d="M12 14.6c0-3.4-2.7-5.6-6.8-5.6 0 3.4 2.7 5.6 6.8 5.6Z"/><path class="d" pathLength="1" style="--i:2" d="M12 14.6c0-3.4-2.7-5.6-6.8-5.6 0 3.4 2.7 5.6 6.8 5.6Z"/><path class="a" fill="#F7941D" stroke="none" d="M12 12.5c0-4.4 3.1-7 7.8-7 0 4.4-3.1 7-7.8 7Z"/></g></g></svg></span><div><h3>Σεβόμαστε τον ρυθμό του παιδιού</h3><p>Γνωρίζουμε το παιδί και δίνουμε χώρο σε όσα το διευκολύνουν να συμμετέχει.</p></div></div>
-        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#8DC63F" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#ED1C24" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path class="f" fill="rgba(88,89,91,.07)" stroke="none" d="M5.5 10v9.5a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V10"/><path class="d" pathLength="1" style="--i:0" d="M5.5 10v9.5a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V10"/><g class="rf"><path class="d" pathLength="1" style="--i:1" d="M3 11.5 12 4l9 7.5"/></g><g class="a"><path class="beat" fill="#8DC63F" stroke="none" d="M12 17.6s-2.7-1.6-2.7-3.5a1.5 1.5 0 0 1 2.7-.9 1.5 1.5 0 0 1 2.7.9c0 1.9-2.7 3.5-2.7 3.5Z"/></g></g></svg></span><div><h3>Βάζουμε στόχους για την καθημερινότητα</h3><p>Σχεδιάζουμε την υποστήριξη με βάση όσα χρειάζεται στο σπίτι, στο σχολείο και στο παιχνίδι.</p></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. ΣΑΣ ΠΡΟΒΛΗΜΑΤΙΖΕΙ ΚΑΤΙ: οι φράσεις ανάβουν καθώς το κείμενο ανεβαίνει στην οθόνη -->
+  <!-- 2. ΣΑΣ ΠΡΟΒΛΗΜΑΤΙΖΕΙ ΚΑΤΙ: οι φράσεις ανάβουν καθώς το κείμενο ανεβαίνει στην οθόνη -->
   <section class="hx-question on-deep">
     <div class="hx-wrap">
       <h2 class="reveal">Σας προβληματίζει κάτι στην <em class="hx-accent">καθημερινότητα του παιδιού σας</em>;</h2>
@@ -154,7 +140,7 @@
     </div>
   </section>
 
-  <!-- 4. ΘΕΡΑΠΕΙΕΣ: ευρετήριο επτά γραμμών· στον υπολογιστή η φωτογραφία και η περιγραφή αλλάζουν με τον δείκτη -->
+  <!-- 3. ΘΕΡΑΠΕΙΕΣ: ευρετήριο επτά γραμμών· στον υπολογιστή η φωτογραφία και η περιγραφή αλλάζουν με τον δείκτη -->
   <section class="hx-therapies" id="home-therapies">
     <div class="hx-wrap">
       <div class="hx-th-head reveal">
@@ -185,12 +171,27 @@
     </div>
   </section>
 
+  <!-- 4. ΠΩΣ ΔΟΥΛΕΥΟΥΜΕ: οι έξι αρχές, χωρίς κουτιά -->
+  <section class="hx-values" aria-labelledby="home-values-title">
+    <div class="hx-wrap hx-split">
+      <div class="hx-split-head reveal"><h2 id="home-values-title">Πώς δουλεύουμε</h2><p>Έξι αρχές που μας οδηγούν στη συνεργασία με το παιδί και την οικογένεια.</p></div>
+      <div class="hx-values-list">
+        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#8DC63F" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#F7941D" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path class="f" fill="rgba(88,89,91,.07)" stroke="none" d="M20 11.2A7.8 7.8 0 0 1 8.7 18.1L4 19.5l1.3-4.2A7.8 7.8 0 1 1 20 11.2Z"/><path class="d" pathLength="1" style="--i:0" d="M20 11.2A7.8 7.8 0 0 1 8.7 18.1L4 19.5l1.3-4.2A7.8 7.8 0 1 1 20 11.2Z"/><g class="a"><path class="beat" fill="#8DC63F" stroke="none" d="M12.1 14.6s-3-1.8-3-3.9a1.7 1.7 0 0 1 3-1 1.7 1.7 0 0 1 3 1c0 2.1-3 3.9-3 3.9Z"/></g></g></svg></span><div><h3>Ακούμε την οικογένεια</h3><p>Οι παρατηρήσεις και οι ανησυχίες σας μάς βοηθούν να γνωρίσουμε καλύτερα το παιδί.</p></div></div>
+        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#00AEEF" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#8DC63F" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="bb bb1"><circle class="d" pathLength="1" style="--i:0" cx="5.6" cy="9.4" r="2"/><path class="d" pathLength="1" style="--i:1" d="M2.5 18a3.4 3.4 0 0 1 5.4-2.7"/></g><g class="bb bb3"><circle class="d" pathLength="1" style="--i:0" cx="18.4" cy="9.4" r="2"/><path class="d" pathLength="1" style="--i:1" d="M21.5 18a3.4 3.4 0 0 0-5.4-2.7"/></g><g class="bb bb2"><path class="f" fill="rgba(88,89,91,.07)" stroke="none" d="M6.8 19.5a5.2 5.2 0 0 1 10.4 0Z"/><path class="d" pathLength="1" style="--i:2" d="M6.8 19.5a5.2 5.2 0 0 1 10.4 0Z"/><circle class="a" cx="12" cy="8" r="3.1" fill="#00AEEF" stroke="none"/></g></g></svg></span><div><h3>Συνεργαζόμαστε ως ομάδα</h3><p>Οι ειδικότητες συνδυάζουν τη γνώση τους γύρω από τις ανάγκες του παιδιού.</p></div></div>
+        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#ED1C24" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#00AEEF" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="wg"><path class="f" fill="rgba(88,89,91,.07)" stroke="none" d="M5 6h4.2a2.3 2.3 0 1 1 4.6 0H18v4.2a2.3 2.3 0 1 1 0 4.6V19h-4.2a2.3 2.3 0 1 0-4.6 0H5v-4.2a2.3 2.3 0 1 0 0-4.6Z"/><path class="d" pathLength="1" style="--i:0" d="M5 6h4.2a2.3 2.3 0 1 1 4.6 0H18v4.2a2.3 2.3 0 1 1 0 4.6V19h-4.2a2.3 2.3 0 1 0-4.6 0H5v-4.2a2.3 2.3 0 1 0 0-4.6Z"/><circle class="a" cx="11.5" cy="12.5" r="2" fill="#ED1C24" stroke="none"/></g></g></svg></span><div><h3>Προσαρμόζουμε τη δουλειά μας</h3><p>Επιλέγουμε δραστηριότητες που ταιριάζουν στις δυνατότητες και στα ενδιαφέροντα του παιδιού.</p></div></div>
+        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#00AEEF" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#F7941D" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect class="f" fill="rgba(88,89,91,.07)" stroke="none" x="4.8" y="4.6" width="14.4" height="16.4" rx="2.6"/><rect class="d" pathLength="1" style="--i:0" x="4.8" y="4.6" width="14.4" height="16.4" rx="2.6"/><rect class="d" pathLength="1" style="--i:1" x="8.6" y="2.8" width="6.8" height="3.6" rx="1.4" fill="#fff"/><g class="a"><path class="d rd" pathLength="1" style="--i:3" d="m8.8 13.4 2.2 2.2 4.4-4.6" stroke="#00AEEF" stroke-width="2.2"/></g></g></svg></span><div><h3>Ξεκινάμε από την αξιολόγηση</h3><p>Διερευνούμε τις ανάγκες του παιδιού πριν προτείνουμε πρόγραμμα υποστήριξης.</p></div></div>
+        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#F7941D" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#8DC63F" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path class="d" pathLength="1" style="--i:0" d="M8 21h8"/><path class="d" pathLength="1" style="--i:1" d="M12 21v-8.5"/><g class="sw"><path class="f" fill="rgba(88,89,91,.07)" stroke="none" d="M12 14.6c0-3.4-2.7-5.6-6.8-5.6 0 3.4 2.7 5.6 6.8 5.6Z"/><path class="d" pathLength="1" style="--i:2" d="M12 14.6c0-3.4-2.7-5.6-6.8-5.6 0 3.4 2.7 5.6 6.8 5.6Z"/><path class="a" fill="#F7941D" stroke="none" d="M12 12.5c0-4.4 3.1-7 7.8-7 0 4.4-3.1 7-7.8 7Z"/></g></g></svg></span><div><h3>Σεβόμαστε τον ρυθμό του παιδιού</h3><p>Γνωρίζουμε το παιδί και δίνουμε χώρο σε όσα το διευκολύνουν να συμμετέχει.</p></div></div>
+        <div class="reveal hx-value"><span class="vicon" aria-hidden="true"><svg viewBox="0 0 64 64" focusable="false"><circle class="blob b1" cx="30" cy="35" r="24" fill="#8DC63F" fill-opacity=".15"/><circle class="blob b2" cx="49" cy="17" r="10" fill="#ED1C24" fill-opacity=".24"/><g transform="translate(13 17) scale(1.55)" fill="none" stroke="#58595B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path class="f" fill="rgba(88,89,91,.07)" stroke="none" d="M5.5 10v9.5a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V10"/><path class="d" pathLength="1" style="--i:0" d="M5.5 10v9.5a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V10"/><g class="rf"><path class="d" pathLength="1" style="--i:1" d="M3 11.5 12 4l9 7.5"/></g><g class="a"><path class="beat" fill="#8DC63F" stroke="none" d="M12 17.6s-2.7-1.6-2.7-3.5a1.5 1.5 0 0 1 2.7-.9 1.5 1.5 0 0 1 2.7.9c0 1.9-2.7 3.5-2.7 3.5Z"/></g></g></svg></span><div><h3>Βάζουμε στόχους για την καθημερινότητα</h3><p>Σχεδιάζουμε την υποστήριξη με βάση όσα χρειάζεται στο σπίτι, στο σχολείο και στο παιχνίδι.</p></div></div>
+      </div>
+    </div>
+  </section>
+
   <!-- 5. ΣΧΕΤΙΚΑ: τα χρόνια και το «συν» του ονόματος -->
   <section class="hx-about">
     <div class="hx-wrap hx-about-grid">
       <div class="hx-about-art reveal">
         <div class="hx-frame"><img width="1920" height="1280" loading="lazy" decoding="async" src="assets/speech-room-800.webp" srcset="assets/speech-room-240.webp 240w, assets/speech-room-400.webp 400w, assets/speech-room-640.webp 640w, assets/speech-room-800.webp 800w, assets/speech-room-1200.webp 1200w, assets/speech-room-1600.webp 1600w" sizes="(max-width: 767px) 121vw, (max-width: 1023px) 83vw, (max-width: 1279px) 66vw, (max-width: 1439px) 62vw, 785px" alt="Αίθουσα της ΣΥΝΟΙΔΑ με βιβλία, εκπαιδευτικά παιχνίδια και παιδικό τραπέζι" /></div>
-        <figure class="hx-polaroid"><img width="1920" height="1280" loading="lazy" decoding="async" src="assets/about-welcome-800.webp" srcset="assets/about-welcome-240.webp 240w, assets/about-welcome-400.webp 400w, assets/about-welcome-640.webp 640w, assets/about-welcome-800.webp 800w, assets/about-welcome-1200.webp 1200w, assets/about-welcome-1600.webp 1600w" sizes="(max-width: 767px) 48vw, (max-width: 1023px) 34vw, (max-width: 1439px) 17vw, 209px" alt="Κουζίνα και εξοπλισμός καθημερινών δραστηριοτήτων στον χώρο της ΣΥΝΟΙΔΑ" /><figcaption>Μικρά βήματα στην πραγματική ζωή.</figcaption></figure>
+        <figure class="hx-polaroid"><img width="1920" height="1280" loading="lazy" decoding="async" src="assets/about-welcome-800.webp" srcset="assets/about-welcome-240.webp 240w, assets/about-welcome-400.webp 400w, assets/about-welcome-640.webp 640w, assets/about-welcome-800.webp 800w, assets/about-welcome-1200.webp 1200w, assets/about-welcome-1600.webp 1600w" sizes="(max-width: 767px) 48vw, (max-width: 1023px) 34vw, (max-width: 1439px) 17vw, 200px" alt="Κουζίνα και εξοπλισμός καθημερινών δραστηριοτήτων στον χώρο της ΣΥΝΟΙΔΑ" /><figcaption>Μικρά βήματα στην πραγματική ζωή.</figcaption></figure>
       </div>
       <div class="hx-about-copy">
         <p class="hx-eyebrow reveal">Σχετικά με μας</p>
@@ -201,7 +202,7 @@
           <li style="--i:0"><span class="hx-verb"><b>συν</b>ειδητοποιώ</span> <span class="hx-rest">τις ανάγκες του παιδιού.</span></li>
           <li style="--i:1"><span class="hx-verb"><b>συν</b>αισθάνομαι</span> <span class="hx-rest">τις ανησυχίες των γονέων.</span></li>
           <li style="--i:2"><span class="hx-verb"><b>συμ</b>πορεύομαι</span> <span class="hx-rest">με την οικογένεια σε κάθε βήμα της εξέλιξης.</span></li>
-          <li style="--i:3"><span class="hx-verb"><b>συν</b>εργάζομαι</span> <span class="hx-rest">με όλους όσους φροντίζουν το παιδί.</span></li>
+          <li style="--i:3"><span class="hx-verb"><b>συν</b>εργάζομαι</span> <span class="hx-rest">με όλους όσοι φροντίζουν το παιδί.</span></li>
         </ul>
         <a href="about-us.html" class="btn-secondary reveal">Γνωρίστε τη ΣΥΝΟΙΔΑ <svg class="hx-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
@@ -235,7 +236,7 @@
 
 
   <section id="preview-centres" class="preview-section preview-centres-section">
-    <div class="preview-container"><div class="reveal preview-section-title"><p class="kicker text-green text-xs">Αρτέμιδα · Σπάτα · Νέα Μάκρη · Μαραθώνας</p><h2>Βρείτε το κέντρο που σας εξυπηρετεί</h2><p>Θα μας βρείτε στην Αρτέμιδα, στα Σπάτα, στη Νέα Μάκρη και στον Μαραθώνα. Επιλέξτε ένα κέντρο για να δείτε τηλέφωνο, διεύθυνση και χάρτη.</p></div><div class="preview-centres location-photos"><article class="reveal preview-centre"><figure class="location-photo"><img src="assets/about-history-800.webp" srcset="assets/about-history-240.webp 240w, assets/about-history-400.webp 400w, assets/about-history-640.webp 640w, assets/about-history-800.webp 800w, assets/about-history-1200.webp 1200w, assets/about-history-1600.webp 1600w" sizes="(max-width: 767px) 136px, (max-width: 1023px) 23vw, (max-width: 1279px) 21vw, (max-width: 1439px) 17vw, 218px" width="1500" height="1000" loading="lazy" decoding="async" alt="Η πρόσοψη του κέντρου ΣΥΝΟΙΔΑ στην Αρτέμιδα, 7η Στάση Βραυρώνος" /></figure><h3><a href="contact-us.html#centre-artemida">Αρτέμιδα</a></h3><p>7η Στάση Βραυρώνος</p><a class="preview-phone" href="tel:+302294049981">22940 49981</a><a class="preview-centre-link" href="contact-us.html#centre-artemida">Στοιχεία και πρόσβαση <span aria-hidden="true">→</span></a></article><article class="reveal preview-centre"><figure class="location-photo"><img src="assets/spata-exterior-800.webp" srcset="assets/spata-exterior-240.webp 240w, assets/spata-exterior-400.webp 400w, assets/spata-exterior-640.webp 640w, assets/spata-exterior-800.webp 800w, assets/spata-exterior-1200.webp 1200w, assets/spata-exterior-1600.webp 1600w" sizes="(max-width: 767px) 136px, (max-width: 1023px) 23vw, (max-width: 1279px) 21vw, (max-width: 1439px) 17vw, 218px" width="1620" height="1080" loading="lazy" decoding="async" alt="Η πρόσοψη του κέντρου ΣΥΝΟΙΔΑ στα Σπάτα, Στρατηγού Πλαστήρα 1 και Χ. Μπέκα" /></figure><h3><a href="contact-us.html#centre-spata">Σπάτα</a></h3><p>Στρατηγού Πλαστήρα 1 &amp; Χ. Μπέκα</p><a class="preview-phone" href="tel:+302106633333">210 6633333</a><a class="preview-centre-link" href="contact-us.html#centre-spata">Στοιχεία και πρόσβαση <span aria-hidden="true">→</span></a></article><article class="reveal preview-centre"><figure class="location-photo"><img src="assets/contact-hero-800.webp" srcset="assets/contact-hero-240.webp 240w, assets/contact-hero-400.webp 400w, assets/contact-hero-640.webp 640w, assets/contact-hero-800.webp 800w, assets/contact-hero-1200.webp 1200w, assets/contact-hero-1600.webp 1600w" sizes="(max-width: 767px) 136px, (max-width: 1023px) 23vw, (max-width: 1279px) 21vw, (max-width: 1439px) 17vw, 218px" width="1500" height="1000" loading="lazy" decoding="async" alt="Η πρόσοψη του κέντρου ΣΥΝΟΙΔΑ στη Νέα Μάκρη, Αγίας Παρασκευής 8" /></figure><h3><a href="contact-us.html#centre-nea-makri">Νέα Μάκρη</a></h3><p>Αγίας Παρασκευής 8</p><a class="preview-phone" href="tel:+302294700956">22947 00956</a><a class="preview-centre-link" href="contact-us.html#centre-nea-makri">Στοιχεία και πρόσβαση <span aria-hidden="true">→</span></a></article><article class="reveal preview-centre"><figure class="location-photo"><img src="assets/about-storefront-800.webp" srcset="assets/about-storefront-240.webp 240w, assets/about-storefront-400.webp 400w, assets/about-storefront-640.webp 640w, assets/about-storefront-800.webp 800w, assets/about-storefront-1200.webp 1200w, assets/about-storefront-1600.webp 1600w" sizes="(max-width: 767px) 136px, (max-width: 1023px) 23vw, (max-width: 1279px) 21vw, (max-width: 1439px) 17vw, 218px" width="1500" height="1000" loading="lazy" decoding="async" alt="Η είσοδος του κέντρου ΣΥΝΟΙΔΑ στον Μαραθώνα, Σπηλαίου Πανός 10" /></figure><h3><a href="contact-us.html#centre-marathonas">Μαραθώνας</a></h3><p>Σπηλαίου Πανός 10</p><a class="preview-phone" href="tel:+306945454203">694 5454203</a><a class="preview-centre-link" href="contact-us.html#centre-marathonas">Στοιχεία και πρόσβαση <span aria-hidden="true">→</span></a></article></div>
+    <div class="preview-container"><div class="reveal preview-section-title"><p class="kicker text-green text-xs">Αρτέμιδα · Σπάτα · Νέα Μάκρη · Μαραθώνας</p><h2>Βρείτε το κέντρο που σας εξυπηρετεί</h2><p>Θα μας βρείτε στην Αρτέμιδα, στα Σπάτα, στη Νέα Μάκρη και στον Μαραθώνα. Καλέστε απευθείας ή δείτε τον χάρτη κάθε κέντρου.</p></div><div class="preview-centres location-photos"><article class="reveal preview-centre"><figure class="location-photo"><img src="assets/about-history-800.webp" srcset="assets/about-history-240.webp 240w, assets/about-history-400.webp 400w, assets/about-history-640.webp 640w, assets/about-history-800.webp 800w, assets/about-history-1200.webp 1200w, assets/about-history-1600.webp 1600w" sizes="(max-width: 767px) 133px, (max-width: 1023px) 23vw, (max-width: 1279px) 21vw, (max-width: 1439px) 17vw, 200px" width="1500" height="1000" loading="lazy" decoding="async" alt="Η πρόσοψη του κέντρου ΣΥΝΟΙΔΑ στην Αρτέμιδα, 7η Στάση Βραυρώνος" /></figure><h3><a href="contact-us.html#centre-artemida">Αρτέμιδα</a></h3><p>7η Στάση Βραυρώνος</p><a class="preview-phone" href="tel:+302294049981">22940 49981</a><a class="preview-centre-link" href="contact-us.html#centre-artemida">Στοιχεία και πρόσβαση <span aria-hidden="true">→</span></a></article><article class="reveal preview-centre"><figure class="location-photo"><img src="assets/spata-exterior-800.webp" srcset="assets/spata-exterior-240.webp 240w, assets/spata-exterior-400.webp 400w, assets/spata-exterior-640.webp 640w, assets/spata-exterior-800.webp 800w, assets/spata-exterior-1200.webp 1200w, assets/spata-exterior-1600.webp 1600w" sizes="(max-width: 767px) 133px, (max-width: 1023px) 23vw, (max-width: 1279px) 21vw, (max-width: 1439px) 17vw, 200px" width="1620" height="1080" loading="lazy" decoding="async" alt="Η πρόσοψη του κέντρου ΣΥΝΟΙΔΑ στα Σπάτα, Στρατηγού Πλαστήρα 1 και Χ. Μπέκα" /></figure><h3><a href="contact-us.html#centre-spata">Σπάτα</a></h3><p>Στρατηγού Πλαστήρα 1 &amp; Χ. Μπέκα</p><a class="preview-phone" href="tel:+302106633333">210 6633333</a><a class="preview-centre-link" href="contact-us.html#centre-spata">Στοιχεία και πρόσβαση <span aria-hidden="true">→</span></a></article><article class="reveal preview-centre"><figure class="location-photo"><img src="assets/contact-hero-800.webp" srcset="assets/contact-hero-240.webp 240w, assets/contact-hero-400.webp 400w, assets/contact-hero-640.webp 640w, assets/contact-hero-800.webp 800w, assets/contact-hero-1200.webp 1200w, assets/contact-hero-1600.webp 1600w" sizes="(max-width: 767px) 133px, (max-width: 1023px) 23vw, (max-width: 1279px) 21vw, (max-width: 1439px) 17vw, 200px" width="1500" height="1000" loading="lazy" decoding="async" alt="Η πρόσοψη του κέντρου ΣΥΝΟΙΔΑ στη Νέα Μάκρη, Αγίας Παρασκευής 8" /></figure><h3><a href="contact-us.html#centre-nea-makri">Νέα Μάκρη</a></h3><p>Αγίας Παρασκευής 8</p><a class="preview-phone" href="tel:+302294700956">22947 00956</a><a class="preview-centre-link" href="contact-us.html#centre-nea-makri">Στοιχεία και πρόσβαση <span aria-hidden="true">→</span></a></article><article class="reveal preview-centre"><figure class="location-photo"><img class="is-marathon" src="assets/about-storefront-800.webp" srcset="assets/about-storefront-240.webp 240w, assets/about-storefront-400.webp 400w, assets/about-storefront-640.webp 640w, assets/about-storefront-800.webp 800w, assets/about-storefront-1200.webp 1200w, assets/about-storefront-1600.webp 1600w" sizes="(max-width: 767px) 133px, (max-width: 1023px) 23vw, (max-width: 1279px) 21vw, (max-width: 1439px) 17vw, 200px" width="1500" height="1000" loading="lazy" decoding="async" alt="Η είσοδος του κέντρου ΣΥΝΟΙΔΑ στον Μαραθώνα, Σπηλαίου Πανός 10" /></figure><h3><a href="contact-us.html#centre-marathonas">Μαραθώνας</a></h3><p>Σπηλαίου Πανός 10</p><a class="preview-phone" href="tel:+306945454203">694 5454203</a><a class="preview-centre-link" href="contact-us.html#centre-marathonas">Στοιχεία και πρόσβαση <span aria-hidden="true">→</span></a></article></div>
     </div>
   </section>
 </main>
@@ -243,7 +244,7 @@
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer bg-grey text-white/85">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1.4fr]">
+      <div class="footer-grid grid gap-12 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1.4fr]">
         <div>
           <img src="assets/logo-stacked-light.svg" alt="ΣΥΝΟΙΔΑ, Κέντρα Ειδικών Θεραπειών" width="938" height="622" loading="lazy" decoding="async" class="h-28 w-auto" />
           <p class="mt-5 text-white/80 leading-relaxed max-w-xs">Όταν το παιδί εξελίσσεται, ο κόσμος αλλάζει προς το καλύτερο.</p>
@@ -262,6 +263,15 @@
           </ul>
         </div>
         <div>
+          <h2 class="font-display font-bold text-white text-lg mb-5">ΣΥΝΟΙΔΑ</h2>
+          <ul class="footer-links text-white/75">
+            <li><a href="about-us.html" class="hover:text-white transition">Σχετικά με μας</a></li>
+            <li><a href="rating.html" class="hover:text-white transition">Αξιολόγηση</a></li>
+            <li><a href="adult-diagnosis.html" class="hover:text-white transition">Διάγνωση ενηλίκων</a></li>
+            <li><a href="contact-us.html" class="hover:text-white transition">Επικοινωνία</a></li>
+          </ul>
+        </div>
+        <div>
           <h2 class="font-display font-bold text-white text-lg mb-5">Επικοινωνία</h2>
           <ul class="footer-centres">
             <li><b>Αρτέμιδα</b><span>7η Στάση Βραυρώνος</span><a href="tel:+302294049981">22940 49981</a></li>
@@ -274,7 +284,7 @@
     </div>
     <div class="border-t border-white/15">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-white/80">
-        <p class="font-semibold tracking-wide">Αρτέμιδα · Σπάτα · Νέα Μάκρη · Μαραθώνας</p>
+        <p class="font-semibold tracking-wide">© 2026 ΣΥΝΟΙΔΑ · Κέντρα Ειδικών Θεραπειών</p>
         <p><a href="mailto:info@synoida.gr" class="hover:text-white transition">info@synoida.gr</a> · <a href="https://www.synoida.gr" target="_blank" rel="noopener" class="hover:text-white transition">www.synoida.gr</a></p>
       </div>
     </div>
@@ -290,7 +300,7 @@
   </nav>
 
 <aside class="preview-status" aria-label="Δοκιμαστική έκδοση" data-preview-only>Δοκιμαστική έκδοση <b>Fable 5.2</b> <span aria-hidden="true">·</span> <a href="https://dimitriskatik13-cmd.github.io/synoida-site/" target="_blank" rel="noopener">Αρχικό site ↗</a></aside>
-  <script src="assets/site.38905f48d3.js" defer></script>
+  <script src="assets/site.bc3408e386.js" defer></script>
   <script src="assets/stars-mark.a87a3f27f4.js" defer></script>
 </body>
 </html>

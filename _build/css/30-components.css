@@ -1,6 +1,5 @@
 /* Additive layout for the independent copy preview. Original assets/site.css and motion code are unchanged. */
 .preview-container{max-width:1152px;margin:0 auto;padding:0 32px}
-.preview-section{scroll-margin-top:120px}
 .preview-section h2{font-size:clamp(25px,3vw,36px);font-weight:700;line-height:1.4;color:#303133;margin:0 0 22px}
 .preview-section p{line-height:1.8;color:#58595B;margin:0 0 16px}
 .preview-button{display:inline-flex;align-items:center;gap:18px;color:#58595B;background:#8DC63F;font-weight:700;padding:13px 24px;border-radius:999px;margin-top:8px;min-height:48px}
@@ -13,7 +12,6 @@
 .preview-centre p{font-size:14px;min-height:50px}
 .preview-phone{font-size:18px;font-weight:700;color:#58595B;padding:8px 0}
 .preview-centre-link{font-size:13px;color:#58595B;font-weight:600;margin-top:18px;padding:6px 0}
-[id^="centre-"]{scroll-margin-top:140px}
 .preview-status{z-index:80;right:16px;bottom:12px;padding:7px 13px;border:1px solid #dedede;border-radius:999px;line-height:1.5;color:#58595B;background:rgba(255,255,255,.95)}
 .preview-status a{font-weight:650;text-decoration:underline;text-underline-offset:2px}
 .preview-status span{padding:0 5px}
@@ -47,7 +45,6 @@
 .home-refined .preview-centre h3{font-size:21px;margin-bottom:18px}
 .home-refined .preview-phone{font-size:21px;margin-top:auto}
 .home-refined .preview-centre-link{padding-top:16px;border-top:1px solid var(--home-line);width:100%;margin-top:20px}
-body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(255,255,255,.97)}
 @media(max-width:639px){
   .home-refined #preview-first-steps{padding-block:64px}
   .home-refined .preview-centres-section{padding-block:64px}
@@ -58,12 +55,12 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
 .contact-refined p{text-wrap:pretty;line-height:1.8}
 .contact-wrap{max-width:1152px;margin-inline:auto;padding-inline:32px}
 .contact-refined h2{font-size:clamp(24px,2.6vw,34px);line-height:1.45;font-weight:700;letter-spacing:-.02em;margin:0 0 12px}
-.contact-directory{padding:64px 0 88px;scroll-margin-top:108px}
+.contact-directory{padding:64px 0 88px}
 .contact-directory-title{display:flex;justify-content:space-between;align-items:baseline;gap:24px;margin-bottom:28px}
 .contact-directory-title h2{margin:0}
 .contact-directory-title p{font-size:15px;margin:0}
 .contact-centres-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
-.contact-centre{position:relative;border:1px solid #e4e4e4;border-top:4px solid var(--centre-color);border-radius:24px;padding:32px;background:#fff;scroll-margin-top:110px}
+.contact-centre{position:relative;border:1px solid #e4e4e4;border-top:4px solid var(--centre-color);border-radius:24px;padding:32px;background:#fff}
 .contact-centre:target{outline:2px solid var(--centre-color);outline-offset:4px}
 .contact-card-top{display:flex;align-items:center;gap:16px;margin-bottom:20px}
 .contact-pin{display:grid;place-items:center;width:48px;height:48px;background:var(--paper-warm);border-radius:50%;color:#58595B;flex-shrink:0}
@@ -75,7 +72,7 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
 .contact-phone:hover{text-decoration:underline;text-decoration-color:var(--centre-color);text-underline-offset:6px}
 .contact-map{display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid #e6e6e6;padding-top:20px;margin-top:22px;font-size:14px;font-weight:650;min-height:48px}
 .contact-map>span{display:grid;place-items:center;border:1px solid #dedede;width:32px;height:32px;border-radius:50%;font-size:18px}
-.contact-email-section{padding:clamp(64px,8vw,112px) 0;background:var(--deep);color:#fff;scroll-margin-top:110px}
+.contact-email-section{padding:clamp(64px,8vw,112px) 0;background:var(--deep);color:#fff}
 .contact-email-layout{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:72px}
 .contact-email-section h2{color:#fff}
 .contact-email-section p{color:#fff;font-size:16px;margin:0;max-width:500px}
@@ -162,7 +159,7 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
 /* About: editorial history, shared practice and the existing scroll-drawn journey. */
 .about-refined{background:#fff;color:#58595B}
 .about-wrap{max-width:1200px;margin-inline:auto;padding-inline:40px;width:100%}
-.about-section{padding-block:100px;scroll-margin-top:100px}
+.about-section{padding-block:100px}
 .about-refined h2{font-size:clamp(30px,3.3vw,45px);font-weight:650;line-height:1.38;letter-spacing:-.045em;margin:0 0 26px;text-wrap:balance}
 .about-refined h3{font-size:21px;font-weight:650;line-height:1.5;letter-spacing:-.02em;margin:0 0 12px}
 .about-refined p{font-size:16px;line-height:1.9;margin:0 0 18px;text-wrap:pretty}
@@ -177,8 +174,7 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
 .about-photo img{width:100%;height:auto;display:block;aspect-ratio:1/1;object-fit:cover}
 .about-photo .depth-clip{border-radius:4px 64px 4px 4px}
 .about-history-photo{position:relative}
-.about-refined .about-year{font-family:Comfortaa,system-ui,sans-serif;font-size:clamp(70px,8vw,110px);font-weight:500;letter-spacing:-.075em;line-height:1;margin:0 0 32px;color:#58595B;display:flex;align-items:center;gap:24px}
-.about-year span{font-size:45px;color:#7da83d;letter-spacing:0}
+.about-refined .about-year{font-family:Comfortaa,system-ui,sans-serif;font-size:clamp(70px,8vw,110px);font-weight:500;letter-spacing:-.075em;line-height:1;margin:0 0 32px;display:flex;align-items:center;gap:24px}
 .about-story-copy h2{font-size:30px;line-height:1.45}
 .about-text-link{display:inline-flex;align-items:center;gap:22px;min-height:48px;padding:10px 0;border-bottom:1px solid #a6a7a2;font-size:13px;font-weight:650;line-height:1.7}
 .about-text-link span{font-size:23px;transition:transform .2s}
@@ -230,7 +226,7 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
 }
 @media(max-width:700px){
   .about-wrap{padding-inline:22px}
-  .about-section{padding-block:60px;scroll-margin-top:95px}
+  .about-section{padding-block:60px}
   .about-refined .about-eyebrow{margin-bottom:22px;font-size:10px}
   .about-manifesto-layout,.about-story-layout,.about-team-intro,.about-team-layout,.about-process-layout{grid-template-columns:1fr;gap:32px}
   .about-refined h2{font-size:30px}
@@ -270,12 +266,10 @@ body[data-page="home"] header{backdrop-filter:none;-webkit-backdrop-filter:none;
   .about-text-link span{transition:none;transform:none!important}
 }
 /* Keep navigation legible above the dark team section; this page only. */
-body[data-page="about"]>header{background:rgba(255,255,255,.96)}
 /* Therapy hub: open photographic directory with native anchor navigation. */
-body[data-page="treatments"]>header{background:rgba(255,255,255,.96)}
 .therapies-refined{background:#fff;color:#58595B}
 .therapies-wrap{max-width:1220px;width:100%;padding-inline:40px;margin-inline:auto}
-.therapies-section{padding-block:88px;scroll-margin-top:96px}
+.therapies-section{padding-block:88px}
 .therapies-refined h2{font-size:clamp(29px,3.2vw,43px);font-weight:650;line-height:1.4;letter-spacing:-.035em;text-wrap:balance;margin:0 0 24px}
 .therapies-refined p{font-size:16px;line-height:1.85;margin:0 0 18px;text-wrap:pretty}
 .therapies-refined .therapies-eyebrow{font-size:11px;line-height:1.7;font-weight:650;letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px}
@@ -293,7 +287,7 @@ body[data-page="treatments"]>header{background:rgba(255,255,255,.96)}
 .therapies-guide a{display:flex;align-items:baseline;gap:12px;min-height:48px;padding:13px 0;font-size:13px;line-height:1.7}
 .therapies-nav-dot{width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:var(--therapy-color);align-self:baseline}
 .therapies-guide a:hover{text-decoration:underline;text-underline-offset:4px}
-.therapy-entry{border-top:1px solid #58595B30;scroll-margin-top:110px}
+.therapy-entry{border-top:1px solid #58595B30}
 .therapy-entry:last-child{border-bottom:1px solid #58595B30}
 .therapy-entry-link{display:grid;grid-template-columns:200px minmax(0,1fr);gap:30px;padding:32px 0;align-items:start;position:relative}
 .therapy-photo{position:relative;overflow:hidden;aspect-ratio:4/5;background:#e6e6e6}

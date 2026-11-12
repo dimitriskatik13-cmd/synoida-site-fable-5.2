@@ -18,7 +18,7 @@
 .pg :where(p:last-child){margin-bottom:0}
 .pg .pg-lead{font-size:clamp(1.25rem,1.55vw,1.375rem);line-height:1.5;color:var(--ink);max-width:36ch}
 .pg .on-deep .pg-lead{color:#fff}
-.pg .pg-kicker{font-family:Inter,system-ui,sans-serif;font-size:12.5px;line-height:1.5;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);margin:0 0 18px}
+.pg .pg-kicker{font-family:Inter,system-ui,sans-serif;font-size:13px;line-height:1.5;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);margin:0 0 18px}
 .pg .on-deep .pg-kicker{color:rgba(255,255,255,.78)}
 .pg-head{margin-bottom:clamp(36px,4.4vw,56px)}
 .pg-head>p{font-size:17px;max-width:62ch}
@@ -87,7 +87,7 @@
 .pg .on-deep .pg-intro-body>p{color:rgba(255,255,255,.82)}
 /* ---- 7. «Πότε να απευθυνθείτε»: η μία σκούρα ενότητα, με κολλημένο τίτλο, μετρητή και μπάρα στο χρώμα της ειδικότητας ---- */
 .pg-signs{overflow:clip}
-.pg[style*="#ED1C24"] .on-deep{--accent:#F5484E}
+.pg.is-red .on-deep{--accent:#F5484E}
 /* το κόκκινο της εργοθεραπείας λίγο φωτεινότερο πάνω στο σκούρο */
 .pg-signs-intro{grid-column:1/6;position:sticky;top:calc(var(--hdr,80px) + 40px)}
 .pg-signs-intro>p{color:rgba(255,255,255,.82)}
@@ -216,8 +216,6 @@
 .pg-close-copy.is-long>h2{font-size:clamp(1.5rem,2.35vw,2.125rem);line-height:1.2}
 .pg-close-side{grid-column:8/13;grid-row:1/3;min-width:0}
 .pg .pg-close-side>.pg-kicker{margin-bottom:14px}
-.pg-link-note{flex-wrap:wrap;gap:0 12px}
-.pg-link-note>small{flex-basis:100%;font-size:12.5px;font-weight:500;color:var(--ink-mute)}
 .pg-next h2{grid-column:1/7;margin:0}
 .pg-next-body{grid-column:8/13}
 .pg-next-body>.pg-link{margin-top:10px}
@@ -280,7 +278,7 @@
 .pg:where(.about-refined,.therapies-refined,.contact-refined) p:last-child{margin-bottom:0}
 .pg:where(.about-refined,.therapies-refined,.contact-refined) h2{max-width:none}
 .pg:where(.about-refined,.therapies-refined,.contact-refined) h3{font-size:var(--t-h3);line-height:1.3;letter-spacing:-.02em;font-weight:600}
-.pg :is(.about-eyebrow,.therapies-eyebrow){font-size:12.5px;line-height:1.5;letter-spacing:.08em;font-weight:700;color:var(--ink-mute);margin:0 0 18px}
+.pg :is(.about-eyebrow,.therapies-eyebrow){font-size:13px;line-height:1.5;letter-spacing:.08em;font-weight:700;color:var(--ink-mute);margin:0 0 18px}
 .pg :is(.about-text-link,.therapies-text-link){gap:12px;font-size:15px;line-height:1.45;padding:9px 0 7px;border-bottom-width:2px;color:var(--ink)}
 /* «Σχετικά»: σκούρο φόντο ομάδας στο --deep, μικρότεροι οι δύο τίτλοι που συνοδεύουν μεγάλο στοιχείο, ίδιο κάδρο φωτογραφιών */
 .pg .about-team{background:var(--deep);color:rgba(255,255,255,.78)}
@@ -397,3 +395,24 @@
 .pg-hero-404 h1{max-width:16ch}
 /* ίδιο ύψος ενότητας παντού (112px υπολογιστής, 64px κινητό) */
 .pg :is(.about-section,.therapies-section){padding-block:clamp(64px,8vw,112px)}
+/* ---- 5ος γύρος ---- */
+/* κλείσιμο σελίδας: το «Μιλήστε μαζί μας» είναι το ίδιο πράσινο κουμπί με της πρώτης οθόνης, δίπλα στον απλό σύνδεσμο */
+.pg-close-links{align-items:center}
+/* «Πότε να απευθυνθείτε» στο κινητό και στο tablet: πρώτα η λίστα, μετά η πρόσκληση, ως κουμπί με περίγραμμα */
+@media (max-width:899px){
+  .pg-signs>.pg-grid{display:flex;flex-direction:column;gap:0}
+  .pg-signs-intro{display:contents}
+  .pg-signs-intro>h2{margin-bottom:16px}
+  .pg-signs-intro>.pg-note{margin-bottom:8px}
+  .pg-signs-main{order:1;margin-top:24px}
+  .pg-signs-intro>.signs-cta{order:2;align-self:stretch;justify-content:center;gap:10px;min-height:56px;margin-top:32px;padding:10px 20px;border:1.5px solid rgba(255,255,255,.55);border-radius:28px;text-align:center}
+  /* τα σημεία που δεν διαβάζονται τώρα μένουν ευανάγνωστα: το ενεργό το δείχνουν η γραμμή και ο μετρητής */
+  .pg.tm-on .pg-signs-list>li:not(.is-on) h3{color:rgba(255,255,255,.8)}
+  .pg.tm-on .pg-signs-list>li:not(.is-on) p{color:rgba(255,255,255,.72)}
+}
+/* 404: το «404» ως μεγάλο τυπογραφικό στοιχείο στα δεξιά (διακοσμητικό) */
+.pg-hero-404{min-height:60vh;display:grid;align-items:center}
+.pg-hero-404>.pg-wrap{position:relative}
+@media (min-width:900px){
+  .pg-hero-404>.pg-wrap::after{content:"404";position:absolute;right:var(--gutter);top:50%;translate:0 -50%;font:500 clamp(160px,19vw,260px)/1 Comfortaa,system-ui,sans-serif;letter-spacing:-.06em;color:var(--green);opacity:.22;pointer-events:none}
+}

@@ -27,7 +27,8 @@
 .hx-line{display:block;overflow:hidden;padding:.16em 0 .1em .16em;margin:-.16em 0 -.1em -.16em}
 /* χώρος για τόνους και ουρές γραμμάτων μέσα στη μάσκα της κίνησης */
 .hx-line>span{display:block}
-.hx-places{margin:24px 0 0;font-size:16px;color:rgba(255,255,255,.82)}
+.hx-what{margin:22px 0 0;font-size:clamp(1.0625rem,1.4vw,1.25rem);line-height:1.5;color:rgba(255,255,255,.92);max-width:34ch;text-wrap:balance}
+.hx-places{margin:12px 0 0;font-size:15px;color:rgba(255,255,255,.78)}
 .hx-hero-actions{margin-top:36px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px}
 .hx-hero-art{position:relative;align-self:stretch;min-height:648px;margin-bottom:-96px}
 .hx-frame{position:relative;overflow:hidden;border-radius:var(--r-photo);background:#e9e7e1}
@@ -58,16 +59,18 @@
   .hx-hero-grid{grid-template-columns:1fr;gap:0;min-height:0;padding-inline:var(--gutter)}
   .hx-hero-copy{padding-block:48px 36px}
   .hx-hero h1{font-size:clamp(2.25rem,9.6vw,3.25rem)}
-  .hx-places{font-size:15px;margin-top:18px}
+  .hx-what{margin-top:18px}
+  .hx-places{font-size:14.5px;margin-top:10px}
   .hx-hero-actions{margin-top:28px}
-  .hx-hero-actions .hx-btn{flex:1 1 100%;justify-content:center}
   .hx-hero-art{min-height:0;margin-bottom:-72px}
   .hx-hero-art .hx-frame{position:relative;inset:auto;aspect-ratio:4/3.2;border-radius:var(--r-photo)}
   .hx-frame-small{left:auto;right:-8px;bottom:-20px;width:120px}
   @keyframes hx-open{from{clip-path:inset(6% round 32px)}to{clip-path:inset(0 round 6px 40px 6px 6px)}}
 }
 /* ---- 2. πώς δουλεύουμε ---- */
-.hx-values{background:var(--paper);padding-block:calc(96px + var(--hx-pad)) var(--hx-pad)}
+.hx-values{position:relative;background:var(--paper);padding-block:var(--hx-pad)}
+/* δύο λευκές ενότητες στη σειρά (Θεραπείες, Πώς δουλεύουμε) χωρίζονται με γραμμή 1px στο πλάτος του κειμένου */
+.hx-values::before{content:"";position:absolute;top:0;height:1px;background:var(--rule);left:max(var(--gutter),calc(50% - var(--wrap)/2 + var(--gutter)));right:max(var(--gutter),calc(50% - var(--wrap)/2 + var(--gutter)))}
 .hx-split{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(32px,6vw,96px);align-items:start}
 .hx-split>:is(h2,.hx-split-head){position:sticky;top:calc(var(--hdr,80px) + 40px)}
 .hx-split-head>p{font-size:17px;line-height:1.6;color:var(--ink-soft);margin:18px 0 0;max-width:30ch}
@@ -78,7 +81,6 @@
 .hx-value p{line-height:1.6;color:var(--ink-soft);margin:0}
 .js .hx-value.reveal:nth-child(even){transition-delay:.07s}
 @media (max-width:900px){
-  .hx-values{padding-top:calc(72px + 56px)}
   .hx-split{grid-template-columns:1fr;gap:28px}
   .hx-split>:is(h2,.hx-split-head){position:static}
   .hx-split-head>p{max-width:none;margin-top:12px}
@@ -90,6 +92,8 @@
 }
 /* ---- 3. σας προβληματίζει κάτι ---- */
 .hx-question{background:var(--deep);color:#fff;padding-block:var(--hx-pad)}
+/* αμέσως μετά το hero: το ίδιο σκούρο συνεχίζει (ένα «πρώτο κεφάλαιο» για τον γονέα) και αφήνει χώρο στη φωτογραφία που κρέμεται */
+.hx-hero+.hx-question{padding-top:calc(96px + var(--hx-pad))}
 .hx-question h2{font-size:clamp(2rem,4.4vw,3.75rem);max-width:17ch;color:#fff}
 .hx-light{font:500 clamp(1.375rem,2.6vw,2.125rem)/1.4 Inter,system-ui,sans-serif;letter-spacing:-.012em;max-width:30ch;margin:44px 0 0;color:rgb(255 255 255 / calc(.62 + .38 * var(--p,1)))}
 .hx-light em{font-style:normal;color:var(--green);--k:clamp(0,(var(--p,1) - var(--i) * .17 - .06) * 6,1);color:color-mix(in srgb,var(--green) calc(var(--k) * 100%),rgb(255 255 255 / .62))}
@@ -255,5 +259,19 @@ main.hx .preview-centre-link{font-size:14px}
 @media (max-width:639px){
   main.hx .location-photos>.preview-centre{grid-template-areas:"photo place" "photo address" "phone phone" "action action"}
   main.hx .location-photos .preview-centre>.preview-phone{justify-self:stretch;justify-content:center;min-height:52px;font-size:18px}
-  main.hx .location-photos .preview-centre>.preview-centre-link{justify-self:start;margin-top:2px;font-size:14px}
+  main.hx .location-photos .preview-centre>.preview-centre-link{margin-top:2px;font-size:14px}
 }
+/* ---- 5ος γύρος ---- */
+@media (max-width:900px){
+  .hx-hero+.hx-question{padding-top:calc(72px + 64px)}
+}
+@media (max-width:639px){
+  .hx-hero-actions .hx-btn{flex:1 1 100%;justify-content:center}
+  /* «Στοιχεία και πρόσβαση»: μία γραμμή σε όλο το πλάτος, κείμενο αριστερά και βέλος δεξιά, όπως το «Δείτε στον χάρτη» της Επικοινωνίας */
+  main.hx .location-photos .preview-centre>.preview-centre-link{justify-self:stretch;display:flex;justify-content:space-between;align-items:center;white-space:nowrap;max-width:none}
+}
+/* ορφανές λέξεις: ισορροπημένες γραμμές σε τίτλους, «όμορφο» σπάσιμο σε παραγράφους */
+.hx :is(h2,h3){text-wrap:balance}
+.hx p{text-wrap:pretty}
+/* μικρογραφία Μαραθώνα: το λογότυπο της τζαμαρίας μένει ολόκληρο */
+.location-photo img.is-marathon{object-position:38% 50%}

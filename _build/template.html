@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 {{CSP}}  <title>{{TITLE}}</title>
   <meta name="description" content="{{DESC}}" />
-  <script>document.documentElement.classList.add('js');</script>
+  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/site\./.test(t.src))document.documentElement.classList.remove('js')},true);</script>
   <!-- demo deployment: εκτός ευρετηρίασης -->
   <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href="{{URL}}" />
@@ -107,7 +107,7 @@
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer bg-grey text-white/85">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1.4fr]">
+      <div class="footer-grid grid gap-12 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1.4fr]">
         <div>
           <img src="assets/logo-stacked-light.svg" alt="ΣΥΝΟΙΔΑ, Κέντρα Ειδικών Θεραπειών" width="938" height="622" loading="lazy" decoding="async" class="h-28 w-auto" />
           <p class="mt-5 text-white/80 leading-relaxed max-w-xs">Όταν το παιδί εξελίσσεται, ο κόσμος αλλάζει προς το καλύτερο.</p>
@@ -126,6 +126,15 @@
           </ul>
         </div>
         <div>
+          <h2 class="font-display font-bold text-white text-lg mb-5">ΣΥΝΟΙΔΑ</h2>
+          <ul class="footer-links text-white/75">
+            <li><a href="about-us.html" class="hover:text-white transition">Σχετικά με μας</a></li>
+            <li><a href="rating.html" class="hover:text-white transition">Αξιολόγηση</a></li>
+            <li><a href="adult-diagnosis.html" class="hover:text-white transition">Διάγνωση ενηλίκων</a></li>
+            <li><a href="contact-us.html" class="hover:text-white transition">Επικοινωνία</a></li>
+          </ul>
+        </div>
+        <div>
           <h2 class="font-display font-bold text-white text-lg mb-5">Επικοινωνία</h2>
           <ul class="footer-centres">
             <li><b>Αρτέμιδα</b><span>7η Στάση Βραυρώνος</span><a href="tel:+302294049981">22940 49981</a></li>
@@ -138,7 +147,7 @@
     </div>
     <div class="border-t border-white/15">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-white/80">
-        <p class="font-semibold tracking-wide">Αρτέμιδα · Σπάτα · Νέα Μάκρη · Μαραθώνας</p>
+        <p class="font-semibold tracking-wide">© {{YEAR}} ΣΥΝΟΙΔΑ · Κέντρα Ειδικών Θεραπειών</p>
         <p><a href="mailto:info@synoida.gr" class="hover:text-white transition">info@synoida.gr</a> · <a href="https://www.synoida.gr" target="_blank" rel="noopener" class="hover:text-white transition">www.synoida.gr</a></p>
       </div>
     </div>
