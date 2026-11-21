@@ -1,6 +1,6 @@
 /* ΣΥΝΟΙΔΑ: κοινή συμπεριφορά όλων των σελίδων.
    1. ενεργό στοιχείο μενού   2. μενού κινητού   3. μενού «Θεραπείες» (υπολογιστής)   4. λίστες τηλεφώνων
-   4β. κάτω μπάρα   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. πρόοδος κύλισης (--hdr, data-progress)   6β. κεφαλίδα κινητού   7. ενεργή θεραπεία στη λίστα   8. μετρητής
+   4γ. φωτογραφία που ταξιδεύει στη μετάβαση   5. εμφάνιση ενοτήτων στην κύλιση   6. πρόοδος κύλισης (--hdr, data-progress)   6β. κεφαλίδα κινητού   7. ενεργή θεραπεία στη λίστα   8. μετρητής
    Χωρίς JavaScript η σελίδα είναι πλήρης. Με ρύθμιση «μείωση κίνησης» τίποτα δεν κινείται. */
 (function () {
   'use strict';
@@ -30,7 +30,7 @@
     navToggle.setAttribute('aria-expanded', String(open));
     document.documentElement.classList.toggle('menu-open', open);      // η σελίδα από πίσω δεν κυλά
     // όσο το μενού είναι ανοιχτό, η σελίδα από πίσω δεν δέχεται εστίαση (πληκτρολόγιο, αναγνώστες οθόνης)· η κάτω μπάρα μένει ενεργή
-    document.querySelectorAll('main, footer, .preview-status').forEach(function (el) { el.inert = open; });
+    document.querySelectorAll('main, footer, .preview-status, a[href="#main"]').forEach(function (el) { el.inert = open; });      // και το «Μετάβαση στο περιεχόμενο», που δεν θα οδηγούσε πουθενά
   }
   navToggle.addEventListener('click', function () { setMobileMenu(mobileMenu.classList.contains('hidden')); });
   // αν το πλάτος περάσει σε «υπολογιστή» με ανοιχτό το μενού (περιστροφή tablet, παράθυρο που μεγαλώνει), το μενού κλείνει:
@@ -86,19 +86,6 @@
       dropdownTrigger.setAttribute('aria-expanded', 'false');
     }
   });
-
-  /* ---------- 4β. Αρχική στο κινητό: η κάτω μπάρα εμφανίζεται όταν το κουμπί του hero βγει από την οθόνη ---------- */
-  var callbar = document.querySelector('.callbar');
-  var heroCta = document.querySelector('[data-callbar-after]');      // υπάρχει μόνο στην Αρχική
-  if (heroCta && callbar && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (entries) {
-      var show = !entries[0].isIntersecting;
-      document.body.classList.toggle('callbar-on', show);
-      callbar.inert = !show && window.matchMedia('(max-width:1023px)').matches;
-    }).observe(heroCta);
-  } else {
-    document.body.classList.add('callbar-on');
-  }
 
   /* ---------- 4β2. «Μετάβαση στο περιεχόμενο»: δίνει εστίαση στο <main> (δουλεύει και στο 404, όπου οι σύνδεσμοι έχουν <base>) ---------- */
   var skipLink = document.querySelector('a[href="#main"]');

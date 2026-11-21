@@ -18,6 +18,19 @@ NO_HERO_IMAGE = ('404.html', 'contact-us.html', 'about-us.html', 'rating.html') 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 DOCS = os.environ.get('SYNOIDA_DOCS') or os.path.join(ROOT, 'docs')   # άλλος φάκελος εξόδου για δοκιμές: SYNOIDA_DOCS=/διαδρομή
+
+
+def _site_state():
+    """Τελική ή δοκιμαστική έκδοση (από το robots.txt) και η διεύθυνση του site (από το canonical της Αρχικής)."""
+    try:
+        final = 'Allow: /' in open(os.path.join(DOCS, 'robots.txt'), encoding='utf-8').read()
+        m = re.search(r'<link rel="canonical" href="([^"]+)"', open(os.path.join(DOCS, 'index.html'), encoding='utf-8').read())
+        return final, (m.group(1) if m else '')
+    except OSError:
+        return False, ''
+
+
+FINAL, SITE_BASE = _site_state()
 VOID = {'meta', 'link', 'img', 'br', 'hr', 'input', 'source', 'area', 'base', 'col', 'embed', 'track', 'wbr'}
 SVG = {'svg', 'path', 'circle', 'rect', 'g', 'line', 'polyline', 'polygon', 'ellipse', 'defs', 'use'}
 SCHEMA_SPECIALTY = {'SpeechPathology', 'Pediatric', 'Psychiatric', 'Physiotherapy', 'PrimaryCare', 'Neurologic', 'Nursing', 'CommunityHealth'}
@@ -237,8 +250,16 @@ def main():
             src_file = os.path.join(ROOT, ref)
             if os.path.isfile(src_file) and os.path.isfile(os.path.join(DOCS, ref)) and open(src_file, 'rb').read() != open(os.path.join(DOCS, ref), 'rb').read():
                 bad('το %s στο docs/ είναι παλαιότερο από την πηγή του (τρέξε build)' % ref)
+        # τελική έκδοση: κανένα υπόλειμμα της δοκιμαστικής
+        if FINAL:
+            if 'data-preview-only' in x.raw:
+                bad('τελική έκδοση με στοιχείο data-preview-only')
+            if 'github.io' in x.raw and 'github.io' not in SITE_BASE:
+                bad('τελική έκδοση με διεύθυνση github.io')
+            if re.search(r'"sameAs":\[[^\]]*"%s"' % re.escape(SITE_BASE.rstrip('/')), x.raw):
+                bad('το sameAs παραπέμπει στο ίδιο το site')
         heroes = [im for im in x.imgs if im.get('fetchpriority') == 'high']
-        # 404 και Επικοινωνία δεν έχουν φωτογραφία στην πρώτη οθόνη (η Επικοινωνία ανοίγει με τα τηλέφωνα)
+        # 404, Επικοινωνία, Σχετικά και Αξιολόγηση δεν έχουν φωτογραφία στην πρώτη οθόνη (τηλέφωνα, χρονολόγιο, τρία βήματα)
         if name not in NO_HERO_IMAGE and not heroes:
             bad('καμία εικόνα με fetchpriority="high" (η πρώτη μεγάλη εικόνα)')
         if name in NO_HERO_IMAGE and heroes:

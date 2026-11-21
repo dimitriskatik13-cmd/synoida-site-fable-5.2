@@ -481,3 +481,10 @@
 @media (min-width:700px) and (max-width:899px){
   .pg-signs-list p,.pg-defs p,.pg-steps p{max-width:66ch}
 }
+/* ---- 13ος γύρος ---- */
+.pg-hero-steps>li{text-wrap:balance}
+@media (min-width:701px){
+  /* χρονολόγιο: οι κουκκίδες στοιχίζονται με την αριστερή ακμή των ετών, η γραμμή ξεκινά από το κέντρο της πρώτης */
+  .pg-hero-timeline .tl-item::before,.pg-hero-timeline .tl-item::after{left:0}
+  .pg-hero-timeline .tl-line{left:.375rem;right:0}
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Μετρά πόσο πλάτος πιάνει ΠΡΑΓΜΑΤΙΚΑ κάθε εικόνα σε 9 πλάτη οθόνης και γράφει το sizes της στο _build/image-sizes.json.
+"""Μετρά πόσο πλάτος πιάνει ΠΡΑΓΜΑΤΙΚΑ κάθε εικόνα σε 10 πλάτη οθόνης (και σε χαμηλές οθόνες laptop) και γράφει το sizes της στο _build/image-sizes.json.
 
 Έτσι ο browser κατεβάζει την έκδοση που χρειάζεται και όχι μεγαλύτερη. Τρέξε το όταν αλλάξει η διάταξη ή προστεθεί εικόνα:
     python3 _build/build.py && python3 _build/tools/measure_sizes.py && python3 _build/build.py
@@ -11,12 +11,13 @@ sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cdp
 
-WIDTHS = [360, 390, 430, 700, 768, 1024, 1280, 1440, 1920]
+WIDTHS = [360, 390, 430, 700, 768, 1024, 1280, 1440, 1920, 2560]
+LOW = [(1280, 650), (1366, 650), (1920, 650)]      # χαμηλές οθόνες laptop: εικόνες που γεμίζουν ύψος (hero της Αρχικής) θέλουν εκεί μικρότερη έκδοση
 # περιοχές του sizes: (μέγιστο πλάτος οθόνης, δείγματα που ανήκουν εκεί)
 # Σε κινητό το hero είναι όρθιο κουτί και η φωτογραφία (cover) θέλει πλάτος πάνω από την οθόνη, έως 240vw.
 # Όριο 150vw: σε οθόνη 2x κατεβαίνει η έκδοση 1200 (καθαρή εικόνα) και όχι η 1600 ή 1920 (διπλάσιο βάρος για κομμένα pixels).
 CAP = 150
-BANDS = [(639, (360, 390, 430)), (767, (700,)), (1023, (768,)), (1279, (1024,)), (1439, (1280,)), (None, (1440, 1920))]
+BANDS = [(639, (360, 390, 430)), (767, (700,)), (1023, (768,)), (1279, (1024,)), (1439, (1280,)), (None, (1440, 1920, 2560))]
 
 PROBE = r"""(()=>{const seen={},out=[];
  for(const i of document.images){const m=(i.getAttribute('src')||'').match(/assets\/([A-Za-z0-9_-]+?)-\d+\.webp$/); if(!m) continue;
@@ -62,7 +63,7 @@ def sizes_for(samples):
         ws = [w for w, _ in vals]
         if max(ws) - min(ws) <= 2 and (len(ws) > 1 or limit is None):       # ίδιο πλάτος σε όλα τα δείγματα: σταθερά pixels
             entry = '%dpx' % snap_px(int(max(ws) * TOL + 0.5))
-        elif limit is None and not (samples.get(1920, 0) > samples.get(1440, 0) * 1.15):
+        elif limit is None and not (max(samples.get(1920, 0), samples.get(2560, 0)) > samples.get(1440, 0) * 1.15):
             entry = '%dpx' % snap_px(int(max(ws) * TOL + 0.5))               # δεν μεγαλώνει με την οθόνη
         else:
             entry = '%dvw' % snap_vw(min(CAP, max(vw(w, v) for w, v in vals)))
@@ -84,7 +85,11 @@ def sizes_for(samples):
     if samples.get(390):                           # η πρώτη τιμή καλύπτει τα κινητά, όποιο κι αν είναι το όριό της (767, 1023 ή κανένα)
         n = int(entry[:-2])
         capped = ('%dvw' % max(1, int(n * 2 / 3 + 0.5))) if entry.endswith('vw') else ('%dpx' % max(1, int(n * 2 / 3 + 0.5)))
-        out.insert(0, '(min-resolution: 2.5dppx) and (max-width: %dpx) ' % (639 if limit == 639 else 767) + capped)
+        cap_w = 639 if limit == 639 else 767
+        mid = ('%dvw' % max(1, int(n * 3 / 4 + 0.5))) if entry.endswith('vw') else ('%dpx' % max(1, int(n * 3 / 4 + 0.5)))
+        # δύο σκαλιά: πυκνότητα 3 παίρνει τα 2/3, πυκνότητα 2,5 έως 2,9 (πολλά Android) τα 3/4· και τα δύο καταλήγουν στην εικόνα ενός κινητού 2x
+        out.insert(0, '(min-resolution: 2.5dppx) and (max-width: %dpx) %s' % (cap_w, mid))
+        out.insert(0, '(min-resolution: 2.9dppx) and (max-width: %dpx) %s' % (cap_w, capped))
     return ', '.join(out)
 
 
@@ -99,9 +104,20 @@ def main():
                 for it in ws.js(PROBE):
                     data.setdefault(p + '.html', {}).setdefault(it['key'], {})[w] = it['w']
             print('μέτρηση', w, 'px', flush=True)
+        low = {}
+        for w, h in LOW:
+            ws.viewport(w, h)
+            for p in cdp.PAGES:
+                ws.open(base + p + '.html', settle=0.6)
+                for it in ws.js(PROBE):
+                    low.setdefault(p + '.html', {}).setdefault(it['key'], {})[w] = it['w']
+        print('μέτρηση σε χαμηλή οθόνη (ύψος 650)', flush=True)
     for page, imgs in sorted(data.items()):
         for key, samples in sorted(imgs.items()):
             s = sizes_for(samples)
+            lo = low.get(page, {}).get(key, {})
+            if s and lo.get(1366) and samples.get(1280) and lo[1366] < samples[1280] * 0.8:      # σε χαμηλή οθόνη η εικόνα θέλει αισθητά μικρότερο πλάτος
+                s = '(min-width: 1024px) and (max-height: 760px) %dvw, ' % snap_vw(min(CAP, max(vw(w, v) for v, w in lo.items() if w))) + s
             if s:
                 result.setdefault(page, {})[key] = s
     out = os.path.join(cdp.ROOT, '_build', 'image-sizes.json')

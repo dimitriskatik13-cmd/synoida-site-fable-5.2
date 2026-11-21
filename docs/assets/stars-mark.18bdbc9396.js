@@ -7,8 +7,11 @@
    Με «μείωση κίνησης» ή εξοικονόμηση δεδομένων δεν δημιουργείται καμβάς: μένει το λογότυπο και το κείμενο, χωρίς καρφίτσωμα. */
 (function(){
   var band=document.getElementById('logo-reveal'), stage=band&&band.querySelector('.hx-stage'), mark=stage&&stage.querySelector('.hx-mark'), img=mark&&mark.querySelector('img');
-  if(!mark||!img||!window.requestAnimationFrame) return;
-  if(navigator.connection&&navigator.connection.saveData) return;
+  /* Το CSS κρατά από την αρχή το ύψος της σκηνής (ώστε η σελίδα να μη μετακινηθεί όταν ξεκινήσει η κίνηση). Όπου η κίνηση δεν θα γίνει,
+     η κλάση stars-off ακυρώνει την κράτηση και η ενότητα μένει απλή. */
+  function off(){document.documentElement.classList.add('stars-off');}
+  if(!mark||!img||!window.requestAnimationFrame){off();return;}
+  if(navigator.connection&&navigator.connection.saveData){off();return;}
   var FORMED=0.86;   /* το κλάσμα της κύλισης της ενότητας στο οποίο το λογότυπο έχει ολοκληρωθεί */
   var motion=window.matchMedia('(prefers-reduced-motion: reduce)');
   var cv=null,g=null,ready=false,raf=0,layoutPending=true;
@@ -119,14 +122,11 @@
   function start(){
     if(ready||motion.matches||!img.naturalWidth) return;
     cv=document.createElement('canvas');g=cv.getContext&&cv.getContext('2d');
-    if(!g||!build()) return;
+    if(!g||!build()){off();return;}
     cv.className='hx-stars';cv.setAttribute('aria-hidden','true');
     stage.insertBefore(cv,stage.firstChild);ready=true;
     /* Η κλάση stars-on καρφώνει τη σκηνή (CSS)· μετράμε αφού εφαρμοστεί, ώστε η γεωμετρία να είναι η τελική. */
     document.documentElement.classList.add('stars-on');
-    /* Η σκηνή μόλις ψήλωσε: αν ο επισκέπτης ήρθε σε άγκυρα που βρίσκεται από κάτω της (π.χ. #preview-centres), ξαναπάμε εκεί. */
-    try{var anchor=location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1)));
-      if(anchor&&(band.compareDocumentPosition(anchor)&Node.DOCUMENT_POSITION_FOLLOWING)&&!band.contains(anchor)){window.dispatchEvent(new Event('hashchange'));anchor.scrollIntoView();}}catch(e){}
     measure();progress=target();paint(progress);
     wake();
   }

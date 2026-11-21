@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 {{CSP}}  <title>{{TITLE}}</title>
   <meta name="description" content="{{DESC}}" />
-  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/\/assets\/site\./.test(t.src))document.documentElement.classList.remove('js')},true);setTimeout(function(){if(!window.synoidaReady)document.documentElement.classList.add('js-slow')},4000);addEventListener('load',function(){if(!window.synoidaReady)document.documentElement.classList.remove('js')});addEventListener('pagereveal',function(e){if(e.viewTransition)e.viewTransition.ready.catch(function(){})});</script>
+  <script>document.documentElement.classList.add('js');addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'&&/\/assets\/site\./.test(t.src))document.documentElement.classList.remove('js');if(t&&t.tagName==='SCRIPT'&&/\/assets\/stars-mark\./.test(t.src))document.documentElement.classList.add('stars-off')},true);setTimeout(function(){if(!window.synoidaReady)document.documentElement.classList.add('js-slow')},4000);addEventListener('load',function(){if(!window.synoidaReady)document.documentElement.classList.remove('js')});addEventListener('pagereveal',function(e){if(e.viewTransition)e.viewTransition.ready.catch(function(){})});</script>
   <!-- εκτός ευρετηρίασης: δοκιμαστική έκδοση (στην τελική μένει μόνο στη σελίδα 404) -->
   <meta name="robots" content="noindex, nofollow" />
   <link rel="canonical" href="{{URL}}" />

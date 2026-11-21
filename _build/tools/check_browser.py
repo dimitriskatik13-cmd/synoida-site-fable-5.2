@@ -7,7 +7,7 @@
 
 Τι ελέγχει σε κάθε σελίδα και στα δύο πλάτη:
   σφάλματα     κανένα σφάλμα κονσόλας, καμία αποτυχία αιτήματος, καμία παραβίαση της πολιτικής ασφαλείας
-  διάταξη      καμία οριζόντια κύλιση (και στα 360, 768, 1024, 1920), μετατόπιση διάταξης CLS <= 0.05
+  διάταξη      καμία οριζόντια κύλιση (και στα 320, 360, 768, 1024, 1366, 1920), μετατόπιση διάταξης CLS <= 0.05
   ανάγνωση     αντίθεση κειμένου WCAG AA σε ΚΑΘΕ στάση της κύλισης (πιάνει και κείμενο που «περιμένει να ανάψει»),
                κανένα κείμενο κάτω από 12px. Δεν κρίνει κείμενο πάνω σε φωτογραφία (θέλει μάτι) ούτε διακοσμητική αρίθμηση.
                Οι λέξεις έμφασης των τίτλων στο πράσινο/μπλε/πορτοκαλί του λογοτύπου αναφέρονται χωριστά ως εξαίρεση brand.
@@ -322,7 +322,7 @@ def scenarios(ws, base, problems, report):
     late = ws.js("""({ready:!!window.synoidaReady,js:document.documentElement.classList.contains('js'),cls:+window.__cls.toFixed(3)})""")
     if not paused or not slow['slow'] or slow['hidden'] or not late['ready'] or not late['js'] or late['cls'] > 0.05:
         problems.append('αργό site.js: πιάστηκε %s · στα 4,5 s %s · όταν έφτασε %s' % (bool(paused), slow, late))
-    # 4β. διάταξη σε 7 πλάτη, με όλα τα εφέ ολοκληρωμένα: κείμενα που επικαλύπτονται ή ξεχειλίζουν, τίτλοι με μόνη λέξη στο τέλος
+    # 4β. διάταξη σε 10 πλάτη, με όλα τα εφέ ολοκληρωμένα: κείμενα που επικαλύπτονται ή ξεχειλίζουν, τίτλοι με μόνη λέξη στο τέλος
     ws.send('Emulation.setEmulatedMedia', {'features': [{'name': 'prefers-reduced-motion', 'value': 'reduce'}]})
     found = {}
     for w, h in LAYOUT_WIDTHS:
@@ -365,6 +365,19 @@ def scenarios(ws, base, problems, report):
         b = ws.js('Math.round(innerHeight-document.querySelector(".hx-hero .hx-btn").getBoundingClientRect().bottom)')
         if b < 8:
             problems.append('Αρχική %dx%d: το κουμπί της πρώτης οθόνης είναι %d px από το κάτω όριο (αρνητικό = εκτός οθόνης)' % (w, h, b))
+        r = ws.js("""(()=>{const i=document.querySelector('.hx-hero img'),m=i.currentSrc.match(/-(\\d+)\\.webp$/),b=i.getBoundingClientRect(),ar=(+i.getAttribute('width')||3)/(+i.getAttribute('height')||2);
+            return {nat:m?+m[1]:0,need:Math.round(Math.max(b.width,b.height*ar))}})()""")
+        if r['nat'] and r['nat'] / r['need'] > 1.7:
+            problems.append('Αρχική %dx%d: η κύρια φωτογραφία κατεβαίνει στα %d px ενώ χρειάζονται %d' % (w, h, r['nat'], r['need']))
+    # 4στ. επαναφόρτωση της Αρχικής με τον επισκέπτη κάτω από τη σκηνή του λογοτύπου: η σελίδα δεν πρέπει να «πηδά»
+    for w, h, dpr in ((1440, 900, 1), (390, 844, 2)):
+        ws.viewport(w, h, dpr)
+        ws.open(base + 'index.html', settle=1.0)
+        ws.js('window.scrollTo({top:document.documentElement.scrollHeight,behavior:"instant"});1'); time.sleep(0.8)
+        ws.send('Page.reload'); time.sleep(3.5)
+        r = ws.js('({cls:+window.__cls.toFixed(3),y:Math.round(scrollY),pinned:document.documentElement.classList.contains("stars-on")})')
+        if r['cls'] > 0.05 or r['y'] < 1000:
+            problems.append('Αρχική %d: επαναφόρτωση στο τέλος της σελίδας, μετατόπιση CLS %.3f (θέση %d, σκηνή ενεργή %s)' % (w, r['cls'], r['y'], r['pinned']))
     # 5. σελίδα 404 όπως τη σερβίρει το GitHub Pages: άγνωστη διεύθυνση κάτω από το πρόθεμα του site
     ws.open(base.rstrip('/') + cdp.site_prefix() + 'kati/pou-den-yparxei', settle=1.0)
     r = ws.js("""(()=>{const sk=document.querySelector('a[href="#main"]'); const before=location.pathname; sk&&sk.click();
@@ -385,7 +398,7 @@ def scenarios(ws, base, problems, report):
             problems.append('κινητό 3x %-18s πρώτη οθόνη %.0f KB (όριο %d)' % (p, kb, BUDGET['mobile3x']['first']))
         if full > BUDGET['mobile3x']['full']:
             problems.append('κινητό 3x %-18s ολόκληρη σελίδα %.0f KB (όριο %d)' % (p, full, BUDGET['mobile3x']['full']))
-    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · αλλαγή πλάτους · κεφαλίδα που κρύβεται · εστίαση στην κεφαλίδα (ορατή και κρυμμένη) · πλοήγηση με κλικ · αργό κινητό · μείωση κίνησης · πληκτρολόγιο · δακτύλιος εστίασης · αργό site.js · διάταξη σε 10 πλάτη · σκηνή λογοτύπου σε χαμηλό laptop · 404 · κινητό 3x πρώτη οθόνη διάμεσος %d KB, μέγιστο %d · όλη η σελίδα μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs), max(fulls)), flush=True)
+    print('σενάρια: μενού σε 2 μικρές οθόνες · χωρίς JS · χωρίς site.js · εστίαση πίσω από το μενού · άγκυρες · εκτύπωση · αλλαγή πλάτους · κεφαλίδα που κρύβεται · εστίαση στην κεφαλίδα (ορατή και κρυμμένη) · πλοήγηση με κλικ · αργό κινητό · μείωση κίνησης · πληκτρολόγιο · δακτύλιος εστίασης · αργό site.js · διάταξη σε 10 πλάτη · σκηνή λογοτύπου και άνοιγμα σε χαμηλό laptop · επαναφόρτωση κάτω από τη σκηνή · 404 · κινητό 3x πρώτη οθόνη διάμεσος %d KB, μέγιστο %d · όλη η σελίδα μέγιστο %d KB' % (sorted(kbs)[len(kbs) // 2], max(kbs), max(fulls)), flush=True)
 
 
 def main():

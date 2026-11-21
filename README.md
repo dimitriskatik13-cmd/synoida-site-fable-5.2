@@ -92,7 +92,7 @@ git config core.hooksPath .githooks        # μία φορά ανά υπολογ
 python3 -m venv .venv && .venv/bin/pip install pillow        # μία φορά
 .venv/bin/python _build/tools/make_images.py                 # εκδόσεις WebP σε 6 πλάτη (240 έως 1600), στο docs/assets
 python3 _build/build.py
-python3 _build/tools/measure_sizes.py                        # μετρά πόσο πλάτος πιάνει κάθε εικόνα σε 8 οθόνες
+python3 _build/tools/measure_sizes.py                        # μετρά πόσο πλάτος πιάνει κάθε εικόνα σε 10 πλάτη και σε χαμηλές οθόνες
 python3 _build/build.py --prune
 ```
 
